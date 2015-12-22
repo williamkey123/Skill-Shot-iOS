@@ -103,12 +103,14 @@ class Location: NSObject, MKAnnotation {
 
 class LocationList {
     var locations = [Location]()
+    var loadedData = false
     
     func loadList() {
         Alamofire.request(.GET, "\(baseAPI)locations.json").responseJSON { response in
             guard response.result.isSuccess else {
                 return
             }
+            self.loadedData = true
             if let validLocationData = response.result.value as? [[String : AnyObject]] {
                 for locationData in validLocationData {
                     if let validIdentifier = locationData["id"] as? String, validName = locationData["name"] as? String,

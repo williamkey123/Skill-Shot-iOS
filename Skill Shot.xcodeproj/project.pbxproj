@@ -22,6 +22,7 @@
 		8A1788461C29093800C93E9B /* SkillShotNavigationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A1788451C29093800C93E9B /* SkillShotNavigationViewController.swift */; };
 		8A1788481C290E1A00C93E9B /* MapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8A1788471C290E1A00C93E9B /* MapKit.framework */; };
 		8A17884A1C29343A00C93E9B /* Alamofire.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 8A1788331C28ED3A00C93E9B /* Alamofire.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		8A17884E1C2935BE00C93E9B /* LocationTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A17884D1C2935BE00C93E9B /* LocationTableViewCell.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -55,6 +56,7 @@
 		8A1788431C29090600C93E9B /* LocationDetailViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = LocationDetailViewController.swift; path = Controllers/LocationDetailViewController.swift; sourceTree = "<group>"; };
 		8A1788451C29093800C93E9B /* SkillShotNavigationViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SkillShotNavigationViewController.swift; path = Controllers/SkillShotNavigationViewController.swift; sourceTree = "<group>"; };
 		8A1788471C290E1A00C93E9B /* MapKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MapKit.framework; path = System/Library/Frameworks/MapKit.framework; sourceTree = SDKROOT; };
+		8A17884D1C2935BE00C93E9B /* LocationTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = LocationTableViewCell.swift; path = View/LocationTableViewCell.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -91,6 +93,7 @@
 		8A1788081C28E8BD00C93E9B /* Skill Shot */ = {
 			isa = PBXGroup;
 			children = (
+				8A17884C1C2935A300C93E9B /* View */,
 				8A1788361C28FA7200C93E9B /* Controller */,
 				8A1788351C28FA6D00C93E9B /* Model */,
 				8A1788091C28E8BD00C93E9B /* AppDelegate.swift */,
@@ -122,6 +125,14 @@
 				8A1788451C29093800C93E9B /* SkillShotNavigationViewController.swift */,
 			);
 			name = Controller;
+			sourceTree = "<group>";
+		};
+		8A17884C1C2935A300C93E9B /* View */ = {
+			isa = PBXGroup;
+			children = (
+				8A17884D1C2935BE00C93E9B /* LocationTableViewCell.swift */,
+			);
+			name = View;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -201,6 +212,7 @@
 				8A1788401C2908B400C93E9B /* MapViewController.swift in Sources */,
 				8A17883C1C28FE4200C93E9B /* LocationTableViewController.swift in Sources */,
 				8A1788381C28FA8F00C93E9B /* Location.swift in Sources */,
+				8A17884E1C2935BE00C93E9B /* LocationTableViewCell.swift in Sources */,
 				8A1788461C29093800C93E9B /* SkillShotNavigationViewController.swift in Sources */,
 				8A17880A1C28E8BD00C93E9B /* AppDelegate.swift in Sources */,
 				8A17883A1C28FC3200C93E9B /* Machine.swift in Sources */,

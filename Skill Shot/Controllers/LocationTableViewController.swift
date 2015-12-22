@@ -10,7 +10,18 @@ import UIKit
 
 class LocationTableViewController: UITableViewController {
     
-    var listData: LocationList?
+    var listData: LocationList? {
+        didSet {
+            if let validList = listData {
+                NSNotificationCenter.defaultCenter().addObserver(self, selector: "listDataLoaded:", name: "LocationListLoaded", object: validList)
+            }
+            if let oldList = oldValue {
+                NSNotificationCenter.defaultCenter().removeObserver(self, name: "LocationListLoaded", object: oldList)
+            }
+        }
+    }
+
+    weak var containingViewController: MapAndListContainerViewController?
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -30,21 +41,58 @@ class LocationTableViewController: UITableViewController {
     // MARK: - Table view data source
 
     override func numberOfSectionsInTableView(tableView: UITableView) -> Int {
-        // #warning Incomplete implementation, return the number of sections
-        return 0
+        return 1
     }
 
     override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        // #warning Incomplete implementation, return the number of rows
-        return 0
+        if let validLocationList = listData {
+            if validLocationList.loadedData {
+                return validLocationList.locations.count
+            } else {
+                return 1
+            }
+        } else {
+            return 0
+        }
     }
 
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCellWithIdentifier("reuseIdentifier", forIndexPath: indexPath)
+        guard let validLocationList = listData else {
+            return UITableViewCell()
+        }
+        
+        var defaultIdentifier = "LoadingCell"
+        if validLocationList.loadedData {
+            defaultIdentifier = "LocationCell"
+        }
+        
+        let cell = tableView.dequeueReusableCellWithIdentifier(defaultIdentifier, forIndexPath: indexPath)
 
-        // Configure the cell...
+        if let validLocationCell = cell as? LocationTableViewCell {
+            let validLocation = validLocationList.locations[indexPath.row]
+            validLocationCell.locationNameLabel.text = validLocation.name
+            validLocationCell.distanceLabel.text = "???"
+            validLocationCell.gameCountLabel.text = "\(validLocation.numGames) game(s)"
+        }
 
         return cell
+    }
+    
+    override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+        tableView.deselectRowAtIndexPath(indexPath, animated: true)
+        guard let validData = self.listData  else {
+            return
+        }
+        let selectedLocation = validData.locations[indexPath.row]
+        
+        if let validParentVC = containingViewController {
+            validParentVC.selectedLocation = selectedLocation
+            validParentVC.performSegueWithIdentifier("showLocationDetails", sender: nil)
+        }
+    }
+    
+    func listDataLoaded(notification: NSNotification) {
+        tableView.reloadData()
     }
 
     /*

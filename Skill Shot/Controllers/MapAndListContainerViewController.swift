@@ -7,8 +7,9 @@
 //
 
 import UIKit
+import CoreLocation
 
-class MapAndListContainerViewController: UIViewController {
+class MapAndListContainerViewController: UIViewController, CLLocationManagerDelegate {
 
     @IBOutlet weak var mapListSegmentedControl: UISegmentedControl!
     @IBOutlet weak var filterButtonItem: UIBarButtonItem!
@@ -18,9 +19,17 @@ class MapAndListContainerViewController: UIViewController {
     var listData = LocationList()
     var selectedLocation: Location?
 
+    let locationManger = CLLocationManager()
+
     override func viewDidLoad() {
         super.viewDidLoad()
 
+        locationManger.delegate = self
+        locationManger.desiredAccuracy = kCLLocationAccuracyNearestTenMeters
+        let authorizationStatus = CLLocationManager.authorizationStatus()
+        if authorizationStatus == CLAuthorizationStatus.NotDetermined {
+            locationManger.requestWhenInUseAuthorization()
+        }
         listData.loadList()
         // Do any additional setup after loading the view.
     }
@@ -42,6 +51,11 @@ class MapAndListContainerViewController: UIViewController {
                 validDestination.listData = self.listData
                 validDestination.containingViewController = self
             }
+        } else if segue.identifier == "showList" {
+            if let validDestination = segue.destinationViewController as? LocationTableViewController {
+                validDestination.listData = self.listData
+                validDestination.containingViewController = self
+            }
         } else if segue.identifier == "showLocationDetails" {
             if let validDestination = segue.destinationViewController as? LocationDetailViewController {
                 validDestination.displayedLocation = self.selectedLocation
@@ -51,5 +65,10 @@ class MapAndListContainerViewController: UIViewController {
     }
 
     @IBAction func mapListSegmentedControlChanged(sender: AnyObject) {
+        if self.mapListSegmentedControl.selectedSegmentIndex == 0 {
+            self.mapViewContainer.hidden = false
+        } else {
+            self.mapViewContainer.hidden = true
+        }
     }
 }
