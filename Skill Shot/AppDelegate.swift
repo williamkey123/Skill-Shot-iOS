@@ -7,6 +7,7 @@
 //
 
 import UIKit
+let baseAPI = "http://list.skill-shot.com/"
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
