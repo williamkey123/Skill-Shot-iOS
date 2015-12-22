@@ -16,6 +16,13 @@ class MapViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
+        if let validLocation = mapView.userLocation.location {
+            let region = MKCoordinateRegionMake(validLocation.coordinate, MKCoordinateSpanMake(0.083, 0.07))
+            mapView.region = region
+        } else {
+            let region = MKCoordinateRegionMake(CLLocationCoordinate2DMake(47.613760, -122.345098), MKCoordinateSpanMake(0.083, 0.07))
+            mapView.region = region
+        }
         // Do any additional setup after loading the view.
     }
 
