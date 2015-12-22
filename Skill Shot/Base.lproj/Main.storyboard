@@ -6,10 +6,10 @@
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
     </dependencies>
     <scenes>
-        <!--View Controller-->
+        <!--Filter View Controller-->
         <scene sceneID="405-7f-xFO">
             <objects>
-                <viewController id="lyJ-mJ-l59" sceneMemberID="viewController">
+                <viewController id="lyJ-mJ-l59" customClass="FilterViewController" customModule="Skill_Shot" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="0e2-Rc-cxX"/>
                         <viewControllerLayoutGuide type="bottom" id="GkR-5p-m4G"/>
@@ -32,11 +32,17 @@
                             </label>
                             <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" on="YES" translatesAutoresizingMaskIntoConstraints="NO" id="8fC-o1-BFq">
                                 <rect key="frame" x="165" y="7" width="51" height="31"/>
+                                <connections>
+                                    <action selector="allAgesSwitchFlipped:" destination="lyJ-mJ-l59" eventType="valueChanged" id="ykm-1k-4YF"/>
+                                </connections>
                             </switch>
                             <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Distance" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="gIe-6A-0Uq">
                                 <rect key="frame" x="56" y="42" width="158" height="30"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <textInputTraits key="textInputTraits"/>
+                                <connections>
+                                    <outlet property="delegate" destination="lyJ-mJ-l59" id="GaW-c2-LYY"/>
+                                </connections>
                             </textField>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -55,15 +61,49 @@
                     <nil key="simulatedStatusBarMetrics"/>
                     <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
                     <size key="freeformSize" width="230" height="93"/>
+                    <connections>
+                        <outlet property="allAgesLabel" destination="pJf-YV-FMY" id="WRc-Lz-ESi"/>
+                        <outlet property="allAgesSwitch" destination="8fC-o1-BFq" id="f7l-xp-3fd"/>
+                        <outlet property="keyboardAccessoryView" destination="Ghf-2v-8ZO" id="zqK-rU-MYx"/>
+                        <outlet property="keyboardPickerView" destination="Cev-K1-H6k" id="3Fl-vn-tD2"/>
+                        <outlet property="sortLabel" destination="X5m-vj-6A7" id="s45-gk-ePw"/>
+                        <outlet property="sortTextField" destination="gIe-6A-0Uq" id="CeA-KI-hP9"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="oSt-km-cM4" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <view contentMode="scaleToFill" id="Ghf-2v-8ZO">
+                    <rect key="frame" x="0.0" y="0.0" width="348" height="38"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                    <subviews>
+                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="7eh-xt-X8q">
+                            <rect key="frame" x="303" y="4" width="37" height="30"/>
+                            <state key="normal" title="Done"/>
+                            <connections>
+                                <action selector="doneButtonTapped:" destination="lyJ-mJ-l59" eventType="touchUpInside" id="FoV-Xl-mM4"/>
+                            </connections>
+                        </button>
+                    </subviews>
+                    <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    <constraints>
+                        <constraint firstAttribute="trailing" secondItem="7eh-xt-X8q" secondAttribute="trailing" constant="8" id="2Hc-lf-84c"/>
+                        <constraint firstItem="7eh-xt-X8q" firstAttribute="centerY" secondItem="Ghf-2v-8ZO" secondAttribute="centerY" id="yOc-dX-Yed"/>
+                    </constraints>
+                </view>
+                <pickerView contentMode="scaleToFill" id="Cev-K1-H6k">
+                    <rect key="frame" x="0.0" y="0.0" width="320" height="216"/>
+                    <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
+                    <connections>
+                        <outlet property="dataSource" destination="lyJ-mJ-l59" id="e5d-iK-Rcx"/>
+                        <outlet property="delegate" destination="lyJ-mJ-l59" id="DYO-ld-d11"/>
+                    </connections>
+                </pickerView>
             </objects>
             <point key="canvasLocation" x="1299" y="-306"/>
         </scene>
-        <!--View Controller-->
+        <!--Map And List Container View Controller-->
         <scene sceneID="ECg-Ie-KPh">
             <objects>
-                <viewController id="1tK-ap-No8" sceneMemberID="viewController">
+                <viewController id="1tK-ap-No8" customClass="MapAndListContainerViewController" customModule="Skill_Shot" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="lt6-11-WXS"/>
                         <viewControllerLayoutGuide type="bottom" id="Uf7-qq-Zzc"/>
@@ -112,6 +152,9 @@
                                 <segment title="Map"/>
                                 <segment title="List"/>
                             </segments>
+                            <connections>
+                                <action selector="mapListSegmentedControlChanged:" destination="1tK-ap-No8" eventType="valueChanged" id="bwY-vF-iGZ"/>
+                            </connections>
                         </segmentedControl>
                         <barButtonItem key="rightBarButtonItem" image="FilterEmpty" id="F9H-pv-S4r">
                             <connections>
@@ -122,6 +165,10 @@
                         </barButtonItem>
                     </navigationItem>
                     <connections>
+                        <outlet property="filterButtonItem" destination="F9H-pv-S4r" id="KgK-lT-vTn"/>
+                        <outlet property="listViewContainer" destination="fsU-1u-IZd" id="sjf-UD-hbh"/>
+                        <outlet property="mapListSegmentedControl" destination="7Le-lE-FTR" id="BJW-Nm-q1q"/>
+                        <outlet property="mapViewContainer" destination="j02-bd-oUt" id="aSb-ZP-xfL"/>
                         <segue destination="HdJ-7c-IqK" kind="show" identifier="showLocationDetails" id="IBc-nV-css"/>
                     </connections>
                 </viewController>
@@ -129,10 +176,10 @@
             </objects>
             <point key="canvasLocation" x="1299" y="447"/>
         </scene>
-        <!--Navigation Controller-->
+        <!--Skill Shot Navigation View Controller-->
         <scene sceneID="Kcd-34-aOe">
             <objects>
-                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="TGz-Lx-wHL" sceneMemberID="viewController">
+                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="TGz-Lx-wHL" customClass="SkillShotNavigationViewController" customModule="Skill_Shot" customModuleProvider="target" sceneMemberID="viewController">
                     <toolbarItems/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="7FH-jT-P4F">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
@@ -147,10 +194,10 @@
             </objects>
             <point key="canvasLocation" x="487" y="447"/>
         </scene>
-        <!--View Controller-->
+        <!--Map View Controller-->
         <scene sceneID="KBm-ha-imI">
             <objects>
-                <viewController id="62n-dv-Ue1" sceneMemberID="viewController">
+                <viewController id="62n-dv-Ue1" customClass="MapViewController" customModule="Skill_Shot" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="AbZ-zH-ThZ">
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -167,15 +214,54 @@
                             <constraint firstAttribute="trailing" secondItem="Ksl-bs-UAd" secondAttribute="trailing" id="kju-6G-gBi"/>
                         </constraints>
                     </view>
+                    <connections>
+                        <outlet property="mapView" destination="Ksl-bs-UAd" id="Q4a-C7-aRf"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="AdE-kB-N2M" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <view contentMode="scaleToFill" id="mrM-69-1zC">
+                    <rect key="frame" x="0.0" y="0.0" width="240" height="44"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                    <subviews>
+                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Location Name" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="GtV-ve-wyO">
+                            <rect key="frame" x="8" y="8" width="194" height="18"/>
+                            <fontDescription key="fontDescription" type="system" pointSize="15"/>
+                            <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                            <nil key="highlightedColor"/>
+                        </label>
+                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="infoLight" showsTouchWhenHighlighted="YES" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="BvM-F5-h9E">
+                            <rect key="frame" x="210" y="11" width="22" height="22"/>
+                            <constraints>
+                                <constraint firstAttribute="width" constant="22" id="DMF-TB-cd2"/>
+                                <constraint firstAttribute="height" constant="22" id="suV-Kx-VNv"/>
+                            </constraints>
+                        </button>
+                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Game count" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="2EU-yB-iCT">
+                            <rect key="frame" x="8" y="25" width="194" height="14"/>
+                            <fontDescription key="fontDescription" type="system" pointSize="11"/>
+                            <color key="textColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
+                            <nil key="highlightedColor"/>
+                        </label>
+                    </subviews>
+                    <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    <constraints>
+                        <constraint firstItem="BvM-F5-h9E" firstAttribute="centerY" secondItem="mrM-69-1zC" secondAttribute="centerY" id="8QW-6A-YWp"/>
+                        <constraint firstItem="GtV-ve-wyO" firstAttribute="leading" secondItem="mrM-69-1zC" secondAttribute="leading" constant="8" id="BjT-nC-Q9x"/>
+                        <constraint firstItem="GtV-ve-wyO" firstAttribute="top" secondItem="mrM-69-1zC" secondAttribute="top" constant="8" id="N6Y-Sg-q2D"/>
+                        <constraint firstItem="BvM-F5-h9E" firstAttribute="leading" secondItem="GtV-ve-wyO" secondAttribute="trailing" constant="8" id="OEd-wI-4oU"/>
+                        <constraint firstItem="2EU-yB-iCT" firstAttribute="leading" secondItem="mrM-69-1zC" secondAttribute="leading" constant="8" id="gJI-L1-chi"/>
+                        <constraint firstAttribute="trailing" secondItem="BvM-F5-h9E" secondAttribute="trailing" constant="8" id="i4X-px-Zid"/>
+                        <constraint firstAttribute="bottom" secondItem="2EU-yB-iCT" secondAttribute="bottom" constant="6" id="mh4-ni-4Rx"/>
+                        <constraint firstItem="BvM-F5-h9E" firstAttribute="leading" secondItem="2EU-yB-iCT" secondAttribute="trailing" constant="8" id="rgl-Wo-plz"/>
+                    </constraints>
+                </view>
             </objects>
-            <point key="canvasLocation" x="872" y="1224"/>
+            <point key="canvasLocation" x="779" y="1417"/>
         </scene>
-        <!--Table View Controller-->
+        <!--Location Table View Controller-->
         <scene sceneID="nhc-y0-LDf">
             <objects>
-                <tableViewController id="kzV-8Y-FxP" sceneMemberID="viewController">
+                <tableViewController id="kzV-8Y-FxP" customClass="LocationTableViewController" customModule="Skill_Shot" customModuleProvider="target" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" id="1lG-bf-pVd">
                         <rect key="frame" x="0.0" y="0.0" width="600" height="536"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -261,7 +347,7 @@
         <!--Venue Details-->
         <scene sceneID="cTD-2M-Zyc">
             <objects>
-                <viewController id="HdJ-7c-IqK" sceneMemberID="viewController">
+                <viewController id="HdJ-7c-IqK" customClass="LocationDetailViewController" customModule="Skill_Shot" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="37e-3f-ebm"/>
                         <viewControllerLayoutGuide type="bottom" id="2ZS-Bc-1ny"/>
