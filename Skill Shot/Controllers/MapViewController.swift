@@ -9,9 +9,22 @@
 import UIKit
 import MapKit
 
-class MapViewController: UIViewController {
+class MapViewController: UIViewController, MKMapViewDelegate {
 
     @IBOutlet weak var mapView: MKMapView!
+
+    var listData: LocationList? {
+        didSet {
+            if let validList = listData {
+                NSNotificationCenter.defaultCenter().addObserver(self, selector: "listDataLoaded:", name: "LocationListLoaded", object: validList)
+            }
+            if let oldList = oldValue {
+                NSNotificationCenter.defaultCenter().removeObserver(self, name: "LocationListLoaded", object: oldList)
+            }
+        }
+    }
+    
+    weak var containingViewController: MapAndListContainerViewController?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -31,7 +44,31 @@ class MapViewController: UIViewController {
         // Dispose of any resources that can be recreated.
     }
     
-
+    func listDataLoaded(notification: NSNotification) {
+        if let validData = listData {
+            mapView.addAnnotations(validData.locations)
+        }
+    }
+    
+    func mapView(mapView: MKMapView, viewForAnnotation annotation: MKAnnotation) -> MKAnnotationView? {
+        if let annotationView = mapView.dequeueReusableAnnotationViewWithIdentifier("LocationIdetifier") {
+            annotationView.annotation = annotation
+            return annotationView
+        } else {
+            let annotationView = MKPinAnnotationView(annotation: annotation, reuseIdentifier: "LocationIdetifier")
+            annotationView.canShowCallout = true
+            annotationView.rightCalloutAccessoryView = UIButton(type: UIButtonType.DetailDisclosure)
+            return annotationView
+        }
+    }
+    
+    func mapView(mapView: MKMapView, annotationView view: MKAnnotationView, calloutAccessoryControlTapped control: UIControl) {
+        if let validParentVC = containingViewController, validLocation = view.annotation as? Location {
+            validParentVC.selectedLocation = validLocation
+            validParentVC.performSegueWithIdentifier("showLocationDetails", sender: nil)
+        }
+    }
+    
     /*
     // MARK: - Navigation
 

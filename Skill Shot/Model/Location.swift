@@ -8,39 +8,54 @@
 
 import Foundation
 import Alamofire
+import MapKit
 
-class Location {
+class Location: NSObject, MKAnnotation {
     var identifier: String
     var name: String
     var address: String?
     var city: String?
     var postalCode: String?
-    var latitude: Float?
-    var longitude: Float?
+    var latitude: Double
+    var longitude: Double
     var phone: String?
     var URL: String?
     var allAges: Bool
     var numGames: Int
     var machines: [Machine]?
     
-    required init(identifier: String, name: String, allAges: Bool = false, numGames: Int = 0) {
+    @objc var coordinate: CLLocationCoordinate2D {
+        return CLLocationCoordinate2DMake(self.latitude, self.longitude)
+    }
+    
+    @objc var title: String? {
+        return name
+    }
+    
+    @objc var subtitle: String? {
+        return "\(numGames) game(s)"
+    }
+    
+    required init(identifier: String, name: String, latitude: Double, longitude: Double, allAges: Bool = false, numGames: Int = 0) {
         self.identifier = identifier
         self.name = name
+        self.latitude = latitude
+        self.longitude = longitude
         self.allAges = allAges
         self.numGames = numGames
     }
     
-    func loadDetails(serverData: [String: AnyObject]) {
+    func setDetails(serverData: [String: AnyObject]) {
         if let validAddress = serverData["address"] as? String {
             self.address = validAddress
         }
         if let validPostalCode = serverData["postal_code"] as? String {
             self.postalCode = validPostalCode
         }
-        if let validLat = serverData["latitude"] as? Float {
+        if let validLat = serverData["latitude"] as? Double {
             self.latitude = validLat
         }
-        if let validLon = serverData["longitude"] as? Float {
+        if let validLon = serverData["longitude"] as? Double {
             self.longitude = validLon
         }
         if let validPhone = serverData["phone"] as? String {
@@ -68,6 +83,22 @@ class Location {
             self.machines = machineList
         }
     }
+    
+    func loadDetails() {
+        Alamofire.request(.GET, "\(baseAPI)locations/\(self.identifier).json").responseJSON { response in
+            guard response.result.isSuccess else {
+                return
+            }
+            if let validLocationData = response.result.value as? [String : AnyObject] {
+                if let _ = validLocationData["id"] as? String, _ = validLocationData["name"] as? String,
+                    _ = validLocationData["latitude"] as? Double, _ = validLocationData["longitude"] as? Double
+                {
+                    self.setDetails(validLocationData)
+                }
+            }
+            NSNotificationCenter.defaultCenter().postNotificationName("LocationDetailsLoaded", object: self)
+        }
+    }
 }
 
 class LocationList {
@@ -80,12 +111,16 @@ class LocationList {
             }
             if let validLocationData = response.result.value as? [[String : AnyObject]] {
                 for locationData in validLocationData {
-                    if let validIdentifier = locationData["id"] as? String, validName = locationData["name"] as? String {
-                        let newLocation = Location(identifier: validIdentifier, name: validName)
-                        newLocation.loadDetails(locationData)
+                    if let validIdentifier = locationData["id"] as? String, validName = locationData["name"] as? String,
+                        validLat = locationData["latitude"] as? Double, validLon = locationData["longitude"] as? Double
+                    {
+                        let newLocation = Location(identifier: validIdentifier, name: validName, latitude: validLat, longitude: validLon)
+                        newLocation.setDetails(locationData)
+                        self.locations.append(newLocation)
                     }
                 }
             }
+            NSNotificationCenter.defaultCenter().postNotificationName("LocationListLoaded", object: self)
         }
     }
 }

@@ -21,7 +21,22 @@
 		8A1788441C29090600C93E9B /* LocationDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A1788431C29090600C93E9B /* LocationDetailViewController.swift */; };
 		8A1788461C29093800C93E9B /* SkillShotNavigationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A1788451C29093800C93E9B /* SkillShotNavigationViewController.swift */; };
 		8A1788481C290E1A00C93E9B /* MapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8A1788471C290E1A00C93E9B /* MapKit.framework */; };
+		8A17884A1C29343A00C93E9B /* Alamofire.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 8A1788331C28ED3A00C93E9B /* Alamofire.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 /* End PBXBuildFile section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		8A17884B1C29343A00C93E9B /* Embed Frameworks */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+				8A17884A1C29343A00C93E9B /* Alamofire.framework in Embed Frameworks */,
+			);
+			name = "Embed Frameworks";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
 		8A1788061C28E8BD00C93E9B /* Skill Shot.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Skill Shot.app"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -119,6 +134,7 @@
 				8A1788021C28E8BD00C93E9B /* Sources */,
 				8A1788031C28E8BD00C93E9B /* Frameworks */,
 				8A1788041C28E8BD00C93E9B /* Resources */,
+				8A17884B1C29343A00C93E9B /* Embed Frameworks */,
 			);
 			buildRules = (
 			);
@@ -304,6 +320,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "com.skillshot.Skill-Shot";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Debug;
 		};
@@ -315,6 +332,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "com.skillshot.Skill-Shot";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Release;
 		};

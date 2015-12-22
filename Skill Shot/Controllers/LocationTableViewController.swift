@@ -9,6 +9,8 @@
 import UIKit
 
 class LocationTableViewController: UITableViewController {
+    
+    var listData: LocationList?
 
     override func viewDidLoad() {
         super.viewDidLoad()
