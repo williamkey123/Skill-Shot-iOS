@@ -194,6 +194,10 @@
         <scene sceneID="KBm-ha-imI">
             <objects>
                 <viewController id="62n-dv-Ue1" customClass="MapViewController" customModule="Skill_Shot" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="XOy-77-l2L"/>
+                        <viewControllerLayoutGuide type="bottom" id="UfG-s1-NjV"/>
+                    </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="AbZ-zH-ThZ">
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -265,17 +269,9 @@
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                        <searchBar key="tableHeaderView" contentMode="redraw" id="Gg7-s1-4Vp">
-                            <rect key="frame" x="0.0" y="0.0" width="600" height="44"/>
-                            <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
-                            <textInputTraits key="textInputTraits"/>
-                            <connections>
-                                <outlet property="delegate" destination="kzV-8Y-FxP" id="IjM-Il-WKY"/>
-                            </connections>
-                        </searchBar>
                         <prototypes>
                             <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" accessoryType="disclosureIndicator" indentationWidth="10" reuseIdentifier="LocationCell" id="hSz-6f-yao" customClass="LocationTableViewCell" customModule="Skill_Shot" customModuleProvider="target">
-                                <rect key="frame" x="0.0" y="72" width="600" height="44"/>
+                                <rect key="frame" x="0.0" y="28" width="600" height="44"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="hSz-6f-yao" id="pMK-zc-2AF">
                                     <rect key="frame" x="0.0" y="0.0" width="567" height="44"/>
@@ -320,8 +316,8 @@
                                     </constraints>
                                     <variation key="default">
                                         <mask key="constraints">
-                                            <exclude reference="gOc-ou-cuf"/>
                                             <exclude reference="DxU-9i-bGp"/>
+                                            <exclude reference="gOc-ou-cuf"/>
                                         </mask>
                                     </variation>
                                 </tableViewCellContentView>
@@ -332,7 +328,7 @@
                                 </connections>
                             </tableViewCell>
                             <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" reuseIdentifier="LoadingCell" id="ggE-Ep-URh">
-                                <rect key="frame" x="0.0" y="116" width="600" height="44"/>
+                                <rect key="frame" x="0.0" y="72" width="600" height="44"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="ggE-Ep-URh" id="pHY-Yo-Yyi">
                                     <rect key="frame" x="0.0" y="0.0" width="600" height="44"/>
@@ -354,20 +350,8 @@
                             <outlet property="delegate" destination="kzV-8Y-FxP" id="eY3-VT-qIj"/>
                         </connections>
                     </tableView>
-                    <connections>
-                        <outlet property="searchDisplayController" destination="e64-dv-XPC" id="Yjo-PM-87q"/>
-                    </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="x7i-XQ-O85" userLabel="First Responder" sceneMemberID="firstResponder"/>
-                <searchDisplayController id="e64-dv-XPC">
-                    <connections>
-                        <outlet property="delegate" destination="kzV-8Y-FxP" id="JP9-mO-t4o"/>
-                        <outlet property="searchBar" destination="Gg7-s1-4Vp" id="3MW-Hm-4Qc"/>
-                        <outlet property="searchContentsController" destination="kzV-8Y-FxP" id="vp7-vq-8x7"/>
-                        <outlet property="searchResultsDataSource" destination="kzV-8Y-FxP" id="zyq-T1-t53"/>
-                        <outlet property="searchResultsDelegate" destination="kzV-8Y-FxP" id="aeG-q9-d5Y"/>
-                    </connections>
-                </searchDisplayController>
             </objects>
             <point key="canvasLocation" x="1739" y="1192"/>
         </scene>
