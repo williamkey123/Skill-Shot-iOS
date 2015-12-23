@@ -8,7 +8,7 @@
 
 import UIKit
 
-class LocationTableViewController: UITableViewController {
+class LocationTableViewController: UITableViewController, UISearchResultsUpdating {
     
     var listData: LocationList? {
         didSet {
@@ -22,9 +22,17 @@ class LocationTableViewController: UITableViewController {
     }
 
     weak var containingViewController: MapAndListContainerViewController?
+    
+    var searchController = UISearchController(searchResultsController: nil)
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        searchController.searchResultsUpdater = self
+        searchController.hidesNavigationBarDuringPresentation = false
+        searchController.dimsBackgroundDuringPresentation = false
+        searchController.searchBar.sizeToFit()
+        self.tableView.tableHeaderView = searchController.searchBar
 
         // Uncomment the following line to preserve selection between presentations
         // self.clearsSelectionOnViewWillAppear = false
