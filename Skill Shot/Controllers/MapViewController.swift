@@ -35,12 +35,10 @@ class MapViewController: UIViewController, MKMapViewDelegate {
 
         let region = MKCoordinateRegionMake(CLLocationCoordinate2DMake(47.613760, -122.345098), MKCoordinateSpanMake(0.083, 0.07))
         mapView.region = region
-        // Do any additional setup after loading the view.
     }
 
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
     }
     
     func listDataLoaded(notification: NSNotification) {
@@ -92,16 +90,6 @@ class MapViewController: UIViewController, MKMapViewDelegate {
             validParentVC.performSegueWithIdentifier("showLocationDetails", sender: nil)
         }
     }
-    
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
-    }
-    */
     
     func mapView(mapView: MKMapView, didUpdateUserLocation userLocation: MKUserLocation) {
         if initialUserLocation == nil {
