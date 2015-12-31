@@ -33,6 +33,7 @@ class LocationTableViewController: UITableViewController, UISearchResultsUpdatin
         resultSearchController.hidesNavigationBarDuringPresentation = false
         resultSearchController.dimsBackgroundDuringPresentation = false
         resultSearchController.searchBar.sizeToFit()
+        definesPresentationContext = true
         self.tableView.tableHeaderView = resultSearchController.searchBar
     }
     

@@ -135,9 +135,15 @@ class Location: NSObject, MKAnnotation {
     }
 }
 
-class LocationList {
+class LocationList: NSObject {
+    var allLocations = [Location]()
     var locations = [Location]()
     var loadedData = false
+    
+    override init() {
+        super.init()
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: "applyFilters:", name: "FiltersChosen", object: nil)
+    }
     
     func loadList() {
         Alamofire.request(.GET, "\(baseAPI)locations.json").responseJSON { response in
@@ -152,6 +158,7 @@ class LocationList {
                     {
                         let newLocation = Location(identifier: validIdentifier, name: validName, latitude: validLat, longitude: validLon)
                         newLocation.setDetails(locationData)
+                        self.allLocations.append(newLocation)
                         self.locations.append(newLocation)
                     }
                 }
@@ -161,9 +168,52 @@ class LocationList {
     }
     
     func updateLocationsWithDistancesFromUserLocation(userLocation: CLLocation) {
-        for location in locations {
+        for location in allLocations {
             location.distanceAwayInMiles = userLocation.distanceFromLocation(CLLocation(latitude: location.latitude, longitude: location.longitude)) * 0.000621371
         }
         NSNotificationCenter.defaultCenter().postNotificationName("LocationListLoaded", object: self)
+    }
+    
+    func applyFilters(notification: NSNotification) {
+        guard let validUserInfo = notification.userInfo else {
+            return
+        }
+        self.locations = [Location]()
+        var applyAllAgesFilter = false
+        if let validAllAgesFilterChosen = validUserInfo["AllAges"] as? Bool {
+            applyAllAgesFilter = validAllAgesFilterChosen
+        }
+        for location in allLocations {
+            if location.allAges || applyAllAgesFilter == false {
+                self.locations.append(location)
+            }
+        }
+        var defaultSort = SortType.Name
+        if let validSortText = validUserInfo["Sort"] as? String {
+            if let validSortOption = SortType(rawValue: validSortText) {
+                defaultSort = validSortOption
+            }
+        }
+        self.applySortType(defaultSort)
+        print("Total items: \(locations.count)")
+        
+        NSNotificationCenter.defaultCenter().postNotificationName("LocationListLoaded", object: self)
+    }
+    
+    func applySortType(sortType: SortType) {
+        switch sortType {
+        case .Name:
+            self.locations.sortInPlace { (location1: Location, location2: Location) -> Bool in
+                location1.name.compare(location2.name) == NSComparisonResult.OrderedAscending
+            }
+        case .Distance:
+            self.locations.sortInPlace { (location1: Location, location2: Location) -> Bool in
+                location1.distanceAwayInMiles < location2.distanceAwayInMiles
+            }
+        case .NumOfGames:
+            self.locations.sortInPlace { (location1: Location, location2: Location) -> Bool in
+                location1.numGames > location2.numGames
+            }
+        }
     }
 }

@@ -9,7 +9,13 @@
 import UIKit
 import CoreLocation
 
-class MapAndListContainerViewController: UIViewController, CLLocationManagerDelegate {
+enum SortType: String {
+    case Name = "Name"
+    case Distance = "Distance"
+    case NumOfGames = "Number of Games"
+}
+
+class MapAndListContainerViewController: UIViewController, CLLocationManagerDelegate, UIPopoverPresentationControllerDelegate {
 
     @IBOutlet weak var mapListSegmentedControl: UISegmentedControl!
     @IBOutlet weak var filterButtonItem: UIBarButtonItem!
@@ -21,6 +27,9 @@ class MapAndListContainerViewController: UIViewController, CLLocationManagerDele
     
     var mapViewController: MapViewController?
     var listViewController: LocationTableViewController?
+    
+    var sortOrder = SortType.Name
+    var allAgesFilter = false
 
     let locationManager = CLLocationManager()
 
@@ -35,12 +44,48 @@ class MapAndListContainerViewController: UIViewController, CLLocationManagerDele
         }
         self.locationManager.startUpdatingLocation()
         listData.loadList()
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: "applyFilters:", name: "FiltersChosen", object: nil)
+
         // Do any additional setup after loading the view.
     }
 
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
+    }
+    
+    var mapViewShowing: Bool {
+        return self.mapListSegmentedControl.selectedSegmentIndex == 0
+    }
+
+    var listViewShowing: Bool {
+        return self.mapListSegmentedControl.selectedSegmentIndex == 1
+    }
+    
+    func applyFilters(notification: NSNotification) {
+        guard let validUserInfo = notification.userInfo else {
+            return
+        }
+        var filterSet = false
+        if let validAllAgesFilterChosen = validUserInfo["AllAges"] as? Bool {
+            self.allAgesFilter = validAllAgesFilterChosen
+            if validAllAgesFilterChosen {
+                filterSet = true
+            }
+        }
+        if let validSortText = validUserInfo["Sort"] as? String {
+            if let validSortOption = SortType(rawValue: validSortText) {
+                self.sortOrder = validSortOption
+                if validSortOption != .Name {
+                    filterSet = true
+                }
+            }
+        }
+        if filterSet {
+            self.filterButtonItem.image = UIImage(named: "FilterFilled")
+        } else {
+            self.filterButtonItem.image = UIImage(named: "FilterEmpty")
+        }
     }
     
 
@@ -67,6 +112,15 @@ class MapAndListContainerViewController: UIViewController, CLLocationManagerDele
                 validDestination.displayedLocation = self.selectedLocation
                 self.selectedLocation?.loadDetails()
             }
+        } else if segue.identifier == "showFilters" {
+            if let validDestination = segue.destinationViewController as? FilterViewController {
+                validDestination.modalPresentationStyle = UIModalPresentationStyle.Popover
+                validDestination.popoverPresentationController!.delegate = self
+                validDestination.initialSort = self.sortOrder.rawValue
+                validDestination.initialAllAges = self.allAgesFilter
+                validDestination.showSortOptions = self.listViewShowing  //only want to show sort options if the list is showing
+                self.mapListSegmentedControl.enabled = false
+            }
         }
     }
 
@@ -88,5 +142,15 @@ class MapAndListContainerViewController: UIViewController, CLLocationManagerDele
     
     func locationManager(manager: CLLocationManager, didUpdateToLocation newLocation: CLLocation, fromLocation oldLocation: CLLocation) {
         listData.updateLocationsWithDistancesFromUserLocation(newLocation)
+    }
+    
+    // MARK: - UIPopoverPresentationControllerDelegate functions
+    
+    func adaptivePresentationStyleForPresentationController(controller: UIPresentationController) -> UIModalPresentationStyle {
+        return UIModalPresentationStyle.None
+    }
+    
+    func popoverPresentationControllerDidDismissPopover(popoverPresentationController: UIPopoverPresentationController) {
+        self.mapListSegmentedControl.enabled = true
     }
 }

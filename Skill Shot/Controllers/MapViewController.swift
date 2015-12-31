@@ -45,7 +45,29 @@ class MapViewController: UIViewController, MKMapViewDelegate {
     
     func listDataLoaded(notification: NSNotification) {
         if let validData = listData {
-            mapView.addAnnotations(validData.locations)
+            var annotationsToRemove = [MKAnnotation]()
+            var annotationsToAdd = [MKAnnotation]()
+            for currentMapAnnotation in mapView.annotations {
+                if let currentMapLocation = currentMapAnnotation as? Location {
+                    if !validData.locations.contains(currentMapLocation) {
+                        annotationsToRemove.append(currentMapAnnotation)
+                    }
+                }
+            }
+            for location in validData.locations {
+                var foundLocation = false
+                for mapAnnotation in mapView.annotations {
+                    if mapAnnotation === location {
+                        foundLocation = true
+                        break
+                    }
+                }
+                if !foundLocation {
+                    annotationsToAdd.append(location)
+                }
+            }
+            mapView.removeAnnotations(annotationsToRemove)
+            mapView.addAnnotations(annotationsToAdd)
         }
     }
     
