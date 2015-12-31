@@ -7,6 +7,8 @@
 //
 
 import UIKit
+import MapKit
+import Contacts
 
 class LocationDetailViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
     @IBOutlet weak var venueNameLabel: UILabel!
@@ -99,6 +101,24 @@ class LocationDetailViewController: UIViewController, UITableViewDelegate, UITab
     }
     
     @IBAction func mapButtonTapped(sender: AnyObject) {
+        guard let validLocation = displayedLocation else {
+            return
+        }
+        
+        var addressDictionary = [String : AnyObject]()
+        if let validAddress = validLocation.address {
+            addressDictionary[CNPostalAddressStreetKey] = validAddress
+        }
+        if let validCity = validLocation.city {
+            addressDictionary[CNPostalAddressCityKey] = validCity
+        }
+        if let validPostalCode = validLocation.postalCode {
+            addressDictionary[CNPostalAddressPostalCodeKey] = validPostalCode
+        }
+        let mapPlacemark = MKPlacemark(coordinate: CLLocationCoordinate2D(latitude: validLocation.latitude, longitude: validLocation.longitude), addressDictionary: addressDictionary)
+        let mapItem = MKMapItem(placemark: mapPlacemark)
+        mapItem.name = validLocation.name
+        mapItem.openInMapsWithLaunchOptions(nil)
     }
 
     /*
