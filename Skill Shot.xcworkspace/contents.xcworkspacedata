@@ -4,7 +4,4 @@
    <FileRef
       location = "container:Skill Shot.xcodeproj">
    </FileRef>
-   <FileRef
-      location = "group:../Alamofire/Alamofire.xcodeproj">
-   </FileRef>
 </Workspace>
