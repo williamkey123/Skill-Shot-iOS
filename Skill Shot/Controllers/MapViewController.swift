@@ -8,10 +8,12 @@
 
 import UIKit
 import MapKit
+import CoreLocation
 
 class MapViewController: UIViewController, MKMapViewDelegate {
 
     @IBOutlet weak var mapView: MKMapView!
+    var initialUserLocation: CLLocationCoordinate2D?
 
     var listData: LocationList? {
         didSet {
@@ -28,14 +30,11 @@ class MapViewController: UIViewController, MKMapViewDelegate {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        mapView.showsUserLocation = true
 
-        if let validLocation = mapView.userLocation.location {
-            let region = MKCoordinateRegionMake(validLocation.coordinate, MKCoordinateSpanMake(0.083, 0.07))
-            mapView.region = region
-        } else {
-            let region = MKCoordinateRegionMake(CLLocationCoordinate2DMake(47.613760, -122.345098), MKCoordinateSpanMake(0.083, 0.07))
-            mapView.region = region
-        }
+        let region = MKCoordinateRegionMake(CLLocationCoordinate2DMake(47.613760, -122.345098), MKCoordinateSpanMake(0.083, 0.07))
+        mapView.region = region
         // Do any additional setup after loading the view.
     }
 
@@ -51,6 +50,9 @@ class MapViewController: UIViewController, MKMapViewDelegate {
     }
     
     func mapView(mapView: MKMapView, viewForAnnotation annotation: MKAnnotation) -> MKAnnotationView? {
+        if annotation === mapView.userLocation {
+            return nil
+        }
         if let annotationView = mapView.dequeueReusableAnnotationViewWithIdentifier("LocationIdetifier") {
             annotationView.annotation = annotation
             return annotationView
@@ -78,5 +80,12 @@ class MapViewController: UIViewController, MKMapViewDelegate {
         // Pass the selected object to the new view controller.
     }
     */
-
+    
+    func mapView(mapView: MKMapView, didUpdateUserLocation userLocation: MKUserLocation) {
+        if initialUserLocation == nil {
+            initialUserLocation = userLocation.coordinate
+            let region = MKCoordinateRegionMake(userLocation.coordinate, MKCoordinateSpanMake(0.083, 0.07))
+            mapView.region = region
+        }
+    }
 }

@@ -19,17 +19,18 @@ class MapAndListContainerViewController: UIViewController, CLLocationManagerDele
     var listData = LocationList()
     var selectedLocation: Location?
 
-    let locationManger = CLLocationManager()
+    let locationManager = CLLocationManager()
 
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        locationManger.delegate = self
-        locationManger.desiredAccuracy = kCLLocationAccuracyNearestTenMeters
+        self.locationManager.delegate = self
+        self.locationManager.desiredAccuracy = kCLLocationAccuracyNearestTenMeters
         let authorizationStatus = CLLocationManager.authorizationStatus()
         if authorizationStatus == CLAuthorizationStatus.NotDetermined {
-            locationManger.requestWhenInUseAuthorization()
+            self.locationManager.requestWhenInUseAuthorization()
         }
+        self.locationManager.startUpdatingLocation()
         listData.loadList()
         // Do any additional setup after loading the view.
     }
@@ -70,5 +71,9 @@ class MapAndListContainerViewController: UIViewController, CLLocationManagerDele
         } else {
             self.mapViewContainer.hidden = true
         }
+    }
+    
+    func locationManager(manager: CLLocationManager, didUpdateToLocation newLocation: CLLocation, fromLocation oldLocation: CLLocation) {
+        listData.updateLocationsWithDistancesFromUserLocation(newLocation)
     }
 }

@@ -23,6 +23,7 @@ class Location: NSObject, MKAnnotation {
     var allAges: Bool
     var numGames: Int
     var machines: [Machine]?
+    var distanceAwayInMiles: Double?
     
     @objc var coordinate: CLLocationCoordinate2D {
         return CLLocationCoordinate2DMake(self.latitude, self.longitude)
@@ -33,7 +34,13 @@ class Location: NSObject, MKAnnotation {
     }
     
     @objc var subtitle: String? {
-        return "\(numGames) game(s)"
+        let gameCountStr = numGames == 1 ? "1 game" : "\(numGames) games"
+        
+        if let validDistance = self.distanceAwayInMiles {
+            let str = NSString(format: "%.2f", validDistance)
+            return "\(str) mi - \(gameCountStr)"
+        }
+        return "\(gameCountStr)"
     }
     
     required init(identifier: String, name: String, latitude: Double, longitude: Double, allAges: Bool = false, numGames: Int = 0) {
@@ -44,7 +51,7 @@ class Location: NSObject, MKAnnotation {
         self.allAges = allAges
         self.numGames = numGames
     }
-    
+
     func setDetails(serverData: [String: AnyObject]) {
         if let validAddress = serverData["address"] as? String {
             self.address = validAddress
@@ -123,6 +130,12 @@ class LocationList {
                 }
             }
             NSNotificationCenter.defaultCenter().postNotificationName("LocationListLoaded", object: self)
+        }
+    }
+    
+    func updateLocationsWithDistancesFromUserLocation(userLocation: CLLocation) {
+        for location in locations {
+            location.distanceAwayInMiles = userLocation.distanceFromLocation(CLLocation(latitude: location.latitude, longitude: location.longitude)) * 0.000621371
         }
     }
 }
