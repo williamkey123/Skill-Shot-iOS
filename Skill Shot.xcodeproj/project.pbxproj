@@ -23,6 +23,7 @@
 		8A17884E1C2935BE00C93E9B /* LocationTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A17884D1C2935BE00C93E9B /* LocationTableViewCell.swift */; };
 		8AEFD1DD1C34C60100074615 /* Alamofire.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8AEFD1CF1C34C5CE00074615 /* Alamofire.framework */; };
 		8AEFD1DE1C34C60100074615 /* Alamofire.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 8AEFD1CF1C34C5CE00074615 /* Alamofire.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		8AEFD2081C35ED4000074615 /* AppInfoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8AEFD2071C35ED4000074615 /* AppInfoViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -116,6 +117,7 @@
 		8A1788471C290E1A00C93E9B /* MapKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MapKit.framework; path = System/Library/Frameworks/MapKit.framework; sourceTree = SDKROOT; };
 		8A17884D1C2935BE00C93E9B /* LocationTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = LocationTableViewCell.swift; path = View/LocationTableViewCell.swift; sourceTree = "<group>"; };
 		8AEFD1C41C34C5CE00074615 /* Alamofire.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = Alamofire.xcodeproj; path = ../Alamofire/Alamofire.xcodeproj; sourceTree = "<group>"; };
+		8AEFD2071C35ED4000074615 /* AppInfoViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = AppInfoViewController.swift; path = Controllers/AppInfoViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -182,6 +184,7 @@
 				8A1788411C2908CB00C93E9B /* FilterViewController.swift */,
 				8A1788431C29090600C93E9B /* LocationDetailViewController.swift */,
 				8A1788451C29093800C93E9B /* SkillShotNavigationViewController.swift */,
+				8AEFD2071C35ED4000074615 /* AppInfoViewController.swift */,
 			);
 			name = Controller;
 			sourceTree = "<group>";
@@ -344,6 +347,7 @@
 				8A1788401C2908B400C93E9B /* MapViewController.swift in Sources */,
 				8A17883C1C28FE4200C93E9B /* LocationTableViewController.swift in Sources */,
 				8A1788381C28FA8F00C93E9B /* Location.swift in Sources */,
+				8AEFD2081C35ED4000074615 /* AppInfoViewController.swift in Sources */,
 				8A17884E1C2935BE00C93E9B /* LocationTableViewCell.swift in Sources */,
 				8A1788461C29093800C93E9B /* SkillShotNavigationViewController.swift in Sources */,
 				8A17880A1C28E8BD00C93E9B /* AppDelegate.swift in Sources */,

@@ -99,7 +99,86 @@
                     </connections>
                 </pickerView>
             </objects>
-            <point key="canvasLocation" x="1299" y="-306"/>
+            <point key="canvasLocation" x="2649" y="-286.5"/>
+        </scene>
+        <!--Info-->
+        <scene sceneID="VnH-6q-6RQ">
+            <objects>
+                <viewController id="MMh-cN-dXb" customClass="AppInfoViewController" customModule="Skill_Shot" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="5aQ-QZ-cMn"/>
+                        <viewControllerLayoutGuide type="bottom" id="3Nw-Q5-09m"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="rYQ-Cd-NSz">
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="App Development:" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="e1o-W9-qYT">
+                                <rect key="frame" x="20" y="76" width="142" height="21"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Backend Development: Andrew Cole" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="ZT7-4c-3Ww">
+                                <rect key="frame" x="20" y="104" width="560" height="21"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Icons:" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="LSG-wL-3tB">
+                                <rect key="frame" x="20" y="133" width="46" height="21"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="XIA-y3-VER">
+                                <rect key="frame" x="74" y="128" width="47" height="30"/>
+                                <state key="normal" title="Icons8"/>
+                                <connections>
+                                    <action selector="iconsButtonTapped:" destination="MMh-cN-dXb" eventType="touchUpInside" id="VWd-9s-Oeu"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ZhL-Am-wZI">
+                                <rect key="frame" x="170" y="72" width="73" height="30"/>
+                                <state key="normal" title="Will Clarke"/>
+                                <connections>
+                                    <action selector="willClarkeButtonTapped:" destination="MMh-cN-dXb" eventType="touchUpInside" id="fzB-Jx-NUT"/>
+                                </connections>
+                            </button>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="LSG-wL-3tB" firstAttribute="leading" secondItem="rYQ-Cd-NSz" secondAttribute="leadingMargin" id="16h-DN-gO8"/>
+                            <constraint firstAttribute="trailingMargin" relation="greaterThanOrEqual" secondItem="ZhL-Am-wZI" secondAttribute="trailing" constant="8" id="5U8-5t-IYL"/>
+                            <constraint firstItem="ZhL-Am-wZI" firstAttribute="leading" secondItem="e1o-W9-qYT" secondAttribute="trailing" constant="8" id="CU0-wl-JGx"/>
+                            <constraint firstItem="XIA-y3-VER" firstAttribute="baseline" secondItem="LSG-wL-3tB" secondAttribute="baseline" id="E4E-d3-iPO"/>
+                            <constraint firstItem="e1o-W9-qYT" firstAttribute="top" secondItem="5aQ-QZ-cMn" secondAttribute="bottom" constant="12" id="HJ0-FH-LOS"/>
+                            <constraint firstItem="LSG-wL-3tB" firstAttribute="top" secondItem="ZT7-4c-3Ww" secondAttribute="bottom" constant="8" id="Km5-hf-HNr"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="e1o-W9-qYT" secondAttribute="trailing" id="OwL-h6-QxV"/>
+                            <constraint firstItem="e1o-W9-qYT" firstAttribute="baseline" secondItem="ZhL-Am-wZI" secondAttribute="baseline" id="dtD-xf-035"/>
+                            <constraint firstItem="ZT7-4c-3Ww" firstAttribute="leading" secondItem="rYQ-Cd-NSz" secondAttribute="leadingMargin" id="etA-pF-OLs"/>
+                            <constraint firstItem="XIA-y3-VER" firstAttribute="leading" secondItem="LSG-wL-3tB" secondAttribute="trailing" constant="8" id="gWi-YD-97Y"/>
+                            <constraint firstItem="ZT7-4c-3Ww" firstAttribute="top" secondItem="e1o-W9-qYT" secondAttribute="bottom" constant="8" id="qmY-1C-vy6"/>
+                            <constraint firstItem="e1o-W9-qYT" firstAttribute="leading" secondItem="rYQ-Cd-NSz" secondAttribute="leadingMargin" id="waV-0M-EBP"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="ZT7-4c-3Ww" secondAttribute="trailing" id="zHH-i7-pya"/>
+                        </constraints>
+                        <variation key="default">
+                            <mask key="constraints">
+                                <exclude reference="OwL-h6-QxV"/>
+                            </mask>
+                        </variation>
+                    </view>
+                    <navigationItem key="navigationItem" title="Info" id="sbW-na-mYp">
+                        <barButtonItem key="leftBarButtonItem" systemItem="done" id="tyu-NM-hV5">
+                            <connections>
+                                <action selector="doneButtonTapped:" destination="MMh-cN-dXb" id="c8n-Sn-JMt"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="BgY-ah-Hfs" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1778" y="-377"/>
         </scene>
         <!--Map And List Container View Controller-->
         <scene sceneID="ECg-Ie-KPh">
@@ -148,6 +227,11 @@
                     </view>
                     <navigationItem key="navigationItem" id="nBr-l4-GJ0">
                         <barButtonItem key="backBarButtonItem" title="Locations" id="pyR-Ph-pwS"/>
+                        <barButtonItem key="leftBarButtonItem" image="InfoIcon" id="Xrw-Jo-xUx">
+                            <connections>
+                                <segue destination="qTb-jR-rIL" kind="presentation" id="2iB-FV-rA7"/>
+                            </connections>
+                        </barButtonItem>
                         <segmentedControl key="titleView" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="bar" selectedSegmentIndex="0" id="7Le-lE-FTR">
                             <rect key="frame" x="180" y="7" width="240" height="30"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
@@ -618,9 +702,29 @@
             </objects>
             <point key="canvasLocation" x="2181" y="447"/>
         </scene>
+        <!--Navigation Controller-->
+        <scene sceneID="ICt-Yf-jvr">
+            <objects>
+                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="qTb-jR-rIL" sceneMemberID="viewController">
+                    <toolbarItems/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="Tku-VD-mpA">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                        <color key="backgroundColor" red="0.96862745100000003" green="0.68235294120000001" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                    </navigationBar>
+                    <nil name="viewControllers"/>
+                    <connections>
+                        <segue destination="MMh-cN-dXb" kind="relationship" relationship="rootViewController" id="ka3-Gf-UFX"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="cpw-ey-d8H" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="966" y="-377"/>
+        </scene>
     </scenes>
     <resources>
         <image name="FilterEmpty" width="22" height="22"/>
+        <image name="InfoIcon" width="22" height="22"/>
         <image name="MapIcon" width="25" height="25"/>
         <image name="PhoneIcon" width="25" height="25"/>
         <image name="URLIcon" width="25" height="25"/>
