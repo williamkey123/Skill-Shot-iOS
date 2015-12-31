@@ -18,6 +18,9 @@ class MapAndListContainerViewController: UIViewController, CLLocationManagerDele
     
     var listData = LocationList()
     var selectedLocation: Location?
+    
+    var mapViewController: MapViewController?
+    var listViewController: LocationTableViewController?
 
     let locationManager = CLLocationManager()
 
@@ -51,11 +54,13 @@ class MapAndListContainerViewController: UIViewController, CLLocationManagerDele
             if let validDestination = segue.destinationViewController as? MapViewController {
                 validDestination.listData = self.listData
                 validDestination.containingViewController = self
+                self.mapViewController = validDestination
             }
         } else if segue.identifier == "showList" {
             if let validDestination = segue.destinationViewController as? LocationTableViewController {
                 validDestination.listData = self.listData
                 validDestination.containingViewController = self
+                self.listViewController = validDestination
             }
         } else if segue.identifier == "showLocationDetails" {
             if let validDestination = segue.destinationViewController as? LocationDetailViewController {
@@ -68,8 +73,16 @@ class MapAndListContainerViewController: UIViewController, CLLocationManagerDele
     @IBAction func mapListSegmentedControlChanged(sender: AnyObject) {
         if self.mapListSegmentedControl.selectedSegmentIndex == 0 {
             self.mapViewContainer.hidden = false
+            self.listViewContainer.hidden = true
+            if let validListViewController = self.listViewController {
+                validListViewController.resultSearchController.searchBar.hidden = true
+            }
         } else {
+            self.listViewContainer.hidden = false
             self.mapViewContainer.hidden = true
+            if let validListViewController = self.listViewController {
+                validListViewController.resultSearchController.searchBar.hidden = false
+            }
         }
     }
     

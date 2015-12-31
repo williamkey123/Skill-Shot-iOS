@@ -113,6 +113,26 @@ class Location: NSObject, MKAnnotation {
             NSNotificationCenter.defaultCenter().postNotificationName("LocationDetailsLoaded", object: self)
         }
     }
+    
+    func matchesSearchString(searchString: String) -> Bool {
+        let lowercaseSearch = searchString.lowercaseString
+        if self.name.lowercaseString.rangeOfString(lowercaseSearch) != nil {
+            return true
+        }
+        if let validAddress = self.address {
+            if validAddress.lowercaseString.rangeOfString(lowercaseSearch) != nil {
+                return true
+            }
+        }
+        if let validMachines = self.machines {
+            for machine in validMachines {
+                if machine.title.name.lowercaseString.rangeOfString(lowercaseSearch) != nil {
+                    return true
+                }
+            }
+        }
+        return false
+    }
 }
 
 class LocationList {

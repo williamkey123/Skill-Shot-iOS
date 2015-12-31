@@ -32,6 +32,8 @@ class LocationDetailViewController: UIViewController, UITableViewDelegate, UITab
             }
         }
     }
+    
+    var initiallyLoaded = false
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -60,6 +62,7 @@ class LocationDetailViewController: UIViewController, UITableViewDelegate, UITab
                 self.webButton.enabled = false
             }
         }
+        self.initiallyLoaded = true
         
         // Do any additional setup after loading the view.
     }
@@ -68,10 +71,13 @@ class LocationDetailViewController: UIViewController, UITableViewDelegate, UITab
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
-    
-    
+
     func locationDetailsLoaded(notification: NSNotification) {
-        tableView.reloadData()
+        if self.initiallyLoaded {
+            //We are checking if it has been initially loaded, because since the web service to show detail is run before the view is on the screen, it's 
+            //possible that we get a response before the view is fully set up.
+            self.tableView.reloadData()
+        }
     }
 
     // MARK: - IBActions

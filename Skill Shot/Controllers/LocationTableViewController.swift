@@ -20,25 +20,30 @@ class LocationTableViewController: UITableViewController, UISearchResultsUpdatin
             }
         }
     }
+    var filteredList = [Location]()
 
     weak var containingViewController: MapAndListContainerViewController?
     
-    var searchController = UISearchController(searchResultsController: nil)
+    var resultSearchController = UISearchController(searchResultsController: nil)
 
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        searchController.searchResultsUpdater = self
-        searchController.hidesNavigationBarDuringPresentation = false
-        searchController.dimsBackgroundDuringPresentation = false
-        searchController.searchBar.sizeToFit()
-        self.tableView.tableHeaderView = searchController.searchBar
-
-        // Uncomment the following line to preserve selection between presentations
-        // self.clearsSelectionOnViewWillAppear = false
-
-        // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
-        // self.navigationItem.rightBarButtonItem = self.editButtonItem()
+        resultSearchController.searchResultsUpdater = self
+        resultSearchController.hidesNavigationBarDuringPresentation = false
+        resultSearchController.dimsBackgroundDuringPresentation = false
+        resultSearchController.searchBar.sizeToFit()
+        self.tableView.tableHeaderView = resultSearchController.searchBar
+    }
+    
+    override func viewWillDisappear(animated: Bool) {
+        super.viewWillDisappear(animated)
+        resultSearchController.searchBar.hidden = true
+    }
+    
+    override func viewWillAppear(animated: Bool) {
+        super.viewWillAppear(animated)
+        resultSearchController.searchBar.hidden = false
     }
 
     override func didReceiveMemoryWarning() {
@@ -53,15 +58,17 @@ class LocationTableViewController: UITableViewController, UISearchResultsUpdatin
     }
 
     override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        if self.resultSearchController.active {
+            return filteredList.count
+        }
         if let validLocationList = listData {
             if validLocationList.loadedData {
                 return validLocationList.locations.count
             } else {
                 return 1
             }
-        } else {
-            return 0
         }
+        return 0
     }
 
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
@@ -77,7 +84,12 @@ class LocationTableViewController: UITableViewController, UISearchResultsUpdatin
         let cell = tableView.dequeueReusableCellWithIdentifier(defaultIdentifier, forIndexPath: indexPath)
 
         if let validLocationCell = cell as? LocationTableViewCell {
-            let validLocation = validLocationList.locations[indexPath.row]
+            var validLocation = validLocationList.locations[indexPath.row]
+            if self.resultSearchController.active {
+                if indexPath.row < filteredList.count {
+                    validLocation = filteredList[indexPath.row]
+                }
+            }
             let gameCountString = (validLocation.numGames == 1) ? "1 game" : "\(validLocation.numGames) games"
             validLocationCell.locationNameLabel.text = validLocation.name
             if let validDistance = validLocation.distanceAwayInMiles {
@@ -97,7 +109,15 @@ class LocationTableViewController: UITableViewController, UISearchResultsUpdatin
         guard let validData = self.listData  else {
             return
         }
-        let selectedLocation = validData.locations[indexPath.row]
+        var selectedLocation = validData.locations[indexPath.row]
+        if self.resultSearchController.active {
+            if indexPath.row < self.filteredList.count {
+                selectedLocation = self.filteredList[indexPath.row]
+            } else {
+                return
+            }
+        }
+//        resultSearchController.active = false
         
         if let validParentVC = containingViewController {
             validParentVC.selectedLocation = selectedLocation
@@ -157,6 +177,20 @@ class LocationTableViewController: UITableViewController, UISearchResultsUpdatin
     // MARK: UISearchResultsUpdating functions
     
     func updateSearchResultsForSearchController(searchController: UISearchController) {
+        guard let validListData = listData else {
+            return
+        }
+        self.filteredList = [Location]()
+        if let searchedText = searchController.searchBar.text {
+            if searchedText != "" {
+                for location in validListData.locations {
+                    if location.matchesSearchString(searchedText) {
+                        self.filteredList.append(location)
+                    }
+                }
+            }
+        }
+        tableView.reloadData()
         return
     }
 
