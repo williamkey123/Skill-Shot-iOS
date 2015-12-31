@@ -43,6 +43,13 @@ class Location: NSObject, MKAnnotation {
         return "\(gameCountStr)"
     }
     
+    var formattedPhoneNumber: String? {
+        guard let validPhone = phone else {
+            return nil
+        }
+        return validPhone.componentsSeparatedByCharactersInSet(NSCharacterSet.decimalDigitCharacterSet().invertedSet).joinWithSeparator("")
+    }
+    
     required init(identifier: String, name: String, latitude: Double, longitude: Double, allAges: Bool = false, numGames: Int = 0) {
         self.identifier = identifier
         self.name = name

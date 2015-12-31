@@ -382,6 +382,9 @@
                                                 <exclude reference="3eE-pu-O0w"/>
                                             </mask>
                                         </variation>
+                                        <connections>
+                                            <action selector="phoneButtonTapped:" destination="HdJ-7c-IqK" eventType="touchUpInside" id="cCz-jG-ZFH"/>
+                                        </connections>
                                     </button>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="c1x-RV-K90">
                                         <rect key="frame" x="187" y="0.0" width="186" height="25"/>
@@ -394,6 +397,9 @@
                                                 <exclude reference="tBG-Xh-3Zj"/>
                                             </mask>
                                         </variation>
+                                        <connections>
+                                            <action selector="webButtonTapped:" destination="HdJ-7c-IqK" eventType="touchUpInside" id="v7W-2H-CIB"/>
+                                        </connections>
                                     </button>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="dFQ-07-lsb">
                                         <rect key="frame" x="374" y="0.0" width="186" height="25"/>
@@ -406,6 +412,9 @@
                                                 <exclude reference="sxt-8u-lSC"/>
                                             </mask>
                                         </variation>
+                                        <connections>
+                                            <action selector="mapButtonTapped:" destination="HdJ-7c-IqK" eventType="touchUpInside" id="NTx-uT-8j5"/>
+                                        </connections>
                                     </button>
                                 </subviews>
                             </stackView>

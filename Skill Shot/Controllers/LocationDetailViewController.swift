@@ -39,6 +39,24 @@ class LocationDetailViewController: UIViewController, UITableViewDelegate, UITab
             allAgesLabel.text = validLocation.allAges ? "All Ages" : "21+"
             streetAddressLabel.text = validLocation.address
             phoneNumberLabel.text = validLocation.phone
+            
+            if let validPhone = validLocation.formattedPhoneNumber {
+                let phoneURL = NSURL(string: "tel://\(validPhone)")
+                if phoneURL == nil {
+                    self.phoneNumberButton.enabled = false
+                }
+            } else {
+                self.phoneNumberButton.enabled = false
+            }
+
+            if let validWebsite = validLocation.URL {
+                let webURL = NSURL(string: validWebsite)
+                if webURL == nil || validWebsite.stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceCharacterSet()) == "" {
+                    self.webButton.enabled = false
+                }
+            } else {
+                self.webButton.enabled = false
+            }
         }
         
         // Do any additional setup after loading the view.
@@ -53,7 +71,35 @@ class LocationDetailViewController: UIViewController, UITableViewDelegate, UITab
     func locationDetailsLoaded(notification: NSNotification) {
         tableView.reloadData()
     }
+
+    // MARK: - IBActions
+
+    @IBAction func phoneButtonTapped(sender: AnyObject) {
+        guard let validLocation = displayedLocation else {
+            return
+        }
+        guard let validPhone = validLocation.formattedPhoneNumber else {
+            return
+        }
+        if let phoneURL = NSURL(string: "tel://\(validPhone)") {
+            UIApplication.sharedApplication().openURL(phoneURL)
+        }
+    }
     
+    @IBAction func webButtonTapped(sender: AnyObject) {
+        guard let validLocation = displayedLocation else {
+            return
+        }
+        guard let validURL = validLocation.URL else {
+            return
+        }
+        if let webURL = NSURL(string: validURL) {
+            UIApplication.sharedApplication().openURL(webURL)
+        }
+    }
+    
+    @IBAction func mapButtonTapped(sender: AnyObject) {
+    }
 
     /*
     // MARK: - Navigation
