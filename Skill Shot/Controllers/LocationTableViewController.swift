@@ -78,9 +78,15 @@ class LocationTableViewController: UITableViewController, UISearchResultsUpdatin
 
         if let validLocationCell = cell as? LocationTableViewCell {
             let validLocation = validLocationList.locations[indexPath.row]
+            let gameCountString = (validLocation.numGames == 1) ? "1 game" : "\(validLocation.numGames) games"
             validLocationCell.locationNameLabel.text = validLocation.name
-            validLocationCell.distanceLabel.text = "???"
-            validLocationCell.gameCountLabel.text = "\(validLocation.numGames) game(s)"
+            if let validDistance = validLocation.distanceAwayInMiles {
+                let distanceStr = NSString(format: "%.2f", validDistance)
+                validLocationCell.distanceLabel.text = "\(distanceStr) mi"
+            } else {
+                validLocationCell.distanceLabel.text = ""
+            }
+            validLocationCell.gameCountLabel.text = "\(gameCountString)"
         }
 
         return cell

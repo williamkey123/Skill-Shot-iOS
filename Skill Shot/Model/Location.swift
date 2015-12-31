@@ -137,5 +137,6 @@ class LocationList {
         for location in locations {
             location.distanceAwayInMiles = userLocation.distanceFromLocation(CLLocation(latitude: location.latitude, longitude: location.longitude)) * 0.000621371
         }
+        NSNotificationCenter.defaultCenter().postNotificationName("LocationListLoaded", object: self)
     }
 }
