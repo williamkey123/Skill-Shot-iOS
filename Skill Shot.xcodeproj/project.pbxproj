@@ -176,9 +176,9 @@
 		8A1788361C28FA7200C93E9B /* Controller */ = {
 			isa = PBXGroup;
 			children = (
-				8A17883B1C28FE4200C93E9B /* LocationTableViewController.swift */,
 				8A17883D1C29081300C93E9B /* MapAndListContainerViewController.swift */,
 				8A17883F1C2908B400C93E9B /* MapViewController.swift */,
+				8A17883B1C28FE4200C93E9B /* LocationTableViewController.swift */,
 				8A1788411C2908CB00C93E9B /* FilterViewController.swift */,
 				8A1788431C29090600C93E9B /* LocationDetailViewController.swift */,
 				8A1788451C29093800C93E9B /* SkillShotNavigationViewController.swift */,
