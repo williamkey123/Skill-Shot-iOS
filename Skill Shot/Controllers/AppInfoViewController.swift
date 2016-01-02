@@ -8,19 +8,22 @@
 
 import UIKit
 
-class AppInfoViewController: UIViewController {
+class AppInfoViewController: UITableViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-
-        // Do any additional setup after loading the view.
+        tableView.estimatedRowHeight = 44.0
+        tableView.rowHeight = UITableViewAutomaticDimension
     }
 
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
     }
     
+    
+    override func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
+        return UITableViewAutomaticDimension
+    }
 
     // MARK: - IBActions
 
@@ -30,6 +33,12 @@ class AppInfoViewController: UIViewController {
 
     @IBAction func iconsButtonTapped(sender: AnyObject) {
         if let webURL = NSURL(string: "https://icons8.com") {
+            UIApplication.sharedApplication().openURL(webURL)
+        }
+    }
+    
+    @IBAction func alamofireButtonTapped(sender: AnyObject) {
+        if let webURL = NSURL(string: "https://github.com/Alamofire/Alamofire") {
             UIApplication.sharedApplication().openURL(webURL)
         }
     }
