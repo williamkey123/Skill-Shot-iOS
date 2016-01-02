@@ -35,6 +35,8 @@ class LocationTableViewController: UITableViewController, UISearchResultsUpdatin
         resultSearchController.searchBar.sizeToFit()
         definesPresentationContext = true
         self.tableView.tableHeaderView = resultSearchController.searchBar
+
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: "applyFilters:", name: "FiltersChosen", object: nil)
     }
     
     override func viewWillDisappear(animated: Bool) {
@@ -126,6 +128,13 @@ class LocationTableViewController: UITableViewController, UISearchResultsUpdatin
     
     func listDataLoaded(notification: NSNotification) {
         tableView.reloadData()
+    }
+
+    func applyFilters(notification: NSNotification) {
+        if self.resultSearchController.active {
+            //the search is active and we have new filters, so reapply the search to the new results
+            self.updateSearchResultsForSearchController(self.resultSearchController)
+        }
     }
 
     
