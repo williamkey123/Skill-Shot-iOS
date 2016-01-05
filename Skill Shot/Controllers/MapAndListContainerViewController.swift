@@ -104,15 +104,15 @@ class MapAndListContainerViewController: UIViewController, CLLocationManagerDele
         if self.mapListSegmentedControl.selectedSegmentIndex == 0 {
             self.mapViewContainer.hidden = false
             self.listViewContainer.hidden = true
-            if let validListViewController = self.listViewController {
-                validListViewController.resultSearchController.searchBar.hidden = true
-            }
+//            if let validListViewController = self.listViewController {
+//                validListViewController.resultSearchController.searchBar.hidden = true
+//            }
         } else {
             self.listViewContainer.hidden = false
             self.mapViewContainer.hidden = true
-            if let validListViewController = self.listViewController {
-                validListViewController.resultSearchController.searchBar.hidden = false
-            }
+//            if let validListViewController = self.listViewController {
+//                validListViewController.resultSearchController.searchBar.hidden = false
+//            }
         }
     }
     

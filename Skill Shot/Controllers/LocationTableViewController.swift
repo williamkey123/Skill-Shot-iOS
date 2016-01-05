@@ -9,8 +9,9 @@
 import UIKit
 import CoreLocation
 
-class LocationTableViewController: UITableViewController, UISearchResultsUpdating, UISearchBarDelegate {
-    
+class LocationTableViewController: UITableViewController, UISearchBarDelegate {
+    @IBOutlet weak var locationSearchBar: UISearchBar!
+
     var listData: LocationList? {
         didSet {
             if let validList = listData {
@@ -24,23 +25,29 @@ class LocationTableViewController: UITableViewController, UISearchResultsUpdatin
         }
     }
     var filteredList = [Location]()
-    var searchWasActive = false
-    var lastSearch: String?
+    
+    var hasSearchTerm: Bool {
+        if let searchText = self.locationSearchBar.text {
+            if searchText.stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceCharacterSet()) != "" {
+                return true
+            }
+        }
+        return false
+    }
+    
+    var searchTerm: String? {
+        if let searchText = self.locationSearchBar.text {
+            if searchText.stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceCharacterSet()) != "" {
+                return searchText.stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceCharacterSet())
+            }
+        }
+        return nil
+    }
 
     weak var containingViewController: MapAndListContainerViewController?
-    
-    var resultSearchController = UISearchController(searchResultsController: nil)
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        resultSearchController.searchResultsUpdater = self
-        resultSearchController.hidesNavigationBarDuringPresentation = false
-        resultSearchController.dimsBackgroundDuringPresentation = false
-        resultSearchController.searchBar.sizeToFit()
-        resultSearchController.searchBar.delegate = self
-        definesPresentationContext = true
-        self.tableView.tableHeaderView = resultSearchController.searchBar
 
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "applyFilters:", name: "FiltersChosen", object: nil)
     }
@@ -51,11 +58,6 @@ class LocationTableViewController: UITableViewController, UISearchResultsUpdatin
 
     override func viewDidDisappear(animated: Bool) {
         super.viewDidDisappear(animated)
-        searchWasActive = resultSearchController.active
-        if searchWasActive {
-            lastSearch = resultSearchController.searchBar.text
-            resultSearchController.active = false
-        }
     }
     
     override func viewWillAppear(animated: Bool) {
@@ -63,10 +65,6 @@ class LocationTableViewController: UITableViewController, UISearchResultsUpdatin
     }
 
     override func viewDidAppear(animated: Bool) {
-        if searchWasActive {
-            resultSearchController.searchBar.becomeFirstResponder()
-            searchWasActive = false
-        }
         super.viewDidAppear(animated)
     }
     
@@ -78,7 +76,7 @@ class LocationTableViewController: UITableViewController, UISearchResultsUpdatin
     }
 
     override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        if self.resultSearchController.active {
+        if self.hasSearchTerm {
             return filteredList.count
         }
         if let validLocationList = listData {
@@ -105,7 +103,7 @@ class LocationTableViewController: UITableViewController, UISearchResultsUpdatin
 
         if let validLocationCell = cell as? LocationTableViewCell {
             var validLocation = validLocationList.locations[indexPath.row]
-            if self.resultSearchController.active {
+            if self.hasSearchTerm {
                 if indexPath.row < filteredList.count {
                     validLocation = filteredList[indexPath.row]
                 }
@@ -130,7 +128,7 @@ class LocationTableViewController: UITableViewController, UISearchResultsUpdatin
             return
         }
         var selectedLocation = validData.locations[indexPath.row]
-        if self.resultSearchController.active {
+        if self.hasSearchTerm {
             if indexPath.row < self.filteredList.count {
                 selectedLocation = self.filteredList[indexPath.row]
             } else {
@@ -155,7 +153,7 @@ class LocationTableViewController: UITableViewController, UISearchResultsUpdatin
         guard let initialLocations = validUserInfo["Initial"] as? [String : Int], finalLocations = validUserInfo["Final"] as? [String : Int] else {
             return
         }
-        if self.resultSearchController.active {
+        if self.hasSearchTerm {
             self.tableView.reloadData()
         } else {
             self.tableView.beginUpdates()
@@ -186,21 +184,18 @@ class LocationTableViewController: UITableViewController, UISearchResultsUpdatin
     }
 
     func applyFilters(notification: NSNotification) {
-        if self.resultSearchController.active {
+        if self.hasSearchTerm {
             //the search is active and we have new filters, so reapply the search to the new results
-            self.updateSearchResultsForSearchController(self.resultSearchController)
+            self.updateSearchResults()
         }
     }
-
     
-    // MARK: UISearchResultsUpdating functions
-    
-    func updateSearchResultsForSearchController(searchController: UISearchController) {
+    func updateSearchResults() {
         guard let validListData = listData else {
             return
         }
         self.filteredList = [Location]()
-        if let searchedText = searchController.searchBar.text {
+        if let searchedText = self.searchTerm {
             if searchedText != "" {
                 for location in validListData.locations {
                     if location.matchesSearchString(searchedText) {
@@ -212,9 +207,32 @@ class LocationTableViewController: UITableViewController, UISearchResultsUpdatin
         tableView.reloadData()
         return
     }
-
     
-    func searchBarShouldBeginEditing(searchBar: UISearchBar) -> Bool {
-        return true
+
+    // MARK: UISearchBarDelegate functions
+
+    func searchBar(searchBar: UISearchBar, textDidChange searchText: String) {
+        self.updateSearchResults()
+    }
+    
+    func searchBarTextDidBeginEditing(searchBar: UISearchBar) {
+        searchBar.showsCancelButton = true
+    }
+    
+    func searchBarTextDidEndEditing(searchBar: UISearchBar) {
+        searchBar.resignFirstResponder()
+        searchBar.showsCancelButton = false
+        self.updateSearchResults()
+    }
+    
+    func searchBarSearchButtonClicked(searchBar: UISearchBar) {
+        searchBar.resignFirstResponder()
+        self.updateSearchResults()
+    }
+    
+    func searchBarCancelButtonClicked(searchBar: UISearchBar) {
+        searchBar.resignFirstResponder()
+        searchBar.text = nil
+        self.updateSearchResults()
     }
 }
