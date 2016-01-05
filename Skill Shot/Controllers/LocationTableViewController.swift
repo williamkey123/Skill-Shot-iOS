@@ -19,6 +19,7 @@ class LocationTableViewController: UITableViewController, UISearchResultsUpdatin
             }
             if let oldList = oldValue {
                 NSNotificationCenter.defaultCenter().removeObserver(self, name: "LocationListLoaded", object: oldList)
+                NSNotificationCenter.defaultCenter().removeObserver(self, name: "LocationListReordered", object: oldList)
             }
         }
     }

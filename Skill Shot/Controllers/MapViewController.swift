@@ -19,9 +19,11 @@ class MapViewController: UIViewController, MKMapViewDelegate {
         didSet {
             if let validList = listData {
                 NSNotificationCenter.defaultCenter().addObserver(self, selector: "listDataLoaded:", name: "LocationListLoaded", object: validList)
+                NSNotificationCenter.defaultCenter().addObserver(self, selector: "listDataLoaded:", name: "LocationListReordered", object: validList)
             }
             if let oldList = oldValue {
                 NSNotificationCenter.defaultCenter().removeObserver(self, name: "LocationListLoaded", object: oldList)
+                NSNotificationCenter.defaultCenter().removeObserver(self, name: "LocationListReordered", object: oldList)
             }
         }
     }
