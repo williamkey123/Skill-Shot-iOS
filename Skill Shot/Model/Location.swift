@@ -119,18 +119,6 @@ class Location: NSObject, MKAnnotation {
         if self.name.lowercaseString.rangeOfString(lowercaseSearch) != nil {
             return true
         }
-        if let validAddress = self.address {
-            if validAddress.lowercaseString.rangeOfString(lowercaseSearch) != nil {
-                return true
-            }
-        }
-        if let validMachines = self.machines {
-            for machine in validMachines {
-                if machine.title.name.lowercaseString.rangeOfString(lowercaseSearch) != nil {
-                    return true
-                }
-            }
-        }
         return false
     }
 }
