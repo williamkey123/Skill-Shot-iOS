@@ -40,7 +40,7 @@ class FilterViewController: UIViewController, UITextFieldDelegate, UIPickerViewD
         super.didReceiveMemoryWarning()
     }
     
-    override func viewWillDisappear(animated: Bool) {
+    func postFilterNotification() {
         var sortField = "Name"
         if let selectedSort = self.sortTextField.text {
             sortField = selectedSort
@@ -52,6 +52,7 @@ class FilterViewController: UIViewController, UITextFieldDelegate, UIPickerViewD
     // MARK: - IBActions
 
     @IBAction func allAgesSwitchFlipped(sender: AnyObject) {
+        self.postFilterNotification()
     }
     
     @IBAction func doneButtonTapped(sender: AnyObject) {
@@ -60,6 +61,7 @@ class FilterViewController: UIViewController, UITextFieldDelegate, UIPickerViewD
             sortTextField.text = self.sortOptions[selectedItem]
         }
         self.sortTextField.resignFirstResponder()
+        self.postFilterNotification()
     }
 
     // MARK: - UITextFieldDelegate functions
@@ -90,5 +92,6 @@ class FilterViewController: UIViewController, UITextFieldDelegate, UIPickerViewD
     
     func pickerView(pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
         self.sortTextField.text = self.sortOptions[row]
+        self.postFilterNotification()
     }
 }
