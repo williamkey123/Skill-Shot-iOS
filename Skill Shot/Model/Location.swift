@@ -135,11 +135,20 @@ class Location: NSObject, MKAnnotation {
     }
 }
 
+enum SortType: String {
+    case Name = "Name"
+    case Distance = "Distance"
+    case NumOfGames = "Number of Games"
+}
+
 class LocationList: NSObject {
     var allLocations = [Location]()
     var locations = [Location]()
     var loadedData = false
-    
+    var sortOrder: SortType = .Name
+    var allAges = false
+    var lastUserLocation: CLLocation?
+
     override init() {
         super.init()
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "applyFilters:", name: "FiltersChosen", object: nil)
@@ -162,46 +171,54 @@ class LocationList: NSObject {
                         self.locations.append(newLocation)
                     }
                 }
+                if let initialUserLocation = self.lastUserLocation {
+                    self.updateLocationsWithDistancesFromUserLocation(initialUserLocation)
+                }
             }
             NSNotificationCenter.defaultCenter().postNotificationName("LocationListLoaded", object: self)
         }
     }
     
     func updateLocationsWithDistancesFromUserLocation(userLocation: CLLocation) {
+        guard loadedData == true else {
+            return
+        }
+        if self.lastUserLocation == nil {
+            self.sortOrder = SortType.Distance
+        }
+        self.lastUserLocation = userLocation
         for location in allLocations {
             location.distanceAwayInMiles = userLocation.distanceFromLocation(CLLocation(latitude: location.latitude, longitude: location.longitude)) * 0.000621371
         }
-        NSNotificationCenter.defaultCenter().postNotificationName("LocationListLoaded", object: self)
+        if self.sortOrder == SortType.Distance {
+            let userInfo: [NSObject : AnyObject] = ["Sort" : SortType.Distance.rawValue]
+            self.applyFilters(NSNotification(name: "FiltersChosen", object: nil, userInfo: userInfo))
+        }
     }
     
     func applyFilters(notification: NSNotification) {
         guard let validUserInfo = notification.userInfo else {
             return
         }
+        var initialLocations = [String : Int]()
+        for (index, location) in locations.enumerate() {
+            initialLocations[location.identifier] = index
+        }
         self.locations = [Location]()
-        var applyAllAgesFilter = false
         if let validAllAgesFilterChosen = validUserInfo["AllAges"] as? Bool {
-            applyAllAgesFilter = validAllAgesFilterChosen
+            self.allAges = validAllAgesFilterChosen
         }
         for location in allLocations {
-            if location.allAges || applyAllAgesFilter == false {
+            if location.allAges || self.allAges == false {
                 self.locations.append(location)
             }
         }
-        var defaultSort = SortType.Name
         if let validSortText = validUserInfo["Sort"] as? String {
             if let validSortOption = SortType(rawValue: validSortText) {
-                defaultSort = validSortOption
+                self.sortOrder = validSortOption
             }
         }
-        self.applySortType(defaultSort)
-        print("Total items: \(locations.count)")
-        
-        NSNotificationCenter.defaultCenter().postNotificationName("LocationListLoaded", object: self)
-    }
-    
-    func applySortType(sortType: SortType) {
-        switch sortType {
+        switch self.sortOrder {
         case .Name:
             self.locations.sortInPlace { (location1: Location, location2: Location) -> Bool in
                 location1.name.compare(location2.name) == NSComparisonResult.OrderedAscending
@@ -215,5 +232,13 @@ class LocationList: NSObject {
                 location1.numGames > location2.numGames
             }
         }
+        
+        var finalLocations = [String : Int]()
+        for (index, location) in locations.enumerate() {
+            finalLocations[location.identifier] = index
+        }
+        
+        let userInfo: [NSObject : AnyObject] = ["Initial" : initialLocations, "Final" : finalLocations]
+        NSNotificationCenter.defaultCenter().postNotificationName("LocationListReordered", object: self, userInfo: userInfo)
     }
 }

@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import CoreLocation
 
 class LocationTableViewController: UITableViewController, UISearchResultsUpdating {
     
@@ -14,6 +15,7 @@ class LocationTableViewController: UITableViewController, UISearchResultsUpdatin
         didSet {
             if let validList = listData {
                 NSNotificationCenter.defaultCenter().addObserver(self, selector: "listDataLoaded:", name: "LocationListLoaded", object: validList)
+                NSNotificationCenter.defaultCenter().addObserver(self, selector: "listDataReordered:", name: "LocationListReordered", object: validList)
             }
             if let oldList = oldValue {
                 NSNotificationCenter.defaultCenter().removeObserver(self, name: "LocationListLoaded", object: oldList)
@@ -128,6 +130,43 @@ class LocationTableViewController: UITableViewController, UISearchResultsUpdatin
     
     func listDataLoaded(notification: NSNotification) {
         tableView.reloadData()
+    }
+    
+    func listDataReordered(notification: NSNotification) {
+        guard let validUserInfo = notification.userInfo else {
+            return
+        }
+        guard let initialLocations = validUserInfo["Initial"] as? [String : Int], finalLocations = validUserInfo["Final"] as? [String : Int] else {
+            return
+        }
+        if self.resultSearchController.active {
+            self.tableView.reloadData()
+        } else {
+            self.tableView.beginUpdates()
+            
+            var indexPathsToRemove = [NSIndexPath]()
+            var indexPathsToAdd = [NSIndexPath]()
+            for (locationIdentifier, initialRow) in initialLocations {
+                if let validEndRow = finalLocations[locationIdentifier] {
+                    self.tableView.moveRowAtIndexPath(NSIndexPath(forRow: initialRow, inSection: 0), toIndexPath: NSIndexPath(forRow: validEndRow, inSection: 0))
+                } else {
+                    indexPathsToRemove.append(NSIndexPath(forRow: initialRow, inSection: 0))
+                }
+            }
+            for (locationIdentifier, finalRow) in finalLocations {
+                if initialLocations[locationIdentifier] == nil {
+                    indexPathsToAdd.append(NSIndexPath(forRow: finalRow, inSection: 0))
+                }
+            }
+            if indexPathsToRemove.count > 0 {
+                self.tableView.deleteRowsAtIndexPaths(indexPathsToRemove, withRowAnimation: UITableViewRowAnimation.Right)
+            }
+            if indexPathsToAdd.count > 0 {
+                self.tableView.insertRowsAtIndexPaths(indexPathsToAdd, withRowAnimation: UITableViewRowAnimation.Middle)
+            }
+            
+            self.tableView.endUpdates()
+        }
     }
 
     func applyFilters(notification: NSNotification) {

@@ -9,12 +9,6 @@
 import UIKit
 import CoreLocation
 
-enum SortType: String {
-    case Name = "Name"
-    case Distance = "Distance"
-    case NumOfGames = "Number of Games"
-}
-
 class MapAndListContainerViewController: UIViewController, CLLocationManagerDelegate, UIPopoverPresentationControllerDelegate {
 
     @IBOutlet weak var mapListSegmentedControl: UISegmentedControl!
@@ -27,9 +21,6 @@ class MapAndListContainerViewController: UIViewController, CLLocationManagerDele
     
     var mapViewController: MapViewController?
     var listViewController: LocationTableViewController?
-    
-    var sortOrder = SortType.Name
-    var allAgesFilter = false
 
     let locationManager = CLLocationManager()
 
@@ -65,17 +56,8 @@ class MapAndListContainerViewController: UIViewController, CLLocationManagerDele
         }
         var filterSet = false
         if let validAllAgesFilterChosen = validUserInfo["AllAges"] as? Bool {
-            self.allAgesFilter = validAllAgesFilterChosen
             if validAllAgesFilterChosen {
                 filterSet = true
-            }
-        }
-        if let validSortText = validUserInfo["Sort"] as? String {
-            if let validSortOption = SortType(rawValue: validSortText) {
-                self.sortOrder = validSortOption
-                if validSortOption != .Name {
-                    filterSet = true
-                }
             }
         }
         if filterSet {
@@ -110,8 +92,8 @@ class MapAndListContainerViewController: UIViewController, CLLocationManagerDele
             if let validDestination = segue.destinationViewController as? FilterViewController {
                 validDestination.modalPresentationStyle = UIModalPresentationStyle.Popover
                 validDestination.popoverPresentationController!.delegate = self
-                validDestination.initialSort = self.sortOrder.rawValue
-                validDestination.initialAllAges = self.allAgesFilter
+                validDestination.initialSort = self.listData.sortOrder.rawValue
+                validDestination.initialAllAges = self.listData.allAges
                 validDestination.showSortOptions = self.listViewShowing  //only want to show sort options if the list is showing
                 self.mapListSegmentedControl.enabled = false
             }
