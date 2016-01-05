@@ -9,7 +9,7 @@
 import UIKit
 import CoreLocation
 
-class LocationTableViewController: UITableViewController, UISearchResultsUpdating {
+class LocationTableViewController: UITableViewController, UISearchResultsUpdating, UISearchBarDelegate {
     
     var listData: LocationList? {
         didSet {
@@ -24,6 +24,8 @@ class LocationTableViewController: UITableViewController, UISearchResultsUpdatin
         }
     }
     var filteredList = [Location]()
+    var searchWasActive = false
+    var lastSearch: String?
 
     weak var containingViewController: MapAndListContainerViewController?
     
@@ -36,26 +38,39 @@ class LocationTableViewController: UITableViewController, UISearchResultsUpdatin
         resultSearchController.hidesNavigationBarDuringPresentation = false
         resultSearchController.dimsBackgroundDuringPresentation = false
         resultSearchController.searchBar.sizeToFit()
+        resultSearchController.searchBar.delegate = self
         definesPresentationContext = true
         self.tableView.tableHeaderView = resultSearchController.searchBar
 
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "applyFilters:", name: "FiltersChosen", object: nil)
-    }
-    
-    override func viewWillDisappear(animated: Bool) {
-        super.viewWillDisappear(animated)
-        resultSearchController.searchBar.hidden = true
-    }
-    
-    override func viewWillAppear(animated: Bool) {
-        super.viewWillAppear(animated)
-        resultSearchController.searchBar.hidden = false
     }
 
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
     }
 
+    override func viewDidDisappear(animated: Bool) {
+        super.viewDidDisappear(animated)
+        searchWasActive = resultSearchController.active
+        if searchWasActive {
+            lastSearch = resultSearchController.searchBar.text
+            resultSearchController.active = false
+        }
+    }
+    
+    override func viewWillAppear(animated: Bool) {
+        super.viewWillAppear(animated)
+    }
+
+    override func viewDidAppear(animated: Bool) {
+        if searchWasActive {
+            resultSearchController.searchBar.becomeFirstResponder()
+            searchWasActive = false
+        }
+        super.viewDidAppear(animated)
+    }
+    
+    
     // MARK: - Table view data source
 
     override func numberOfSectionsInTableView(tableView: UITableView) -> Int {
@@ -198,4 +213,8 @@ class LocationTableViewController: UITableViewController, UISearchResultsUpdatin
         return
     }
 
+    
+    func searchBarShouldBeginEditing(searchBar: UISearchBar) -> Bool {
+        return true
+    }
 }

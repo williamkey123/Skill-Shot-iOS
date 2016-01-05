@@ -46,7 +46,7 @@ class LocationDetailViewController: UIViewController, UITableViewDelegate, UITab
             
             if let validPhone = validLocation.formattedPhoneNumber {
                 let phoneURL = NSURL(string: "tel://\(validPhone)")
-                if phoneURL == nil {
+                if phoneURL == nil || validPhone.stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceCharacterSet()) == "" {
                     self.phoneNumberButton.enabled = false
                 }
             } else {
