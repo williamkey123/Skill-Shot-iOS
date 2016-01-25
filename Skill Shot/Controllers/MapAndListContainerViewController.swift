@@ -35,6 +35,12 @@ class MapAndListContainerViewController: UIViewController, CLLocationManagerDele
         }
         self.locationManager.startUpdatingLocation()
         listData.loadList()
+
+        if traitCollection.forceTouchCapability == .Available {
+            if let validListVC = listViewController {
+                registerForPreviewingWithDelegate(validListVC, sourceView: validListVC.view)
+            }
+        }
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "applyFilters:", name: "FiltersChosen", object: nil)
     }
 
@@ -48,6 +54,12 @@ class MapAndListContainerViewController: UIViewController, CLLocationManagerDele
 
     var listViewShowing: Bool {
         return self.mapListSegmentedControl.selectedSegmentIndex == 1
+    }
+    
+    func showListByDistance() {
+        self.mapListSegmentedControl.selectedSegmentIndex = 1
+        self.listViewContainer.hidden = false
+        self.mapViewContainer.hidden = true
     }
     
     func applyFilters(notification: NSNotification) {

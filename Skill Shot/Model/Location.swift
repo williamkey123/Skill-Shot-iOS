@@ -133,7 +133,11 @@ class LocationList: NSObject {
     var allLocations = [Location]()
     var locations = [Location]()
     var loadedData = false
-    var sortOrder: SortType = .Name
+    var sortOrder: SortType = .Name {
+        didSet {
+            self.performSort()
+        }
+    }
     var allAges = false
     var lastUserLocation: CLLocation?
 
@@ -206,6 +210,17 @@ class LocationList: NSObject {
                 self.sortOrder = validSortOption
             }
         }
+        
+        var finalLocations = [String : Int]()
+        for (index, location) in locations.enumerate() {
+            finalLocations[location.identifier] = index
+        }
+        
+        let userInfo: [NSObject : AnyObject] = ["Initial" : initialLocations, "Final" : finalLocations]
+        NSNotificationCenter.defaultCenter().postNotificationName("LocationListReordered", object: self, userInfo: userInfo)
+    }
+    
+    func performSort() {
         switch self.sortOrder {
         case .Name:
             self.locations.sortInPlace { (location1: Location, location2: Location) -> Bool in
@@ -220,13 +235,5 @@ class LocationList: NSObject {
                 location1.numGames > location2.numGames
             }
         }
-        
-        var finalLocations = [String : Int]()
-        for (index, location) in locations.enumerate() {
-            finalLocations[location.identifier] = index
-        }
-        
-        let userInfo: [NSObject : AnyObject] = ["Initial" : initialLocations, "Final" : finalLocations]
-        NSNotificationCenter.defaultCenter().postNotificationName("LocationListReordered", object: self, userInfo: userInfo)
     }
 }
