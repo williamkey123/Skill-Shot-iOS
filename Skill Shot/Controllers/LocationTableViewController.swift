@@ -17,10 +17,12 @@ class LocationTableViewController: UITableViewController, UISearchBarDelegate {
             if let validList = listData {
                 NSNotificationCenter.defaultCenter().addObserver(self, selector: "listDataLoaded:", name: "LocationListLoaded", object: validList)
                 NSNotificationCenter.defaultCenter().addObserver(self, selector: "listDataReordered:", name: "LocationListReordered", object: validList)
+                NSNotificationCenter.defaultCenter().addObserver(self, selector: "listDataLocationsChanged:", name: "LocationListDistancesRecalculated", object: validList)
             }
             if let oldList = oldValue {
                 NSNotificationCenter.defaultCenter().removeObserver(self, name: "LocationListLoaded", object: oldList)
                 NSNotificationCenter.defaultCenter().removeObserver(self, name: "LocationListReordered", object: oldList)
+                NSNotificationCenter.defaultCenter().removeObserver(self, name: "LocationListDistancesRecalculated", object: oldList)
             }
         }
     }
@@ -146,6 +148,12 @@ class LocationTableViewController: UITableViewController, UISearchBarDelegate {
         tableView.reloadData()
     }
     
+    func listDataLocationsChanged(notification: NSNotification) {
+        if let visibleIndexPaths = tableView.indexPathsForVisibleRows {
+            tableView.reloadRowsAtIndexPaths(visibleIndexPaths, withRowAnimation: UITableViewRowAnimation.None)
+        }
+    }
+    
     func listDataReordered(notification: NSNotification) {
         guard let validUserInfo = notification.userInfo else {
             return
@@ -162,7 +170,9 @@ class LocationTableViewController: UITableViewController, UISearchBarDelegate {
             var indexPathsToAdd = [NSIndexPath]()
             for (locationIdentifier, initialRow) in initialLocations {
                 if let validEndRow = finalLocations[locationIdentifier] {
-                    self.tableView.moveRowAtIndexPath(NSIndexPath(forRow: initialRow, inSection: 0), toIndexPath: NSIndexPath(forRow: validEndRow, inSection: 0))
+                    if initialRow != validEndRow {
+                        self.tableView.moveRowAtIndexPath(NSIndexPath(forRow: initialRow, inSection: 0), toIndexPath: NSIndexPath(forRow: validEndRow, inSection: 0))
+                    }
                 } else {
                     indexPathsToRemove.append(NSIndexPath(forRow: initialRow, inSection: 0))
                 }

@@ -182,6 +182,7 @@ class LocationList: NSObject {
         for location in allLocations {
             location.distanceAwayInMiles = userLocation.distanceFromLocation(CLLocation(latitude: location.latitude, longitude: location.longitude)) * 0.000621371
         }
+        NSNotificationCenter.defaultCenter().postNotificationName("LocationListDistancesRecalculated", object: self)
         if self.sortOrder == SortType.Distance {
             let userInfo: [NSObject : AnyObject] = ["Sort" : SortType.Distance.rawValue]
             self.applyFilters(NSNotification(name: "FiltersChosen", object: nil, userInfo: userInfo))
