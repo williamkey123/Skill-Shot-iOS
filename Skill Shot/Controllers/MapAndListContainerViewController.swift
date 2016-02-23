@@ -9,6 +9,11 @@
 import UIKit
 import CoreLocation
 
+enum LocationViewControllerType {
+    case List
+    case Map
+}
+
 class MapAndListContainerViewController: UIViewController, CLLocationManagerDelegate, UIPopoverPresentationControllerDelegate {
 
     @IBOutlet weak var mapListSegmentedControl: UISegmentedControl!
@@ -18,6 +23,8 @@ class MapAndListContainerViewController: UIViewController, CLLocationManagerDele
     
     var listData = LocationList()
     var selectedLocation: Location?
+    
+    var initialContainerView: LocationViewControllerType? = nil
     
     var mapViewController: MapViewController?
     var listViewController: LocationTableViewController?
@@ -42,6 +49,14 @@ class MapAndListContainerViewController: UIViewController, CLLocationManagerDele
             }
         }
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "applyFilters:", name: "FiltersChosen", object: nil)
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: "applicationRelaunched:", name: "ApplicationRelaunched", object: nil)
+    }
+    
+    override func viewWillAppear(animated: Bool) {
+        if let validInitialContainer = initialContainerView {
+            self.showContainerController(validInitialContainer)
+        }
+        self.initialContainerView = nil
     }
 
     override func didReceiveMemoryWarning() {
@@ -55,11 +70,25 @@ class MapAndListContainerViewController: UIViewController, CLLocationManagerDele
     var listViewShowing: Bool {
         return self.mapListSegmentedControl.selectedSegmentIndex == 1
     }
+
+    func showContainerController(container: LocationViewControllerType) {
+        switch container {
+        case .Map:
+            self.mapListSegmentedControl.selectedSegmentIndex = 0
+            self.listViewContainer.hidden = true
+            self.mapViewContainer.hidden = false
+        case .List:
+            self.mapListSegmentedControl.selectedSegmentIndex = 1
+            self.listViewContainer.hidden = false
+            self.mapViewContainer.hidden = true
+        }
+    }
     
-    func showListByDistance() {
-        self.mapListSegmentedControl.selectedSegmentIndex = 1
-        self.listViewContainer.hidden = false
-        self.mapViewContainer.hidden = true
+    func applicationRelaunched(notification: NSNotification) {
+        if let validInitialContainer = initialContainerView {
+            self.showContainerController(validInitialContainer)
+        }
+        self.initialContainerView = nil
     }
     
     func applyFilters(notification: NSNotification) {
@@ -116,15 +145,9 @@ class MapAndListContainerViewController: UIViewController, CLLocationManagerDele
         if self.mapListSegmentedControl.selectedSegmentIndex == 0 {
             self.mapViewContainer.hidden = false
             self.listViewContainer.hidden = true
-//            if let validListViewController = self.listViewController {
-//                validListViewController.resultSearchController.searchBar.hidden = true
-//            }
         } else {
             self.listViewContainer.hidden = false
             self.mapViewContainer.hidden = true
-//            if let validListViewController = self.listViewController {
-//                validListViewController.resultSearchController.searchBar.hidden = false
-//            }
         }
     }
     

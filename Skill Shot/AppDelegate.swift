@@ -34,26 +34,34 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     }
 
     func applicationDidBecomeActive(application: UIApplication) {
+        if let validShortcut = self.launchedShortcutItem {
+            if validShortcut.type == "show_locations" {
+                showListByDistance()
+            }
+            self.launchedShortcutItem = nil
+        }
     }
 
     func applicationWillTerminate(application: UIApplication) {
     }
     
     func application(application: UIApplication, performActionForShortcutItem shortcutItem: UIApplicationShortcutItem, completionHandler: (Bool) -> Void) {
-        if shortcutItem.type == "show_locations" {
-            showListByDistance()
-        }
+        launchedShortcutItem = shortcutItem
         completionHandler(true)
     }
     
     func showListByDistance() {
-        guard let rootNavigationController = window!.rootViewController as? UINavigationController else {
+        guard let validWindow = window else {
+            return
+        }
+        guard let rootNavigationController = validWindow.rootViewController as? UINavigationController else {
             return
         }
         guard let rootMapAndListViewController = rootNavigationController.viewControllers[0] as? MapAndListContainerViewController  else {
             return
         }
         rootNavigationController.popToRootViewControllerAnimated(false)
-        rootMapAndListViewController.showListByDistance()
+        rootMapAndListViewController.initialContainerView = LocationViewControllerType.List
+        NSNotificationCenter.defaultCenter().postNotificationName("ApplicationRelaunched", object: nil)
     }
 }
