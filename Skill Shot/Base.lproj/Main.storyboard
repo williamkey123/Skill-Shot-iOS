@@ -406,19 +406,37 @@
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <mapView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" mapType="standard" rotateEnabled="NO" pitchEnabled="NO" showsUserLocation="YES" showsPointsOfInterest="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Ksl-bs-UAd">
+                            <mapView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" mapType="hybrid" rotateEnabled="NO" pitchEnabled="NO" showsUserLocation="YES" showsPointsOfInterest="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Ksl-bs-UAd">
                                 <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                                 <connections>
                                     <outlet property="delegate" destination="62n-dv-Ue1" id="Wlx-XQ-FVY"/>
                                 </connections>
                             </mapView>
+                            <segmentedControl opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="1" translatesAutoresizingMaskIntoConstraints="NO" id="Xj5-8F-nAZ">
+                                <rect key="frame" x="20" y="552" width="127" height="29"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <segments>
+                                    <segment title="Plain"/>
+                                    <segment title="Satellite"/>
+                                </segments>
+                                <userDefinedRuntimeAttributes>
+                                    <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
+                                        <integer key="value" value="5"/>
+                                    </userDefinedRuntimeAttribute>
+                                </userDefinedRuntimeAttributes>
+                                <connections>
+                                    <action selector="segmentedControlValueChanged:" destination="62n-dv-Ue1" eventType="valueChanged" id="9tm-cY-nkQ"/>
+                                </connections>
+                            </segmentedControl>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
+                            <constraint firstItem="Xj5-8F-nAZ" firstAttribute="leading" secondItem="AbZ-zH-ThZ" secondAttribute="leadingMargin" id="2lC-te-Dd3"/>
                             <constraint firstItem="Ksl-bs-UAd" firstAttribute="leading" secondItem="AbZ-zH-ThZ" secondAttribute="leading" id="76o-as-lOC"/>
                             <constraint firstItem="Ksl-bs-UAd" firstAttribute="top" secondItem="AbZ-zH-ThZ" secondAttribute="top" id="G1F-id-EHB"/>
                             <constraint firstAttribute="bottom" secondItem="Ksl-bs-UAd" secondAttribute="bottom" id="cYi-PF-uiM"/>
                             <constraint firstAttribute="trailing" secondItem="Ksl-bs-UAd" secondAttribute="trailing" id="kju-6G-gBi"/>
+                            <constraint firstItem="UfG-s1-NjV" firstAttribute="top" secondItem="Xj5-8F-nAZ" secondAttribute="bottom" constant="20" id="m3c-Cs-taW"/>
                         </constraints>
                     </view>
                     <connections>

@@ -100,4 +100,14 @@ class MapViewController: UIViewController, MKMapViewDelegate {
             mapView.region = region
         }
     }
+    
+    @IBAction func segmentedControlValueChanged(sender: AnyObject) {
+        if let validSegmentedControl = sender as? UISegmentedControl {
+            if validSegmentedControl.selectedSegmentIndex == 0 {
+                mapView.mapType = MKMapType.Standard
+            } else if validSegmentedControl.selectedSegmentIndex == 1 {
+                mapView.mapType = MKMapType.Hybrid
+            }
+        }
+    }
 }
