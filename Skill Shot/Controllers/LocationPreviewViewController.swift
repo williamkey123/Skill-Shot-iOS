@@ -35,49 +35,49 @@ class LocationPreviewViewController: UIViewController {
         // Dispose of any resources that can be recreated.
     }
     
-    override func previewActionItems() -> [UIPreviewActionItem] {
+    override var previewActionItems : [UIPreviewActionItem] {
         var items = [UIPreviewActionItem]()
         
         if let validLocation = displayedLocation {
             if let validPhone = validLocation.formattedPhoneNumber,
-                validUnformattedPhone = validLocation.phone,
-                phoneURL = NSURL(string: "tel://\(validPhone)")
+                let validUnformattedPhone = validLocation.phone,
+                let phoneURL = URL(string: "tel://\(validPhone)")
             {
-                if validPhone.stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceCharacterSet()) != "" {
-                    let phonePreviewItem = UIPreviewAction(title: "Call \(validUnformattedPhone)", style: UIPreviewActionStyle.Default, handler: {
+                if validPhone.trimmingCharacters(in: CharacterSet.whitespaces) != "" {
+                    let phonePreviewItem = UIPreviewAction(title: "Call \(validUnformattedPhone)", style: UIPreviewActionStyle.default, handler: {
                         (action: UIPreviewAction, controller: UIViewController) -> Void in
-                        UIApplication.sharedApplication().openURL(phoneURL)
+                        UIApplication.shared.open(phoneURL, options: [String : Any](), completionHandler: nil)
                     })
                     items.append(phonePreviewItem)
                 }
             }
             
-            if let validWebsite = validLocation.URL, webURL = NSURL(string: validWebsite) {
-                if validWebsite.stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceCharacterSet()) != "" {
-                    let webPreviewItem = UIPreviewAction(title: "Visit Website", style: UIPreviewActionStyle.Default, handler: {
+            if let validWebsite = validLocation.URL, let webURL = URL(string: validWebsite) {
+                if validWebsite.trimmingCharacters(in: CharacterSet.whitespaces) != "" {
+                    let webPreviewItem = UIPreviewAction(title: "Visit Website", style: UIPreviewActionStyle.default, handler: {
                         (action: UIPreviewAction, controller: UIViewController) -> Void in
-                        UIApplication.sharedApplication().openURL(webURL)
+                        UIApplication.shared.open(webURL, options: [String : Any](), completionHandler: nil)
                     })
                     items.append(webPreviewItem)
                 }
             }
             
-            let mapPreviewItem = UIPreviewAction(title: "View On Map", style: UIPreviewActionStyle.Default, handler: {
+            let mapPreviewItem = UIPreviewAction(title: "View in Maps", style: UIPreviewActionStyle.default, handler: {
                 (action: UIPreviewAction, controller:UIViewController) -> Void in
                 var addressDictionary = [String : AnyObject]()
                 if let validAddress = validLocation.address {
-                    addressDictionary[CNPostalAddressStreetKey] = validAddress
+                    addressDictionary[CNPostalAddressStreetKey] = validAddress as AnyObject
                 }
                 if let validCity = validLocation.city {
-                    addressDictionary[CNPostalAddressCityKey] = validCity
+                    addressDictionary[CNPostalAddressCityKey] = validCity as AnyObject
                 }
                 if let validPostalCode = validLocation.postalCode {
-                    addressDictionary[CNPostalAddressPostalCodeKey] = validPostalCode
+                    addressDictionary[CNPostalAddressPostalCodeKey] = validPostalCode as AnyObject
                 }
                 let mapPlacemark = MKPlacemark(coordinate: CLLocationCoordinate2D(latitude: validLocation.latitude, longitude: validLocation.longitude), addressDictionary: addressDictionary)
                 let mapItem = MKMapItem(placemark: mapPlacemark)
                 mapItem.name = validLocation.name
-                mapItem.openInMapsWithLaunchOptions(nil)
+                mapItem.openInMaps(launchOptions: nil)
             })
             items.append(mapPreviewItem)
         }

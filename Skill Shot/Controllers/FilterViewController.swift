@@ -26,13 +26,13 @@ class FilterViewController: UIViewController, UITextFieldDelegate, UIPickerViewD
         sortTextField.inputView = self.keyboardPickerView
         sortTextField.inputAccessoryView = self.keyboardAccessoryView
         sortTextField.text = self.initialSort
-        allAgesSwitch.on = self.initialAllAges
+        allAgesSwitch.isOn = self.initialAllAges
         if showSortOptions {
-            sortLabel.hidden = false
-            sortTextField.hidden = false
+            sortLabel.isHidden = false
+            sortTextField.isHidden = false
         } else {
-            sortLabel.hidden = true
-            sortTextField.hidden = true
+            sortLabel.isHidden = true
+            sortTextField.isHidden = true
         }
     }
 
@@ -45,18 +45,18 @@ class FilterViewController: UIViewController, UITextFieldDelegate, UIPickerViewD
         if let selectedSort = self.sortTextField.text {
             sortField = selectedSort
         }
-        let userInfo: [NSObject : AnyObject] = ["Sort" : sortField, "AllAges" : allAgesSwitch.on]
-        NSNotificationCenter.defaultCenter().postNotificationName("FiltersChosen", object: nil, userInfo: userInfo)
+        let userInfo: [AnyHashable: Any] = ["Sort" : sortField, "AllAges" : allAgesSwitch.isOn]
+        NotificationCenter.default.post(name: Notification.Name(rawValue: "FiltersChosen"), object: nil, userInfo: userInfo)
     }
     
     // MARK: - IBActions
 
-    @IBAction func allAgesSwitchFlipped(sender: AnyObject) {
+    @IBAction func allAgesSwitchFlipped(_ sender: AnyObject) {
         self.postFilterNotification()
     }
     
-    @IBAction func doneButtonTapped(sender: AnyObject) {
-        let selectedItem = self.keyboardPickerView.selectedRowInComponent(0)
+    @IBAction func doneButtonTapped(_ sender: AnyObject) {
+        let selectedItem = self.keyboardPickerView.selectedRow(inComponent: 0)
         if selectedItem < self.sortOptions.count {
             sortTextField.text = self.sortOptions[selectedItem]
         }
@@ -66,9 +66,9 @@ class FilterViewController: UIViewController, UITextFieldDelegate, UIPickerViewD
 
     // MARK: - UITextFieldDelegate functions
 
-    func textFieldShouldBeginEditing(textField: UITextField) -> Bool {
+    func textFieldShouldBeginEditing(_ textField: UITextField) -> Bool {
         if let sortText = sortTextField.text {
-            if let validIndex = self.sortOptions.indexOf(sortText) {
+            if let validIndex = self.sortOptions.index(of: sortText) {
                 self.keyboardPickerView.selectRow(validIndex, inComponent: 0, animated: false)
             }
         }
@@ -78,19 +78,19 @@ class FilterViewController: UIViewController, UITextFieldDelegate, UIPickerViewD
 
     // MARK: - UIPickerViewDataSource functions
 
-    func pickerView(pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
+    func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
         return sortOptions.count
     }
 
-    func numberOfComponentsInPickerView(pickerView: UIPickerView) -> Int {
+    func numberOfComponents(in pickerView: UIPickerView) -> Int {
         return 1
     }
     
-    func pickerView(pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
+    func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
         return sortOptions[row]
     }
     
-    func pickerView(pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
+    func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
         self.sortTextField.text = self.sortOptions[row]
         self.postFilterNotification()
     }

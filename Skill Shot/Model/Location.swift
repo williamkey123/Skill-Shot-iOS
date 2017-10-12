@@ -9,6 +9,19 @@
 import Foundation
 import Alamofire
 import MapKit
+// FIXME: comparison operators with optionals were removed from the Swift Standard Libary.
+// Consider refactoring the code to use the non-optional operators.
+fileprivate func < <T : Comparable>(lhs: T?, rhs: T?) -> Bool {
+  switch (lhs, rhs) {
+  case let (l?, r?):
+    return l < r
+  case (nil, _?):
+    return true
+  default:
+    return false
+  }
+}
+
 
 class Location: NSObject, MKAnnotation {
     var identifier: String
@@ -47,7 +60,7 @@ class Location: NSObject, MKAnnotation {
         guard let validPhone = phone else {
             return nil
         }
-        return validPhone.componentsSeparatedByCharactersInSet(NSCharacterSet.decimalDigitCharacterSet().invertedSet).joinWithSeparator("")
+        return validPhone.components(separatedBy: CharacterSet.decimalDigits.inverted).joined(separator: "")
     }
     
     required init(identifier: String, name: String, latitude: Double, longitude: Double, allAges: Bool = false, numGames: Int = 0) {
@@ -59,7 +72,7 @@ class Location: NSObject, MKAnnotation {
         self.numGames = numGames
     }
 
-    func setDetails(serverData: [String: AnyObject]) {
+    func setDetails(_ serverData: [String: AnyObject]) {
         if let validAddress = serverData["address"] as? String {
             self.address = validAddress
         }
@@ -87,8 +100,8 @@ class Location: NSObject, MKAnnotation {
         if let validMachines = serverData["machines"] as? [[String : AnyObject]] {
             var machineList = [Machine]()
             for machineData in validMachines {
-                if let validMachineIdentifier = machineData["id"] as? Int, validTitleData = machineData["title"] as? [String : AnyObject] {
-                    if let validTitleIdentifier = validTitleData["id"] as? Int, validTitleName = validTitleData["name"] as? String {
+                if let validMachineIdentifier = machineData["id"] as? Int, let validTitleData = machineData["title"] as? [String : AnyObject] {
+                    if let validTitleIdentifier = validTitleData["id"] as? Int, let validTitleName = validTitleData["name"] as? String {
                         let newMachine = Machine(identifier: validMachineIdentifier, titleIdentifier: validTitleIdentifier, titleName: validTitleName)
                         machineList.append(newMachine)
                     }
@@ -99,26 +112,27 @@ class Location: NSObject, MKAnnotation {
     }
     
     func loadDetails() {
-        Alamofire.request(.GET, "\(baseAPI)locations/\(self.identifier).json").responseJSON { response in
+        Alamofire.request("\(baseAPI)locations/\(self.identifier).json").responseJSON { response in
             guard response.result.isSuccess else {
                 return
             }
             if let validLocationData = response.result.value as? [String : AnyObject] {
-                if let _ = validLocationData["id"] as? String, _ = validLocationData["name"] as? String,
-                    _ = validLocationData["latitude"] as? Double, _ = validLocationData["longitude"] as? Double
+                if let _ = validLocationData["id"] as? String, let _ = validLocationData["name"] as? String,
+                    let _ = validLocationData["latitude"] as? Double, let _ = validLocationData["longitude"] as? Double
                 {
                     self.setDetails(validLocationData)
                 }
             }
-            NSNotificationCenter.defaultCenter().postNotificationName("LocationDetailsLoaded", object: self)
+            NotificationCenter.default.post(name: Notification.Name("LocationDetailsLoaded"), object: self)
         }
     }
     
-    func matchesSearchString(searchString: String) -> Bool {
-        let lowercaseSearch = searchString.lowercaseString
-        if self.name.lowercaseString.rangeOfString(lowercaseSearch) != nil {
+    func matchesSearchString(_ searchString: String) -> Bool {
+        let lowercaseSearch = searchString.lowercased()
+        if self.name.lowercased().range(of: lowercaseSearch) != nil {
             return true
         }
+        
         return false
     }
 }
@@ -141,21 +155,23 @@ class LocationList: NSObject {
     var allAges = false
     var lastUserLocation: CLLocation?
 
+    static var MinimumDistanceToTriggerUIUpdate: CLLocationDistance = 100.0
+
     override init() {
         super.init()
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: "applyFilters:", name: "FiltersChosen", object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(LocationList.applyFilters(_:)), name: NSNotification.Name(rawValue: "FiltersChosen"), object: nil)
     }
     
     func loadList() {
-        Alamofire.request(.GET, "\(baseAPI)locations.json").responseJSON { response in
+        Alamofire.request("\(baseAPI)locations/for_wordpress.json").responseJSON { response in
             guard response.result.isSuccess else {
                 return
             }
             self.loadedData = true
             if let validLocationData = response.result.value as? [[String : AnyObject]] {
                 for locationData in validLocationData {
-                    if let validIdentifier = locationData["id"] as? String, validName = locationData["name"] as? String,
-                        validLat = locationData["latitude"] as? Double, validLon = locationData["longitude"] as? Double
+                    if let validIdentifier = locationData["id"] as? String, let validName = locationData["name"] as? String,
+                        let validLat = locationData["latitude"] as? Double, let validLon = locationData["longitude"] as? Double
                     {
                         let newLocation = Location(identifier: validIdentifier, name: validName, latitude: validLat, longitude: validLon)
                         newLocation.setDetails(locationData)
@@ -167,34 +183,39 @@ class LocationList: NSObject {
                     self.updateLocationsWithDistancesFromUserLocation(initialUserLocation)
                 }
             }
-            NSNotificationCenter.defaultCenter().postNotificationName("LocationListLoaded", object: self)
+            NotificationCenter.default.post(name: Notification.Name("LocationListLoaded"), object: self)
         }
     }
     
-    func updateLocationsWithDistancesFromUserLocation(userLocation: CLLocation) {
+    func updateLocationsWithDistancesFromUserLocation(_ userLocation: CLLocation) {
         guard loadedData == true else {
             return
         }
-        if self.lastUserLocation == nil {
+        if let lastUserLocation = self.lastUserLocation {
+            guard lastUserLocation.distance(from: userLocation) > LocationList.MinimumDistanceToTriggerUIUpdate else {
+                print("Only moved \(lastUserLocation.distance(from: userLocation))")
+                return
+            }
+        } else {
             self.sortOrder = SortType.Distance
         }
         self.lastUserLocation = userLocation
         for location in allLocations {
-            location.distanceAwayInMiles = userLocation.distanceFromLocation(CLLocation(latitude: location.latitude, longitude: location.longitude)) * 0.000621371
+            location.distanceAwayInMiles = userLocation.distance(from: CLLocation(latitude: location.latitude, longitude: location.longitude)) * 0.000621371
         }
-        NSNotificationCenter.defaultCenter().postNotificationName("LocationListDistancesRecalculated", object: self)
+        NotificationCenter.default.post(name: Notification.Name(rawValue: "LocationListDistancesRecalculated"), object: self)
         if self.sortOrder == SortType.Distance {
-            let userInfo: [NSObject : AnyObject] = ["Sort" : SortType.Distance.rawValue]
-            self.applyFilters(NSNotification(name: "FiltersChosen", object: nil, userInfo: userInfo))
+            let userInfo: [AnyHashable: Any] = ["Sort" : SortType.Distance.rawValue]
+            self.applyFilters(Notification(name: Notification.Name(rawValue: "FiltersChosen"), object: nil, userInfo: userInfo))
         }
     }
     
-    func applyFilters(notification: NSNotification) {
+    @objc func applyFilters(_ notification: Notification) {
         guard let validUserInfo = notification.userInfo else {
             return
         }
         var initialLocations = [String : Int]()
-        for (index, location) in locations.enumerate() {
+        for (index, location) in locations.enumerated() {
             initialLocations[location.identifier] = index
         }
         self.locations = [Location]()
@@ -213,26 +234,26 @@ class LocationList: NSObject {
         }
         
         var finalLocations = [String : Int]()
-        for (index, location) in locations.enumerate() {
+        for (index, location) in locations.enumerated() {
             finalLocations[location.identifier] = index
         }
         
-        let userInfo: [NSObject : AnyObject] = ["Initial" : initialLocations, "Final" : finalLocations]
-        NSNotificationCenter.defaultCenter().postNotificationName("LocationListReordered", object: self, userInfo: userInfo)
+        let userInfo: [AnyHashable: Any] = ["Initial" : initialLocations, "Final" : finalLocations]
+        NotificationCenter.default.post(name: Notification.Name(rawValue: "LocationListReordered"), object: self, userInfo: userInfo)
     }
     
     func performSort() {
         switch self.sortOrder {
         case .Name:
-            self.locations.sortInPlace { (location1: Location, location2: Location) -> Bool in
-                location1.name.compare(location2.name) == NSComparisonResult.OrderedAscending
+            self.locations.sort { (location1: Location, location2: Location) -> Bool in
+                location1.name.compare(location2.name) == ComparisonResult.orderedAscending
             }
         case .Distance:
-            self.locations.sortInPlace { (location1: Location, location2: Location) -> Bool in
+            self.locations.sort { (location1: Location, location2: Location) -> Bool in
                 location1.distanceAwayInMiles < location2.distanceAwayInMiles
             }
         case .NumOfGames:
-            self.locations.sortInPlace { (location1: Location, location2: Location) -> Bool in
+            self.locations.sort { (location1: Location, location2: Location) -> Bool in
                 location1.numGames > location2.numGames
             }
         }

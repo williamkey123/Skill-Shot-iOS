@@ -9,6 +9,19 @@
 import UIKit
 import MapKit
 import Contacts
+// FIXME: comparison operators with optionals were removed from the Swift Standard Libary.
+// Consider refactoring the code to use the non-optional operators.
+fileprivate func < <T : Comparable>(lhs: T?, rhs: T?) -> Bool {
+  switch (lhs, rhs) {
+  case let (l?, r?):
+    return l < r
+  case (nil, _?):
+    return true
+  default:
+    return false
+  }
+}
+
 
 class LocationDetailViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
     @IBOutlet weak var venueNameLabel: UILabel!
@@ -25,10 +38,10 @@ class LocationDetailViewController: UIViewController, UITableViewDelegate, UITab
     var displayedLocation: Location? {
         didSet {
             if let validLocation = displayedLocation {
-                NSNotificationCenter.defaultCenter().addObserver(self, selector: "locationDetailsLoaded:", name: "LocationDetailsLoaded", object: validLocation)
+                NotificationCenter.default.addObserver(self, selector: #selector(LocationDetailViewController.locationDetailsLoaded(_:)), name: NSNotification.Name(rawValue: "LocationDetailsLoaded"), object: validLocation)
             }
             if let validOldLocation = oldValue {
-                NSNotificationCenter.defaultCenter().removeObserver(self, name: "LocationDetailsLoaded", object: validOldLocation)
+                NotificationCenter.default.removeObserver(self, name: NSNotification.Name(rawValue: "LocationDetailsLoaded"), object: validOldLocation)
             }
         }
     }
@@ -45,21 +58,21 @@ class LocationDetailViewController: UIViewController, UITableViewDelegate, UITab
             phoneNumberLabel.text = validLocation.phone
             
             if let validPhone = validLocation.formattedPhoneNumber {
-                let phoneURL = NSURL(string: "tel://\(validPhone)")
-                if phoneURL == nil || validPhone.stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceCharacterSet()) == "" {
-                    self.phoneNumberButton.enabled = false
+                let phoneURL = URL(string: "tel://\(validPhone)")
+                if phoneURL == nil || validPhone.trimmingCharacters(in: CharacterSet.whitespaces) == "" {
+                    self.phoneNumberButton.isEnabled = false
                 }
             } else {
-                self.phoneNumberButton.enabled = false
+                self.phoneNumberButton.isEnabled = false
             }
 
             if let validWebsite = validLocation.URL {
-                let webURL = NSURL(string: validWebsite)
-                if webURL == nil || validWebsite.stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceCharacterSet()) == "" {
-                    self.webButton.enabled = false
+                let webURL = URL(string: validWebsite)
+                if webURL == nil || validWebsite.trimmingCharacters(in: CharacterSet.whitespaces) == "" {
+                    self.webButton.isEnabled = false
                 }
             } else {
-                self.webButton.enabled = false
+                self.webButton.isEnabled = false
             }
         }
         self.initiallyLoaded = true
@@ -69,7 +82,7 @@ class LocationDetailViewController: UIViewController, UITableViewDelegate, UITab
         super.didReceiveMemoryWarning()
     }
 
-    func locationDetailsLoaded(notification: NSNotification) {
+    @objc func locationDetailsLoaded(_ notification: Notification) {
         if self.initiallyLoaded {
             //We are checking if it has been initially loaded, because since the web service to show detail is run before the view is on the screen, it's 
             //possible that we get a response before the view is fully set up.
@@ -79,63 +92,63 @@ class LocationDetailViewController: UIViewController, UITableViewDelegate, UITab
 
     // MARK: - IBActions
 
-    @IBAction func phoneButtonTapped(sender: AnyObject) {
+    @IBAction func phoneButtonTapped(_ sender: AnyObject) {
         guard let validLocation = displayedLocation else {
             return
         }
         guard let validPhone = validLocation.formattedPhoneNumber else {
             return
         }
-        if let phoneURL = NSURL(string: "tel://\(validPhone)") {
-            UIApplication.sharedApplication().openURL(phoneURL)
+        if let phoneURL = URL(string: "tel://\(validPhone)") {
+            UIApplication.shared.open(phoneURL, options: [String : Any](), completionHandler: nil)
         }
     }
     
-    @IBAction func webButtonTapped(sender: AnyObject) {
+    @IBAction func webButtonTapped(_ sender: AnyObject) {
         guard let validLocation = displayedLocation else {
             return
         }
         guard let validURL = validLocation.URL else {
             return
         }
-        if let webURL = NSURL(string: validURL) {
-            UIApplication.sharedApplication().openURL(webURL)
+        if let webURL = URL(string: validURL) {
+            UIApplication.shared.open(webURL, options: [String : Any](), completionHandler: nil)
         }
     }
     
-    @IBAction func mapButtonTapped(sender: AnyObject) {
+    @IBAction func mapButtonTapped(_ sender: AnyObject) {
         guard let validLocation = displayedLocation else {
             return
         }
         
         var addressDictionary = [String : AnyObject]()
         if let validAddress = validLocation.address {
-            addressDictionary[CNPostalAddressStreetKey] = validAddress
+            addressDictionary[CNPostalAddressStreetKey] = validAddress as AnyObject
         }
         if let validCity = validLocation.city {
-            addressDictionary[CNPostalAddressCityKey] = validCity
+            addressDictionary[CNPostalAddressCityKey] = validCity as AnyObject
         }
         if let validPostalCode = validLocation.postalCode {
-            addressDictionary[CNPostalAddressPostalCodeKey] = validPostalCode
+            addressDictionary[CNPostalAddressPostalCodeKey] = validPostalCode as AnyObject
         }
         let mapPlacemark = MKPlacemark(coordinate: CLLocationCoordinate2D(latitude: validLocation.latitude, longitude: validLocation.longitude), addressDictionary: addressDictionary)
         let mapItem = MKMapItem(placemark: mapPlacemark)
         mapItem.name = validLocation.name
-        mapItem.openInMapsWithLaunchOptions(nil)
+        mapItem.openInMaps(launchOptions: nil)
     }
 
 
     // MARK: - UITableViewDelegate and UITableViewDataSource functions
     
-    func numberOfSectionsInTableView(tableView: UITableView) -> Int {
+    func numberOfSections(in tableView: UITableView) -> Int {
         return 1
     }
     
-    func tableView(tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+    func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
         return "Games"
     }
     
-    func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         if let validLocation = displayedLocation {
             if let validMachines = validLocation.machines {
                 return validMachines.count
@@ -147,7 +160,7 @@ class LocationDetailViewController: UIViewController, UITableViewDelegate, UITab
         }
     }
     
-    func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         guard let validLocation = displayedLocation else {
             return UITableViewCell()
         }
@@ -155,7 +168,7 @@ class LocationDetailViewController: UIViewController, UITableViewDelegate, UITab
         if let _ = validLocation.machines {
             validIdentifier = "GameCell"
         }
-        let cell = tableView.dequeueReusableCellWithIdentifier(validIdentifier, forIndexPath: indexPath)
+        let cell = tableView.dequeueReusableCell(withIdentifier: validIdentifier, for: indexPath)
         if validIdentifier == "GameCell" {
             if indexPath.row < validLocation.machines?.count {
                 cell.textLabel!.text = validLocation.machines![indexPath.row].title.name

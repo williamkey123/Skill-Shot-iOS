@@ -9,10 +9,10 @@
 import UIKit
 
 extension LocationTableViewController: UIViewControllerPreviewingDelegate {
-    func previewingContext(previewingContext: UIViewControllerPreviewing, viewControllerForLocation location: CGPoint) -> UIViewController? {
-        guard let indexPath = tableView.indexPathForRowAtPoint(location),
-            cell = tableView.cellForRowAtIndexPath(indexPath),
-            validData = self.listData, validParentVC = containingViewController else
+    func previewingContext(_ previewingContext: UIViewControllerPreviewing, viewControllerForLocation location: CGPoint) -> UIViewController? {
+        guard let indexPath = tableView.indexPathForRow(at: location),
+            let cell = tableView.cellForRow(at: indexPath),
+            let validData = self.listData, let validParentVC = containingViewController else
         {
             return nil
         }
@@ -27,7 +27,7 @@ extension LocationTableViewController: UIViewControllerPreviewingDelegate {
         }
 
         // Create a detail view controller and set its properties.
-        guard let detailViewController = storyboard?.instantiateViewControllerWithIdentifier("VenueDetailPreview") as? LocationPreviewViewController else {
+        guard let detailViewController = storyboard?.instantiateViewController(withIdentifier: "VenueDetailPreview") as? LocationPreviewViewController else {
             return nil
         }
         detailViewController.displayedLocation = selectedLocation
@@ -40,12 +40,12 @@ extension LocationTableViewController: UIViewControllerPreviewingDelegate {
         return detailViewController
     }
     
-    func previewingContext(previewingContext: UIViewControllerPreviewing, commitViewController viewControllerToCommit: UIViewController) {
+    func previewingContext(_ previewingContext: UIViewControllerPreviewing, commit viewControllerToCommit: UIViewController) {
         guard let validParentVC = containingViewController else {
             return
         }
 
-        validParentVC.performSegueWithIdentifier("showLocationDetails", sender: validParentVC)
+        validParentVC.performSegue(withIdentifier: "showLocationDetails", sender: validParentVC)
 //        validParentVC.showViewController(viewControllerToCommit, sender: validParentVC)
     }
 }

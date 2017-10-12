@@ -18,12 +18,12 @@ class MapViewController: UIViewController, MKMapViewDelegate {
     var listData: LocationList? {
         didSet {
             if let validList = listData {
-                NSNotificationCenter.defaultCenter().addObserver(self, selector: "listDataLoaded:", name: "LocationListLoaded", object: validList)
-                NSNotificationCenter.defaultCenter().addObserver(self, selector: "listDataLoaded:", name: "LocationListReordered", object: validList)
+                NotificationCenter.default.addObserver(self, selector: #selector(MapViewController.listDataLoaded(_:)), name: NSNotification.Name(rawValue: "LocationListLoaded"), object: validList)
+                NotificationCenter.default.addObserver(self, selector: #selector(MapViewController.listDataLoaded(_:)), name: NSNotification.Name(rawValue: "LocationListReordered"), object: validList)
             }
             if let oldList = oldValue {
-                NSNotificationCenter.defaultCenter().removeObserver(self, name: "LocationListLoaded", object: oldList)
-                NSNotificationCenter.defaultCenter().removeObserver(self, name: "LocationListReordered", object: oldList)
+                NotificationCenter.default.removeObserver(self, name: NSNotification.Name(rawValue: "LocationListLoaded"), object: oldList)
+                NotificationCenter.default.removeObserver(self, name: NSNotification.Name(rawValue: "LocationListReordered"), object: oldList)
             }
         }
     }
@@ -43,7 +43,7 @@ class MapViewController: UIViewController, MKMapViewDelegate {
         super.didReceiveMemoryWarning()
     }
     
-    func listDataLoaded(notification: NSNotification) {
+    @objc func listDataLoaded(_ notification: Notification) {
         if let validData = listData {
             var annotationsToRemove = [MKAnnotation]()
             var annotationsToAdd = [MKAnnotation]()
@@ -71,29 +71,30 @@ class MapViewController: UIViewController, MKMapViewDelegate {
         }
     }
     
-    func mapView(mapView: MKMapView, viewForAnnotation annotation: MKAnnotation) -> MKAnnotationView? {
+    func mapView(_ mapView: MKMapView, viewFor annotation: MKAnnotation) -> MKAnnotationView? {
         if annotation === mapView.userLocation {
             return nil
         }
-        if let annotationView = mapView.dequeueReusableAnnotationViewWithIdentifier("LocationIdetifier") {
+        if let annotationView = mapView.dequeueReusableAnnotationView(withIdentifier: "LocationIdetifier") {
             annotationView.annotation = annotation
             return annotationView
         } else {
             let annotationView = MKPinAnnotationView(annotation: annotation, reuseIdentifier: "LocationIdetifier")
             annotationView.canShowCallout = true
-            annotationView.rightCalloutAccessoryView = UIButton(type: UIButtonType.DetailDisclosure)
+            annotationView.rightCalloutAccessoryView = UIButton(type: UIButtonType.detailDisclosure)
+            annotationView.pinTintColor = UIColor(red: 247/255.0, green: 174/255.0, blue: 0.0, alpha: 1.0)
             return annotationView
         }
     }
     
-    func mapView(mapView: MKMapView, annotationView view: MKAnnotationView, calloutAccessoryControlTapped control: UIControl) {
-        if let validParentVC = containingViewController, validLocation = view.annotation as? Location {
+    func mapView(_ mapView: MKMapView, annotationView view: MKAnnotationView, calloutAccessoryControlTapped control: UIControl) {
+        if let validParentVC = containingViewController, let validLocation = view.annotation as? Location {
             validParentVC.selectedLocation = validLocation
-            validParentVC.performSegueWithIdentifier("showLocationDetails", sender: nil)
+            validParentVC.performSegue(withIdentifier: "showLocationDetails", sender: nil)
         }
     }
     
-    func mapView(mapView: MKMapView, didUpdateUserLocation userLocation: MKUserLocation) {
+    func mapView(_ mapView: MKMapView, didUpdate userLocation: MKUserLocation) {
         if initialUserLocation == nil {
             initialUserLocation = userLocation.coordinate
             let region = MKCoordinateRegionMake(userLocation.coordinate, MKCoordinateSpanMake(0.083, 0.07))
@@ -101,12 +102,12 @@ class MapViewController: UIViewController, MKMapViewDelegate {
         }
     }
     
-    @IBAction func segmentedControlValueChanged(sender: AnyObject) {
+    @IBAction func segmentedControlValueChanged(_ sender: AnyObject) {
         if let validSegmentedControl = sender as? UISegmentedControl {
             if validSegmentedControl.selectedSegmentIndex == 0 {
-                mapView.mapType = MKMapType.Standard
+                mapView.mapType = MKMapType.standard
             } else if validSegmentedControl.selectedSegmentIndex == 1 {
-                mapView.mapType = MKMapType.Hybrid
+                mapView.mapType = MKMapType.hybrid
             }
         }
     }

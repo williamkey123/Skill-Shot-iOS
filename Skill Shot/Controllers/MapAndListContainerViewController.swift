@@ -10,8 +10,8 @@ import UIKit
 import CoreLocation
 
 enum LocationViewControllerType {
-    case List
-    case Map
+    case list
+    case map
 }
 
 class MapAndListContainerViewController: UIViewController, CLLocationManagerDelegate, UIPopoverPresentationControllerDelegate {
@@ -37,22 +37,22 @@ class MapAndListContainerViewController: UIViewController, CLLocationManagerDele
         self.locationManager.delegate = self
         self.locationManager.desiredAccuracy = kCLLocationAccuracyNearestTenMeters
         let authorizationStatus = CLLocationManager.authorizationStatus()
-        if authorizationStatus == CLAuthorizationStatus.NotDetermined {
+        if authorizationStatus == CLAuthorizationStatus.notDetermined {
             self.locationManager.requestWhenInUseAuthorization()
         }
         self.locationManager.startUpdatingLocation()
         listData.loadList()
 
-        if traitCollection.forceTouchCapability == .Available {
+        if traitCollection.forceTouchCapability == .available {
             if let validListVC = listViewController {
-                registerForPreviewingWithDelegate(validListVC, sourceView: validListVC.view)
+                registerForPreviewing(with: validListVC, sourceView: validListVC.view)
             }
         }
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: "applyFilters:", name: "FiltersChosen", object: nil)
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: "applicationRelaunched:", name: "ApplicationRelaunched", object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(MapAndListContainerViewController.applyFilters(_:)), name: NSNotification.Name(rawValue: "FiltersChosen"), object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(MapAndListContainerViewController.applicationRelaunched(_:)), name: NSNotification.Name(rawValue: "ApplicationRelaunched"), object: nil)
     }
     
-    override func viewWillAppear(animated: Bool) {
+    override func viewWillAppear(_ animated: Bool) {
         if let validInitialContainer = initialContainerView {
             self.showContainerController(validInitialContainer)
         }
@@ -71,27 +71,27 @@ class MapAndListContainerViewController: UIViewController, CLLocationManagerDele
         return self.mapListSegmentedControl.selectedSegmentIndex == 1
     }
 
-    func showContainerController(container: LocationViewControllerType) {
+    func showContainerController(_ container: LocationViewControllerType) {
         switch container {
-        case .Map:
+        case .map:
             self.mapListSegmentedControl.selectedSegmentIndex = 0
-            self.listViewContainer.hidden = true
-            self.mapViewContainer.hidden = false
-        case .List:
+            self.listViewContainer.isHidden = true
+            self.mapViewContainer.isHidden = false
+        case .list:
             self.mapListSegmentedControl.selectedSegmentIndex = 1
-            self.listViewContainer.hidden = false
-            self.mapViewContainer.hidden = true
+            self.listViewContainer.isHidden = false
+            self.mapViewContainer.isHidden = true
         }
     }
     
-    func applicationRelaunched(notification: NSNotification) {
+    @objc func applicationRelaunched(_ notification: Notification) {
         if let validInitialContainer = initialContainerView {
             self.showContainerController(validInitialContainer)
         }
         self.initialContainerView = nil
     }
     
-    func applyFilters(notification: NSNotification) {
+    @objc func applyFilters(_ notification: Notification) {
         guard let validUserInfo = notification.userInfo else {
             return
         }
@@ -111,57 +111,60 @@ class MapAndListContainerViewController: UIViewController, CLLocationManagerDele
 
     // MARK: - Navigation
 
-    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "showMap" {
-            if let validDestination = segue.destinationViewController as? MapViewController {
+            if let validDestination = segue.destination as? MapViewController {
                 validDestination.listData = self.listData
                 validDestination.containingViewController = self
                 self.mapViewController = validDestination
             }
         } else if segue.identifier == "showList" {
-            if let validDestination = segue.destinationViewController as? LocationTableViewController {
+            if let validDestination = segue.destination as? LocationTableViewController {
                 validDestination.listData = self.listData
                 validDestination.containingViewController = self
                 self.listViewController = validDestination
             }
         } else if segue.identifier == "showLocationDetails" {
-            if let validDestination = segue.destinationViewController as? LocationDetailViewController {
+            if let validDestination = segue.destination as? LocationDetailViewController {
                 validDestination.displayedLocation = self.selectedLocation
                 self.selectedLocation?.loadDetails()
             }
         } else if segue.identifier == "showFilters" {
-            if let validDestination = segue.destinationViewController as? FilterViewController {
-                validDestination.modalPresentationStyle = UIModalPresentationStyle.Popover
+            if let validDestination = segue.destination as? FilterViewController {
+                validDestination.modalPresentationStyle = UIModalPresentationStyle.popover
                 validDestination.popoverPresentationController!.delegate = self
                 validDestination.initialSort = self.listData.sortOrder.rawValue
                 validDestination.initialAllAges = self.listData.allAges
                 validDestination.showSortOptions = self.listViewShowing  //only want to show sort options if the list is showing
-                self.mapListSegmentedControl.enabled = false
+                self.mapListSegmentedControl.isEnabled = false
             }
         }
     }
 
-    @IBAction func mapListSegmentedControlChanged(sender: AnyObject) {
+    @IBAction func mapListSegmentedControlChanged(_ sender: AnyObject) {
         if self.mapListSegmentedControl.selectedSegmentIndex == 0 {
-            self.mapViewContainer.hidden = false
-            self.listViewContainer.hidden = true
+            self.mapViewContainer.isHidden = false
+            self.listViewContainer.isHidden = true
         } else {
-            self.listViewContainer.hidden = false
-            self.mapViewContainer.hidden = true
+            self.listViewContainer.isHidden = false
+            self.mapViewContainer.isHidden = true
         }
     }
-    
-    func locationManager(manager: CLLocationManager, didUpdateToLocation newLocation: CLLocation, fromLocation oldLocation: CLLocation) {
+
+    func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
+        guard let newLocation = locations.last else {
+            return
+        }
         listData.updateLocationsWithDistancesFromUserLocation(newLocation)
     }
-    
+
     // MARK: - UIPopoverPresentationControllerDelegate functions
     
-    func adaptivePresentationStyleForPresentationController(controller: UIPresentationController) -> UIModalPresentationStyle {
-        return UIModalPresentationStyle.None
+    func adaptivePresentationStyle(for controller: UIPresentationController) -> UIModalPresentationStyle {
+        return UIModalPresentationStyle.none
     }
     
-    func popoverPresentationControllerDidDismissPopover(popoverPresentationController: UIPopoverPresentationController) {
-        self.mapListSegmentedControl.enabled = true
+    func popoverPresentationControllerDidDismissPopover(_ popoverPresentationController: UIPopoverPresentationController) {
+        self.mapListSegmentedControl.isEnabled = true
     }
 }

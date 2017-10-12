@@ -15,14 +15,14 @@ class LocationTableViewController: UITableViewController, UISearchBarDelegate {
     var listData: LocationList? {
         didSet {
             if let validList = listData {
-                NSNotificationCenter.defaultCenter().addObserver(self, selector: "listDataLoaded:", name: "LocationListLoaded", object: validList)
-                NSNotificationCenter.defaultCenter().addObserver(self, selector: "listDataReordered:", name: "LocationListReordered", object: validList)
-                NSNotificationCenter.defaultCenter().addObserver(self, selector: "listDataLocationsChanged:", name: "LocationListDistancesRecalculated", object: validList)
+                NotificationCenter.default.addObserver(self, selector: #selector(LocationTableViewController.listDataLoaded(_:)), name: NSNotification.Name(rawValue: "LocationListLoaded"), object: validList)
+                NotificationCenter.default.addObserver(self, selector: #selector(LocationTableViewController.listDataReordered(_:)), name: NSNotification.Name(rawValue: "LocationListReordered"), object: validList)
+                NotificationCenter.default.addObserver(self, selector: #selector(LocationTableViewController.listDataLocationsChanged(_:)), name: NSNotification.Name(rawValue: "LocationListDistancesRecalculated"), object: validList)
             }
             if let oldList = oldValue {
-                NSNotificationCenter.defaultCenter().removeObserver(self, name: "LocationListLoaded", object: oldList)
-                NSNotificationCenter.defaultCenter().removeObserver(self, name: "LocationListReordered", object: oldList)
-                NSNotificationCenter.defaultCenter().removeObserver(self, name: "LocationListDistancesRecalculated", object: oldList)
+                NotificationCenter.default.removeObserver(self, name: NSNotification.Name(rawValue: "LocationListLoaded"), object: oldList)
+                NotificationCenter.default.removeObserver(self, name: NSNotification.Name(rawValue: "LocationListReordered"), object: oldList)
+                NotificationCenter.default.removeObserver(self, name: NSNotification.Name(rawValue: "LocationListDistancesRecalculated"), object: oldList)
             }
         }
     }
@@ -30,7 +30,7 @@ class LocationTableViewController: UITableViewController, UISearchBarDelegate {
     
     var hasSearchTerm: Bool {
         if let searchText = self.locationSearchBar.text {
-            if searchText.stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceCharacterSet()) != "" {
+            if searchText.trimmingCharacters(in: CharacterSet.whitespaces) != "" {
                 return true
             }
         }
@@ -39,8 +39,8 @@ class LocationTableViewController: UITableViewController, UISearchBarDelegate {
     
     var searchTerm: String? {
         if let searchText = self.locationSearchBar.text {
-            if searchText.stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceCharacterSet()) != "" {
-                return searchText.stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceCharacterSet())
+            if searchText.trimmingCharacters(in: CharacterSet.whitespaces) != "" {
+                return searchText.trimmingCharacters(in: CharacterSet.whitespaces)
             }
         }
         return nil
@@ -50,34 +50,36 @@ class LocationTableViewController: UITableViewController, UISearchBarDelegate {
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        self.tableView.estimatedRowHeight = 58.0
+        self.tableView.rowHeight = UITableViewAutomaticDimension
 
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: "applyFilters:", name: "FiltersChosen", object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(LocationTableViewController.applyFilters(_:)), name: NSNotification.Name(rawValue: "FiltersChosen"), object: nil)
     }
 
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
     }
 
-    override func viewDidDisappear(animated: Bool) {
+    override func viewDidDisappear(_ animated: Bool) {
         super.viewDidDisappear(animated)
     }
     
-    override func viewWillAppear(animated: Bool) {
+    override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
     }
 
-    override func viewDidAppear(animated: Bool) {
+    override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
     }
     
     
     // MARK: - Table view data source
 
-    override func numberOfSectionsInTableView(tableView: UITableView) -> Int {
+    override func numberOfSections(in tableView: UITableView) -> Int {
         return 1
     }
 
-    override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         if self.hasSearchTerm {
             return filteredList.count
         }
@@ -91,7 +93,7 @@ class LocationTableViewController: UITableViewController, UISearchBarDelegate {
         return 0
     }
 
-    override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
+    override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         guard let validLocationList = listData else {
             return UITableViewCell()
         }
@@ -101,7 +103,7 @@ class LocationTableViewController: UITableViewController, UISearchBarDelegate {
             defaultIdentifier = "LocationCell"
         }
         
-        let cell = tableView.dequeueReusableCellWithIdentifier(defaultIdentifier, forIndexPath: indexPath)
+        let cell = tableView.dequeueReusableCell(withIdentifier: defaultIdentifier, for: indexPath)
 
         if let validLocationCell = cell as? LocationTableViewCell {
             var validLocation = validLocationList.locations[indexPath.row]
@@ -110,7 +112,6 @@ class LocationTableViewController: UITableViewController, UISearchBarDelegate {
                     validLocation = filteredList[indexPath.row]
                 }
             }
-            let gameCountString = (validLocation.numGames == 1) ? "1 game" : "\(validLocation.numGames) games"
             validLocationCell.locationNameLabel.text = validLocation.name
             if let validDistance = validLocation.distanceAwayInMiles {
                 let distanceStr = NSString(format: "%.2f", validDistance)
@@ -118,14 +119,28 @@ class LocationTableViewController: UITableViewController, UISearchBarDelegate {
             } else {
                 validLocationCell.distanceLabel.text = ""
             }
-            validLocationCell.gameCountLabel.text = "\(gameCountString)"
+            
+            if let validMachines = validLocation.machines {
+                if validMachines.count == 1 {
+                    validLocationCell.gameCountLabel.text = "\(validMachines[0].title.name)"
+                } else if validMachines.count == 2 {
+                    validLocationCell.gameCountLabel.text = "\(validMachines[0].title.name) and \(validMachines[1].title.name)"
+                } else if validMachines.count > 2 {
+                    let extraCount = validMachines.count - 2
+                    validLocationCell.gameCountLabel.text = "\(validMachines[0].title.name), \(validMachines[1].title.name), and \(extraCount) more"
+                } else {
+                    validLocationCell.gameCountLabel.text = "No games"
+                }
+            } else {
+                validLocationCell.gameCountLabel.text = "No games"
+            }
         }
 
         return cell
     }
     
-    override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
-        tableView.deselectRowAtIndexPath(indexPath, animated: true)
+    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        tableView.deselectRow(at: indexPath, animated: true)
         guard let validData = self.listData  else {
             return
         }
@@ -140,25 +155,25 @@ class LocationTableViewController: UITableViewController, UISearchBarDelegate {
         
         if let validParentVC = containingViewController {
             validParentVC.selectedLocation = selectedLocation
-            validParentVC.performSegueWithIdentifier("showLocationDetails", sender: nil)
+            validParentVC.performSegue(withIdentifier: "showLocationDetails", sender: nil)
         }
     }
     
-    func listDataLoaded(notification: NSNotification) {
+    @objc func listDataLoaded(_ notification: Notification) {
         tableView.reloadData()
     }
     
-    func listDataLocationsChanged(notification: NSNotification) {
+    @objc func listDataLocationsChanged(_ notification: Notification) {
         if let visibleIndexPaths = tableView.indexPathsForVisibleRows {
-            tableView.reloadRowsAtIndexPaths(visibleIndexPaths, withRowAnimation: UITableViewRowAnimation.None)
+            tableView.reloadRows(at: visibleIndexPaths, with: UITableViewRowAnimation.none)
         }
     }
     
-    func listDataReordered(notification: NSNotification) {
+    @objc func listDataReordered(_ notification: Notification) {
         guard let validUserInfo = notification.userInfo else {
             return
         }
-        guard let initialLocations = validUserInfo["Initial"] as? [String : Int], finalLocations = validUserInfo["Final"] as? [String : Int] else {
+        guard let initialLocations = validUserInfo["Initial"] as? [String : Int], let finalLocations = validUserInfo["Final"] as? [String : Int] else {
             return
         }
         if self.hasSearchTerm {
@@ -166,34 +181,34 @@ class LocationTableViewController: UITableViewController, UISearchBarDelegate {
         } else {
             self.tableView.beginUpdates()
             
-            var indexPathsToRemove = [NSIndexPath]()
-            var indexPathsToAdd = [NSIndexPath]()
+            var indexPathsToRemove = [IndexPath]()
+            var indexPathsToAdd = [IndexPath]()
             for (locationIdentifier, initialRow) in initialLocations {
                 if let validEndRow = finalLocations[locationIdentifier] {
                     if initialRow != validEndRow {
-                        self.tableView.moveRowAtIndexPath(NSIndexPath(forRow: initialRow, inSection: 0), toIndexPath: NSIndexPath(forRow: validEndRow, inSection: 0))
+                        self.tableView.moveRow(at: IndexPath(row: initialRow, section: 0), to: IndexPath(row: validEndRow, section: 0))
                     }
                 } else {
-                    indexPathsToRemove.append(NSIndexPath(forRow: initialRow, inSection: 0))
+                    indexPathsToRemove.append(IndexPath(row: initialRow, section: 0))
                 }
             }
             for (locationIdentifier, finalRow) in finalLocations {
                 if initialLocations[locationIdentifier] == nil {
-                    indexPathsToAdd.append(NSIndexPath(forRow: finalRow, inSection: 0))
+                    indexPathsToAdd.append(IndexPath(row: finalRow, section: 0))
                 }
             }
             if indexPathsToRemove.count > 0 {
-                self.tableView.deleteRowsAtIndexPaths(indexPathsToRemove, withRowAnimation: UITableViewRowAnimation.Right)
+                self.tableView.deleteRows(at: indexPathsToRemove, with: UITableViewRowAnimation.right)
             }
             if indexPathsToAdd.count > 0 {
-                self.tableView.insertRowsAtIndexPaths(indexPathsToAdd, withRowAnimation: UITableViewRowAnimation.Middle)
+                self.tableView.insertRows(at: indexPathsToAdd, with: UITableViewRowAnimation.middle)
             }
             
             self.tableView.endUpdates()
         }
     }
 
-    func applyFilters(notification: NSNotification) {
+    @objc func applyFilters(_ notification: Notification) {
         if self.hasSearchTerm {
             //the search is active and we have new filters, so reapply the search to the new results
             self.updateSearchResults()
@@ -221,26 +236,26 @@ class LocationTableViewController: UITableViewController, UISearchBarDelegate {
 
     // MARK: UISearchBarDelegate functions
 
-    func searchBar(searchBar: UISearchBar, textDidChange searchText: String) {
+    func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
         self.updateSearchResults()
     }
     
-    func searchBarTextDidBeginEditing(searchBar: UISearchBar) {
+    func searchBarTextDidBeginEditing(_ searchBar: UISearchBar) {
         searchBar.showsCancelButton = true
     }
     
-    func searchBarTextDidEndEditing(searchBar: UISearchBar) {
+    func searchBarTextDidEndEditing(_ searchBar: UISearchBar) {
         searchBar.resignFirstResponder()
         searchBar.showsCancelButton = false
         self.updateSearchResults()
     }
     
-    func searchBarSearchButtonClicked(searchBar: UISearchBar) {
+    func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
         searchBar.resignFirstResponder()
         self.updateSearchResults()
     }
     
-    func searchBarCancelButtonClicked(searchBar: UISearchBar) {
+    func searchBarCancelButtonClicked(_ searchBar: UISearchBar) {
         searchBar.resignFirstResponder()
         searchBar.text = nil
         self.updateSearchResults()

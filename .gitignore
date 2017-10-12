@@ -3,3 +3,6 @@ Skill Shot.xcodeproj/xcuserdata
 Skill Shot.xcodeproj/project.xcworkspace/xcshareddata
 Skill Shot.xcworkspace/xcuserdata
 .DS_Store
+
+### Carthage ###
+Carthage/*

@@ -21,34 +21,34 @@ class AppInfoViewController: UITableViewController {
     }
     
     
-    override func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
+    override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return UITableViewAutomaticDimension
     }
 
     // MARK: - IBActions
 
-    @IBAction func doneButtonTapped(sender: AnyObject) {
-        self.navigationController?.dismissViewControllerAnimated(true, completion: nil)
+    @IBAction func doneButtonTapped(_ sender: AnyObject) {
+        self.navigationController?.dismiss(animated: true, completion: nil)
     }
 
-    @IBAction func iconsButtonTapped(sender: AnyObject) {
-        if let webURL = NSURL(string: "https://icons8.com") {
-            UIApplication.sharedApplication().openURL(webURL)
+    @IBAction func iconsButtonTapped(_ sender: AnyObject) {
+        if let webURL = URL(string: "https://icons8.com") {
+            UIApplication.shared.open(webURL, options: [String : Any](), completionHandler: nil)
         }
     }
     
-    @IBAction func alamofireButtonTapped(sender: AnyObject) {
-        if let webURL = NSURL(string: "https://github.com/Alamofire/Alamofire") {
-            UIApplication.sharedApplication().openURL(webURL)
+    @IBAction func alamofireButtonTapped(_ sender: AnyObject) {
+        if let webURL = URL(string: "https://github.com/Alamofire/Alamofire") {
+            UIApplication.shared.open(webURL, options: [String : Any](), completionHandler: nil)
         }
     }
     
-    @IBAction func willClarkeButtonTapped(sender: AnyObject) {
-        if let willClarkeURL = NSURL(string: "fb://profile/12801403") {
-            if UIApplication.sharedApplication().canOpenURL(willClarkeURL) {
-                UIApplication.sharedApplication().openURL(willClarkeURL)
-            } else if let willClarkeWebURL = NSURL(string: "http://facebook.com/willclarkedotnet") {
-                UIApplication.sharedApplication().openURL(willClarkeWebURL)
+    @IBAction func willClarkeButtonTapped(_ sender: AnyObject) {
+        if let willClarkeURL = URL(string: "fb://profile/12801403") {
+            if UIApplication.shared.canOpenURL(willClarkeURL) {
+                UIApplication.shared.open(willClarkeURL, options: [String : Any](), completionHandler: nil)
+            } else if let willClarkeWebURL = URL(string: "http://facebook.com/willclarkedotnet") {
+                UIApplication.shared.open(willClarkeWebURL, options: [String : Any](), completionHandler: nil)
             }
         }
     }

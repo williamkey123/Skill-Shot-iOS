@@ -16,24 +16,23 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     
     var launchedShortcutItem: UIApplicationShortcutItem?
 
-    func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
-        let icon = UIApplicationShortcutIcon(type: .Location)
+    func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
+        let icon = UIApplicationShortcutIcon(type: .location)
         let localLocaitons = UIApplicationShortcutItem(type: "show_locations", localizedTitle: "Nearby Pinball", localizedSubtitle: nil, icon: icon, userInfo: nil)
-        UIApplication.sharedApplication().shortcutItems = [localLocaitons]
-        print(launchOptions)
+        UIApplication.shared.shortcutItems = [localLocaitons]
         return true
     }
 
-    func applicationWillResignActive(application: UIApplication) {
+    func applicationWillResignActive(_ application: UIApplication) {
     }
 
-    func applicationDidEnterBackground(application: UIApplication) {
+    func applicationDidEnterBackground(_ application: UIApplication) {
     }
 
-    func applicationWillEnterForeground(application: UIApplication) {
+    func applicationWillEnterForeground(_ application: UIApplication) {
     }
 
-    func applicationDidBecomeActive(application: UIApplication) {
+    func applicationDidBecomeActive(_ application: UIApplication) {
         if let validShortcut = self.launchedShortcutItem {
             if validShortcut.type == "show_locations" {
                 showListByDistance()
@@ -42,10 +41,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         }
     }
 
-    func applicationWillTerminate(application: UIApplication) {
+    func applicationWillTerminate(_ application: UIApplication) {
     }
     
-    func application(application: UIApplication, performActionForShortcutItem shortcutItem: UIApplicationShortcutItem, completionHandler: (Bool) -> Void) {
+    func application(_ application: UIApplication, performActionFor shortcutItem: UIApplicationShortcutItem, completionHandler: @escaping (Bool) -> Void) {
         launchedShortcutItem = shortcutItem
         completionHandler(true)
     }
@@ -60,8 +59,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         guard let rootMapAndListViewController = rootNavigationController.viewControllers[0] as? MapAndListContainerViewController  else {
             return
         }
-        rootNavigationController.popToRootViewControllerAnimated(false)
-        rootMapAndListViewController.initialContainerView = LocationViewControllerType.List
-        NSNotificationCenter.defaultCenter().postNotificationName("ApplicationRelaunched", object: nil)
+        rootNavigationController.popToRootViewController(animated: false)
+        rootMapAndListViewController.initialContainerView = LocationViewControllerType.list
+        NotificationCenter.default.post(name: Notification.Name(rawValue: "ApplicationRelaunched"), object: nil)
     }
 }
