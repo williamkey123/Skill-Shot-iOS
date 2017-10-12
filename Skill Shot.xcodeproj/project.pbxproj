@@ -23,25 +23,10 @@
 		8A17884E1C2935BE00C93E9B /* LocationTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A17884D1C2935BE00C93E9B /* LocationTableViewCell.swift */; };
 		8A1A40EF1C55EAC700A30AED /* LocationTableViewController+UIViewControllerPreviewingDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A1A40EE1C55EAC700A30AED /* LocationTableViewController+UIViewControllerPreviewingDelegate.swift */; };
 		8A1A40F31C55F41300A30AED /* LocationPreviewViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A1A40F21C55F41300A30AED /* LocationPreviewViewController.swift */; };
-		8AB5AC9A1F8DDC0E00E53A5B /* Alamofire.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8AB5AC991F8DDC0E00E53A5B /* Alamofire.framework */; };
-		8AB5AC9B1F8DDC0E00E53A5B /* Alamofire.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 8AB5AC991F8DDC0E00E53A5B /* Alamofire.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		8ACE0CD21F900E3F002A2884 /* Alamofire.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8AB5AC991F8DDC0E00E53A5B /* Alamofire.framework */; };
 		8ACF1B661F8EE94900E9B8D4 /* GenericDarkNavigationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8ACF1B651F8EE94900E9B8D4 /* GenericDarkNavigationViewController.swift */; };
 		8AEFD2081C35ED4000074615 /* AppInfoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8AEFD2071C35ED4000074615 /* AppInfoViewController.swift */; };
 /* End PBXBuildFile section */
-
-/* Begin PBXCopyFilesBuildPhase section */
-		8AEFD1E11C34C60100074615 /* Embed Frameworks */ = {
-			isa = PBXCopyFilesBuildPhase;
-			buildActionMask = 2147483647;
-			dstPath = "";
-			dstSubfolderSpec = 10;
-			files = (
-				8AB5AC9B1F8DDC0E00E53A5B /* Alamofire.framework in Embed Frameworks */,
-			);
-			name = "Embed Frameworks";
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-/* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
 		8A1788061C28E8BD00C93E9B /* Skill Shot.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Skill Shot.app"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -72,8 +57,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				8ACE0CD21F900E3F002A2884 /* Alamofire.framework in Frameworks */,
 				8A1788481C290E1A00C93E9B /* MapKit.framework in Frameworks */,
-				8AB5AC9A1F8DDC0E00E53A5B /* Alamofire.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -87,6 +72,7 @@
 				8A1788081C28E8BD00C93E9B /* Skill Shot */,
 				8A1788071C28E8BD00C93E9B /* Products */,
 				8A1788471C290E1A00C93E9B /* MapKit.framework */,
+				8ACE0CD11F900E3F002A2884 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -147,6 +133,13 @@
 			name = View;
 			sourceTree = "<group>";
 		};
+		8ACE0CD11F900E3F002A2884 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -157,7 +150,7 @@
 				8A1788021C28E8BD00C93E9B /* Sources */,
 				8A1788031C28E8BD00C93E9B /* Frameworks */,
 				8A1788041C28E8BD00C93E9B /* Resources */,
-				8AEFD1E11C34C60100074615 /* Embed Frameworks */,
+				8ACE0CD31F900E57002A2884 /* ShellScript */,
 			);
 			buildRules = (
 			);
@@ -214,6 +207,24 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		8ACE0CD31F900E57002A2884 /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"$(SRCROOT)/Carthage/Build/iOS/Alamofire.framework",
+			);
+			outputPaths = (
+				"$(BUILT_PRODUCTS_DIR)/$(FRAMEWORKS_FOLDER_PATH)/Alamofire.framework",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "/usr/local/bin/carthage copy-frameworks";
+		};
+/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		8A1788021C28E8BD00C93E9B /* Sources */ = {
@@ -362,7 +373,6 @@
 		8A1788191C28E8BD00C93E9B /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				DEVELOPMENT_TEAM = TRSP4AA7VA;
 				FRAMEWORK_SEARCH_PATHS = (
@@ -383,7 +393,6 @@
 		8A17881A1C28E8BD00C93E9B /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				DEVELOPMENT_TEAM = TRSP4AA7VA;
 				FRAMEWORK_SEARCH_PATHS = (
