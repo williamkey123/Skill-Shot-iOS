@@ -25,6 +25,19 @@ class AppInfoViewController: UITableViewController {
         return UITableViewAutomaticDimension
     }
 
+    override func tableView(_ tableView: UITableView, titleForFooterInSection section: Int) -> String? {
+        if section == 1 {
+            guard let info = Bundle.main.infoDictionary, let version = info["CFBundleShortVersionString"] as? String,
+                let build = info["CFBundleVersion"] as? String else
+            {
+                return super.tableView(tableView, titleForFooterInSection: section)
+            }
+            return "Version \(version) (\(build))"
+        } else {
+            return super.tableView(tableView, titleForFooterInSection: section)
+        }
+    }
+
     // MARK: - IBActions
 
     @IBAction func doneButtonTapped(_ sender: AnyObject) {
