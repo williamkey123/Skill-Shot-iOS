@@ -328,16 +328,16 @@
                         </subviews>
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
-                            <constraint firstItem="b1R-an-itK" firstAttribute="trailing" secondItem="fsU-1u-IZd" secondAttribute="trailing" id="2C6-f1-ew9"/>
+                            <constraint firstAttribute="trailing" secondItem="fsU-1u-IZd" secondAttribute="trailing" id="2C6-f1-ew9"/>
                             <constraint firstItem="fsU-1u-IZd" firstAttribute="top" secondItem="b1R-an-itK" secondAttribute="top" id="5oU-Qm-L1W"/>
-                            <constraint firstItem="b1R-an-itK" firstAttribute="bottom" secondItem="j02-bd-oUt" secondAttribute="bottom" id="ApV-fF-xoa"/>
-                            <constraint firstItem="b1R-an-itK" firstAttribute="trailing" secondItem="j02-bd-oUt" secondAttribute="trailing" id="C5D-5W-c5j"/>
+                            <constraint firstAttribute="bottom" secondItem="j02-bd-oUt" secondAttribute="bottom" id="ApV-fF-xoa"/>
+                            <constraint firstAttribute="trailing" secondItem="j02-bd-oUt" secondAttribute="trailing" id="C5D-5W-c5j"/>
                             <constraint firstItem="fsU-1u-IZd" firstAttribute="top" secondItem="yMW-ER-uqG" secondAttribute="top" id="DE7-Ta-aU2"/>
-                            <constraint firstItem="b1R-an-itK" firstAttribute="bottom" secondItem="fsU-1u-IZd" secondAttribute="bottom" id="G7i-iF-r9q"/>
+                            <constraint firstAttribute="bottom" secondItem="fsU-1u-IZd" secondAttribute="bottom" id="G7i-iF-r9q"/>
                             <constraint firstItem="j02-bd-oUt" firstAttribute="top" secondItem="b1R-an-itK" secondAttribute="top" id="Wfi-va-WeE"/>
                             <constraint firstItem="j02-bd-oUt" firstAttribute="top" secondItem="yMW-ER-uqG" secondAttribute="top" id="YOP-Aw-Cfj"/>
-                            <constraint firstItem="fsU-1u-IZd" firstAttribute="leading" secondItem="b1R-an-itK" secondAttribute="leading" id="fq4-8P-1Wx"/>
-                            <constraint firstItem="j02-bd-oUt" firstAttribute="leading" secondItem="b1R-an-itK" secondAttribute="leading" id="pnc-U3-jn1"/>
+                            <constraint firstItem="fsU-1u-IZd" firstAttribute="leading" secondItem="yMW-ER-uqG" secondAttribute="leading" id="fq4-8P-1Wx"/>
+                            <constraint firstItem="j02-bd-oUt" firstAttribute="leading" secondItem="yMW-ER-uqG" secondAttribute="leading" id="pnc-U3-jn1"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="b1R-an-itK"/>
                         <variation key="default">
@@ -422,12 +422,13 @@
                                 </connections>
                             </mapView>
                             <segmentedControl opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="Xj5-8F-nAZ">
-                                <rect key="frame" x="16" y="456" width="127" height="29"/>
+                                <rect key="frame" x="16" y="460" width="127" height="29"/>
                                 <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <segments>
                                     <segment title="Plain"/>
                                     <segment title="Satellite"/>
                                 </segments>
+                                <color key="tintColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
                                 <userDefinedRuntimeAttributes>
                                     <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
                                         <integer key="value" value="5"/>
@@ -441,12 +442,12 @@
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
                             <constraint firstItem="Xj5-8F-nAZ" firstAttribute="leading" secondItem="AbZ-zH-ThZ" secondAttribute="leadingMargin" id="2lC-te-Dd3"/>
-                            <constraint firstItem="Ksl-bs-UAd" firstAttribute="leading" secondItem="ABs-Om-KAU" secondAttribute="leading" id="76o-as-lOC"/>
+                            <constraint firstItem="Ksl-bs-UAd" firstAttribute="leading" secondItem="AbZ-zH-ThZ" secondAttribute="leading" id="76o-as-lOC"/>
                             <constraint firstItem="ABs-Om-KAU" firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="Xj5-8F-nAZ" secondAttribute="trailing" constant="16" id="BLR-VO-3Ht"/>
                             <constraint firstItem="Ksl-bs-UAd" firstAttribute="top" secondItem="AbZ-zH-ThZ" secondAttribute="top" id="G1F-id-EHB"/>
                             <constraint firstAttribute="bottom" secondItem="Ksl-bs-UAd" secondAttribute="bottom" id="cYi-PF-uiM"/>
-                            <constraint firstItem="ABs-Om-KAU" firstAttribute="trailing" secondItem="Ksl-bs-UAd" secondAttribute="trailing" id="kju-6G-gBi"/>
-                            <constraint firstItem="ABs-Om-KAU" firstAttribute="bottom" secondItem="Xj5-8F-nAZ" secondAttribute="bottom" constant="20" id="m3c-Cs-taW"/>
+                            <constraint firstAttribute="trailing" secondItem="Ksl-bs-UAd" secondAttribute="trailing" id="kju-6G-gBi"/>
+                            <constraint firstItem="ABs-Om-KAU" firstAttribute="bottom" secondItem="Xj5-8F-nAZ" secondAttribute="bottom" constant="16" id="m3c-Cs-taW"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="ABs-Om-KAU"/>
                     </view>
@@ -832,13 +833,13 @@
                                 <include reference="QEu-fq-iMt"/>
                                 <include reference="SgA-nh-otU"/>
                                 <exclude reference="vAk-HJ-mWZ"/>
+                                <exclude reference="zQU-yr-0CC"/>
                                 <exclude reference="2yX-YN-ThU"/>
                                 <exclude reference="6Mt-Bn-BF3"/>
                                 <exclude reference="dqH-yX-HeS"/>
                                 <exclude reference="mhf-s2-lJ8"/>
                                 <include reference="nQY-Cc-M3z"/>
                                 <include reference="vhF-zb-qmM"/>
-                                <exclude reference="zQU-yr-0CC"/>
                             </mask>
                         </variation>
                     </view>
