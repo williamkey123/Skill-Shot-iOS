@@ -2,7 +2,7 @@
 //  LocationTableViewController+UIViewControllerPreviewingDelegate.swift
 //  Skill Shot
 //
-//  Created by Will Clarke on 1/24/16.
+//  Created by William Key on 1/24/16.
 //
 //
 

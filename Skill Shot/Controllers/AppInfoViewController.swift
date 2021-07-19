@@ -2,7 +2,7 @@
 //  AppInfoViewController.swift
 //  Skill Shot
 //
-//  Created by Will Clarke on 12/31/15.
+//  Created by William Key on 12/31/15.
 //
 //
 
@@ -56,11 +56,11 @@ class AppInfoViewController: UITableViewController {
         }
     }
     
-    @IBAction func willClarkeButtonTapped(_ sender: AnyObject) {
-        if let willClarkeURL = URL(string: "fb://profile/12801403") {
+    @IBAction func williamKeyButtonTapped(_ sender: AnyObject) {
+        if let willClarkeURL = URL(string: "fb://profile/100046690088720") {
             if UIApplication.shared.canOpenURL(willClarkeURL) {
                 UIApplication.shared.open(willClarkeURL, options: convertToUIApplicationOpenExternalURLOptionsKeyDictionary([String : Any]()), completionHandler: nil)
-            } else if let willClarkeWebURL = URL(string: "http://facebook.com/willclarkedotnet") {
+            } else if let willClarkeWebURL = URL(string: "https://www.facebook.com/williamkey123") {
                 UIApplication.shared.open(willClarkeWebURL, options: convertToUIApplicationOpenExternalURLOptionsKeyDictionary([String : Any]()), completionHandler: nil)
             }
         }

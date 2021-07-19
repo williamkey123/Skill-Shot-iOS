@@ -2,7 +2,7 @@
 //  MapAndListContainerViewController.swift
 //  Skill Shot
 //
-//  Created by Will Clarke on 12/21/15.
+//  Created by William Key on 12/21/15.
 //
 //
 

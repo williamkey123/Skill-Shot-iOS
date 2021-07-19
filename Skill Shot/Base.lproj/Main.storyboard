@@ -179,10 +179,10 @@
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="wLC-eY-fpg">
-                                                    <rect key="frame" x="161" y="5" width="73" height="30"/>
-                                                    <state key="normal" title="Will Clarke"/>
+                                                    <rect key="frame" x="161" y="5" width="79" height="30"/>
+                                                    <state key="normal" title="William Key"/>
                                                     <connections>
-                                                        <action selector="willClarkeButtonTapped:" destination="5VO-mO-Fbi" eventType="touchUpInside" id="1ig-fR-zNT"/>
+                                                        <action selector="williamKeyButtonTapped:" destination="5VO-mO-Fbi" eventType="touchUpInside" id="1ig-fR-zNT"/>
                                                     </connections>
                                                 </button>
                                             </subviews>

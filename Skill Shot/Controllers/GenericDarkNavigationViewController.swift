@@ -2,7 +2,7 @@
 //  GenericDarkNavigationViewController.swift
 //  Skill Shot
 //
-//  Created by Will Clarke on 10/11/17.
+//  Created by William Key on 10/11/17.
 //
 
 import UIKit
