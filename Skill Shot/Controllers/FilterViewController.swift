@@ -68,7 +68,7 @@ class FilterViewController: UIViewController, UITextFieldDelegate, UIPickerViewD
 
     func textFieldShouldBeginEditing(_ textField: UITextField) -> Bool {
         if let sortText = sortTextField.text {
-            if let validIndex = self.sortOptions.index(of: sortText) {
+            if let validIndex = self.sortOptions.firstIndex(of: sortText) {
                 self.keyboardPickerView.selectRow(validIndex, inComponent: 0, animated: false)
             }
         }

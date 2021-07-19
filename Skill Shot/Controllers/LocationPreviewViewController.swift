@@ -44,9 +44,9 @@ class LocationPreviewViewController: UIViewController {
                 let phoneURL = URL(string: "tel://\(validPhone)")
             {
                 if validPhone.trimmingCharacters(in: CharacterSet.whitespaces) != "" {
-                    let phonePreviewItem = UIPreviewAction(title: "Call \(validUnformattedPhone)", style: UIPreviewActionStyle.default, handler: {
+                    let phonePreviewItem = UIPreviewAction(title: "Call \(validUnformattedPhone)", style: UIPreviewAction.Style.default, handler: {
                         (action: UIPreviewAction, controller: UIViewController) -> Void in
-                        UIApplication.shared.open(phoneURL, options: [String : Any](), completionHandler: nil)
+                        UIApplication.shared.open(phoneURL, options: convertToUIApplicationOpenExternalURLOptionsKeyDictionary([String : Any]()), completionHandler: nil)
                     })
                     items.append(phonePreviewItem)
                 }
@@ -54,15 +54,15 @@ class LocationPreviewViewController: UIViewController {
             
             if let validWebsite = validLocation.URL, let webURL = URL(string: validWebsite) {
                 if validWebsite.trimmingCharacters(in: CharacterSet.whitespaces) != "" {
-                    let webPreviewItem = UIPreviewAction(title: "Visit Website", style: UIPreviewActionStyle.default, handler: {
+                    let webPreviewItem = UIPreviewAction(title: "Visit Website", style: UIPreviewAction.Style.default, handler: {
                         (action: UIPreviewAction, controller: UIViewController) -> Void in
-                        UIApplication.shared.open(webURL, options: [String : Any](), completionHandler: nil)
+                        UIApplication.shared.open(webURL, options: convertToUIApplicationOpenExternalURLOptionsKeyDictionary([String : Any]()), completionHandler: nil)
                     })
                     items.append(webPreviewItem)
                 }
             }
             
-            let mapPreviewItem = UIPreviewAction(title: "View in Maps", style: UIPreviewActionStyle.default, handler: {
+            let mapPreviewItem = UIPreviewAction(title: "View in Maps", style: UIPreviewAction.Style.default, handler: {
                 (action: UIPreviewAction, controller:UIViewController) -> Void in
                 var addressDictionary = [String : AnyObject]()
                 if let validAddress = validLocation.address {
@@ -95,4 +95,9 @@ class LocationPreviewViewController: UIViewController {
     }
     */
 
+}
+
+// Helper function inserted by Swift 4.2 migrator.
+fileprivate func convertToUIApplicationOpenExternalURLOptionsKeyDictionary(_ input: [String: Any]) -> [UIApplication.OpenExternalURLOptionsKey: Any] {
+	return Dictionary(uniqueKeysWithValues: input.map { key, value in (UIApplication.OpenExternalURLOptionsKey(rawValue: key), value)})
 }

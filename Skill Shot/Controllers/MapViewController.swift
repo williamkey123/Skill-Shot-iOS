@@ -35,7 +35,7 @@ class MapViewController: UIViewController, MKMapViewDelegate {
         
         mapView.showsUserLocation = true
 
-        let region = MKCoordinateRegionMake(CLLocationCoordinate2DMake(47.613760, -122.345098), MKCoordinateSpanMake(0.083, 0.07))
+        let region = MKCoordinateRegion.init(center: CLLocationCoordinate2DMake(47.613760, -122.345098), span: MKCoordinateSpan.init(latitudeDelta: 0.083, longitudeDelta: 0.07))
         mapView.region = region
     }
 
@@ -81,7 +81,7 @@ class MapViewController: UIViewController, MKMapViewDelegate {
         } else {
             let annotationView = MKPinAnnotationView(annotation: annotation, reuseIdentifier: "LocationIdetifier")
             annotationView.canShowCallout = true
-            annotationView.rightCalloutAccessoryView = UIButton(type: UIButtonType.detailDisclosure)
+            annotationView.rightCalloutAccessoryView = UIButton(type: UIButton.ButtonType.detailDisclosure)
             annotationView.pinTintColor = UIColor(red: 247/255.0, green: 174/255.0, blue: 0.0, alpha: 1.0)
             return annotationView
         }
@@ -97,7 +97,7 @@ class MapViewController: UIViewController, MKMapViewDelegate {
     func mapView(_ mapView: MKMapView, didUpdate userLocation: MKUserLocation) {
         if initialUserLocation == nil {
             initialUserLocation = userLocation.coordinate
-            let region = MKCoordinateRegionMake(userLocation.coordinate, MKCoordinateSpanMake(0.083, 0.07))
+            let region = MKCoordinateRegion.init(center: userLocation.coordinate, span: MKCoordinateSpan.init(latitudeDelta: 0.083, longitudeDelta: 0.07))
             mapView.region = region
         }
     }

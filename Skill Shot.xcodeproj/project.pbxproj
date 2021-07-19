@@ -173,7 +173,7 @@
 					8A1788051C28E8BD00C93E9B = {
 						CreatedOnToolsVersion = 7.2;
 						DevelopmentTeam = TRSP4AA7VA;
-						LastSwiftMigration = 0900;
+						LastSwiftMigration = 1250;
 					};
 				};
 			};
@@ -381,7 +381,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = "com.skillshot.Skill-Shot";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_SWIFT3_OBJC_INFERENCE = Default;
-				SWIFT_VERSION = 4.0;
+				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Debug;
@@ -403,7 +403,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = "com.skillshot.Skill-Shot";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_SWIFT3_OBJC_INFERENCE = Default;
-				SWIFT_VERSION = 4.0;
+				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Release;

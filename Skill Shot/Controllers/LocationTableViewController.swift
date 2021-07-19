@@ -51,7 +51,7 @@ class LocationTableViewController: UITableViewController, UISearchBarDelegate {
     override func viewDidLoad() {
         super.viewDidLoad()
         self.tableView.estimatedRowHeight = 58.0
-        self.tableView.rowHeight = UITableViewAutomaticDimension
+        self.tableView.rowHeight = UITableView.automaticDimension
 
         NotificationCenter.default.addObserver(self, selector: #selector(LocationTableViewController.applyFilters(_:)), name: NSNotification.Name(rawValue: "FiltersChosen"), object: nil)
     }
@@ -165,7 +165,7 @@ class LocationTableViewController: UITableViewController, UISearchBarDelegate {
     
     @objc func listDataLocationsChanged(_ notification: Notification) {
         if let visibleIndexPaths = tableView.indexPathsForVisibleRows {
-            tableView.reloadRows(at: visibleIndexPaths, with: UITableViewRowAnimation.none)
+            tableView.reloadRows(at: visibleIndexPaths, with: UITableView.RowAnimation.none)
         }
     }
     
@@ -198,10 +198,10 @@ class LocationTableViewController: UITableViewController, UISearchBarDelegate {
                 }
             }
             if indexPathsToRemove.count > 0 {
-                self.tableView.deleteRows(at: indexPathsToRemove, with: UITableViewRowAnimation.right)
+                self.tableView.deleteRows(at: indexPathsToRemove, with: UITableView.RowAnimation.right)
             }
             if indexPathsToAdd.count > 0 {
-                self.tableView.insertRows(at: indexPathsToAdd, with: UITableViewRowAnimation.middle)
+                self.tableView.insertRows(at: indexPathsToAdd, with: UITableView.RowAnimation.middle)
             }
             
             self.tableView.endUpdates()

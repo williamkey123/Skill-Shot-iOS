@@ -100,7 +100,7 @@ class LocationDetailViewController: UIViewController, UITableViewDelegate, UITab
             return
         }
         if let phoneURL = URL(string: "tel://\(validPhone)") {
-            UIApplication.shared.open(phoneURL, options: [String : Any](), completionHandler: nil)
+            UIApplication.shared.open(phoneURL, options: convertToUIApplicationOpenExternalURLOptionsKeyDictionary([String : Any]()), completionHandler: nil)
         }
     }
     
@@ -112,7 +112,7 @@ class LocationDetailViewController: UIViewController, UITableViewDelegate, UITab
             return
         }
         if let webURL = URL(string: validURL) {
-            UIApplication.shared.open(webURL, options: [String : Any](), completionHandler: nil)
+            UIApplication.shared.open(webURL, options: convertToUIApplicationOpenExternalURLOptionsKeyDictionary([String : Any]()), completionHandler: nil)
         }
     }
     
@@ -177,4 +177,9 @@ class LocationDetailViewController: UIViewController, UITableViewDelegate, UITab
         }
         return cell
     }
+}
+
+// Helper function inserted by Swift 4.2 migrator.
+fileprivate func convertToUIApplicationOpenExternalURLOptionsKeyDictionary(_ input: [String: Any]) -> [UIApplication.OpenExternalURLOptionsKey: Any] {
+	return Dictionary(uniqueKeysWithValues: input.map { key, value in (UIApplication.OpenExternalURLOptionsKey(rawValue: key), value)})
 }
