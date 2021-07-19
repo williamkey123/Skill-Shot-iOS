@@ -112,18 +112,21 @@ class Location: NSObject, MKAnnotation {
     }
     
     func loadDetails() {
-        Alamofire.request("\(baseAPI)locations/\(self.identifier).json").responseJSON { response in
-            guard response.result.isSuccess else {
+        AF.request("\(baseAPI)locations/\(self.identifier).json").responseJSON { response in
+            switch response.result {
+            case .success(let data):
+                if let validLocationData = data as? [String : AnyObject] {
+                    if let _ = validLocationData["id"] as? String, let _ = validLocationData["name"] as? String,
+                        let _ = validLocationData["latitude"] as? Double, let _ = validLocationData["longitude"] as? Double
+                    {
+                        self.setDetails(validLocationData)
+                    }
+                }
+                NotificationCenter.default.post(name: Notification.Name("LocationDetailsLoaded"), object: self)
+            case .failure(let error):
+                debugPrint(error)
                 return
             }
-            if let validLocationData = response.result.value as? [String : AnyObject] {
-                if let _ = validLocationData["id"] as? String, let _ = validLocationData["name"] as? String,
-                    let _ = validLocationData["latitude"] as? Double, let _ = validLocationData["longitude"] as? Double
-                {
-                    self.setDetails(validLocationData)
-                }
-            }
-            NotificationCenter.default.post(name: Notification.Name("LocationDetailsLoaded"), object: self)
         }
     }
     
@@ -163,27 +166,31 @@ class LocationList: NSObject {
     }
     
     func loadList() {
-        Alamofire.request("\(baseAPI)locations/for_wordpress.json").responseJSON { response in
-            guard response.result.isSuccess else {
-                return
-            }
-            self.loadedData = true
-            if let validLocationData = response.result.value as? [[String : AnyObject]] {
-                for locationData in validLocationData {
-                    if let validIdentifier = locationData["id"] as? String, let validName = locationData["name"] as? String,
-                        let validLat = locationData["latitude"] as? Double, let validLon = locationData["longitude"] as? Double
-                    {
-                        let newLocation = Location(identifier: validIdentifier, name: validName, latitude: validLat, longitude: validLon)
-                        newLocation.setDetails(locationData)
-                        self.allLocations.append(newLocation)
-                        self.locations.append(newLocation)
+        AF.request("\(baseAPI)locations/for_wordpress.json").responseJSON { response in
+            switch response.result {
+            case .success(let data):
+                if let validLocationData = data as? [[String : AnyObject]] {
+                    for locationData in validLocationData {
+                        if let validIdentifier = locationData["id"] as? String, let validName = locationData["name"] as? String,
+                            let validLat = locationData["latitude"] as? Double, let validLon = locationData["longitude"] as? Double
+                        {
+                            let newLocation = Location(identifier: validIdentifier, name: validName, latitude: validLat, longitude: validLon)
+                            newLocation.setDetails(locationData)
+                            self.allLocations.append(newLocation)
+                            self.locations.append(newLocation)
+                        }
+                    }
+                    if let initialUserLocation = self.lastUserLocation {
+                        self.updateLocationsWithDistancesFromUserLocation(initialUserLocation)
                     }
                 }
-                if let initialUserLocation = self.lastUserLocation {
-                    self.updateLocationsWithDistancesFromUserLocation(initialUserLocation)
-                }
+                self.loadedData = true
+                NotificationCenter.default.post(name: Notification.Name("LocationListLoaded"), object: self)
+            case .failure(let error):
+                debugPrint(error)
+                //TODO: log error somewhere
+                return
             }
-            NotificationCenter.default.post(name: Notification.Name("LocationListLoaded"), object: self)
         }
     }
     

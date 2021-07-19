@@ -3,10 +3,11 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 46;
+	objectVersion = 52;
 	objects = {
 
 /* Begin PBXBuildFile section */
+		6AC6E3D326A6178700F4C32C /* Alamofire in Frameworks */ = {isa = PBXBuildFile; productRef = 6AC6E3D226A6178700F4C32C /* Alamofire */; };
 		8A17880A1C28E8BD00C93E9B /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A1788091C28E8BD00C93E9B /* AppDelegate.swift */; };
 		8A17880F1C28E8BD00C93E9B /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 8A17880D1C28E8BD00C93E9B /* Main.storyboard */; };
 		8A1788111C28E8BD00C93E9B /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 8A1788101C28E8BD00C93E9B /* Assets.xcassets */; };
@@ -23,7 +24,6 @@
 		8A17884E1C2935BE00C93E9B /* LocationTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A17884D1C2935BE00C93E9B /* LocationTableViewCell.swift */; };
 		8A1A40EF1C55EAC700A30AED /* LocationTableViewController+UIViewControllerPreviewingDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A1A40EE1C55EAC700A30AED /* LocationTableViewController+UIViewControllerPreviewingDelegate.swift */; };
 		8A1A40F31C55F41300A30AED /* LocationPreviewViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A1A40F21C55F41300A30AED /* LocationPreviewViewController.swift */; };
-		8ACE0CD21F900E3F002A2884 /* Alamofire.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8AB5AC991F8DDC0E00E53A5B /* Alamofire.framework */; };
 		8ACF1B661F8EE94900E9B8D4 /* GenericDarkNavigationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8ACF1B651F8EE94900E9B8D4 /* GenericDarkNavigationViewController.swift */; };
 		8AEFD2081C35ED4000074615 /* AppInfoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8AEFD2071C35ED4000074615 /* AppInfoViewController.swift */; };
 /* End PBXBuildFile section */
@@ -47,7 +47,6 @@
 		8A17884D1C2935BE00C93E9B /* LocationTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = LocationTableViewCell.swift; path = View/LocationTableViewCell.swift; sourceTree = "<group>"; };
 		8A1A40EE1C55EAC700A30AED /* LocationTableViewController+UIViewControllerPreviewingDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "LocationTableViewController+UIViewControllerPreviewingDelegate.swift"; path = "Controllers/LocationTableViewController+UIViewControllerPreviewingDelegate.swift"; sourceTree = "<group>"; };
 		8A1A40F21C55F41300A30AED /* LocationPreviewViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = LocationPreviewViewController.swift; path = Controllers/LocationPreviewViewController.swift; sourceTree = "<group>"; };
-		8AB5AC991F8DDC0E00E53A5B /* Alamofire.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Alamofire.framework; path = Carthage/Build/iOS/Alamofire.framework; sourceTree = "<group>"; };
 		8ACF1B651F8EE94900E9B8D4 /* GenericDarkNavigationViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = GenericDarkNavigationViewController.swift; path = Controllers/GenericDarkNavigationViewController.swift; sourceTree = "<group>"; };
 		8AEFD2071C35ED4000074615 /* AppInfoViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = AppInfoViewController.swift; path = Controllers/AppInfoViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -57,8 +56,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				8ACE0CD21F900E3F002A2884 /* Alamofire.framework in Frameworks */,
 				8A1788481C290E1A00C93E9B /* MapKit.framework in Frameworks */,
+				6AC6E3D326A6178700F4C32C /* Alamofire in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -68,7 +67,6 @@
 		8A1787FD1C28E8BD00C93E9B = {
 			isa = PBXGroup;
 			children = (
-				8AB5AC991F8DDC0E00E53A5B /* Alamofire.framework */,
 				8A1788081C28E8BD00C93E9B /* Skill Shot */,
 				8A1788071C28E8BD00C93E9B /* Products */,
 				8A1788471C290E1A00C93E9B /* MapKit.framework */,
@@ -150,13 +148,15 @@
 				8A1788021C28E8BD00C93E9B /* Sources */,
 				8A1788031C28E8BD00C93E9B /* Frameworks */,
 				8A1788041C28E8BD00C93E9B /* Resources */,
-				8ACE0CD31F900E57002A2884 /* ShellScript */,
 			);
 			buildRules = (
 			);
 			dependencies = (
 			);
 			name = "Skill Shot";
+			packageProductDependencies = (
+				6AC6E3D226A6178700F4C32C /* Alamofire */,
+			);
 			productName = "Skill Shot";
 			productReference = 8A1788061C28E8BD00C93E9B /* Skill Shot.app */;
 			productType = "com.apple.product-type.application";
@@ -168,7 +168,7 @@
 			isa = PBXProject;
 			attributes = {
 				LastSwiftUpdateCheck = 0720;
-				LastUpgradeCheck = 1150;
+				LastUpgradeCheck = 1250;
 				TargetAttributes = {
 					8A1788051C28E8BD00C93E9B = {
 						CreatedOnToolsVersion = 7.2;
@@ -186,6 +186,9 @@
 				Base,
 			);
 			mainGroup = 8A1787FD1C28E8BD00C93E9B;
+			packageReferences = (
+				6AC6E3D126A6178700F4C32C /* XCRemoteSwiftPackageReference "Alamofire" */,
+			);
 			productRefGroup = 8A1788071C28E8BD00C93E9B /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -207,24 +210,6 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
-
-/* Begin PBXShellScriptBuildPhase section */
-		8ACE0CD31F900E57002A2884 /* ShellScript */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-				"$(SRCROOT)/Carthage/Build/iOS/Alamofire.framework",
-			);
-			outputPaths = (
-				"$(BUILT_PRODUCTS_DIR)/$(FRAMEWORKS_FOLDER_PATH)/Alamofire.framework",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "/usr/local/bin/carthage copy-frameworks";
-		};
-/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		8A1788021C28E8BD00C93E9B /* Sources */ = {
@@ -293,6 +278,7 @@
 				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
 				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
 				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
 				CLANG_WARN_STRICT_PROTOTYPES = YES;
 				CLANG_WARN_SUSPICIOUS_MOVE = YES;
@@ -317,7 +303,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 10.3;
+				IPHONEOS_DEPLOYMENT_TARGET = 14.5;
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = iphoneos;
@@ -349,6 +335,7 @@
 				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
 				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
 				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
 				CLANG_WARN_STRICT_PROTOTYPES = YES;
 				CLANG_WARN_SUSPICIOUS_MOVE = YES;
@@ -367,10 +354,11 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 10.3;
+				IPHONEOS_DEPLOYMENT_TARGET = 14.5;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				SDKROOT = iphoneos;
-				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
+				SWIFT_COMPILATION_MODE = wholemodule;
+				SWIFT_OPTIMIZATION_LEVEL = "-O";
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VALIDATE_PRODUCT = YES;
 			};
@@ -380,14 +368,16 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CURRENT_PROJECT_VERSION = 14;
 				DEVELOPMENT_TEAM = TRSP4AA7VA;
-				FRAMEWORK_SEARCH_PATHS = (
-					"$(inherited)",
-					"$(PROJECT_DIR)/Carthage/Build/iOS",
-				);
+				FRAMEWORK_SEARCH_PATHS = "$(inherited)";
 				INFOPLIST_FILE = "Skill Shot/Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 10.3;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				MARKETING_VERSION = 1.2.0;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.skillshot.Skill-Shot";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_SWIFT3_OBJC_INFERENCE = Default;
@@ -400,14 +390,16 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CURRENT_PROJECT_VERSION = 14;
 				DEVELOPMENT_TEAM = TRSP4AA7VA;
-				FRAMEWORK_SEARCH_PATHS = (
-					"$(inherited)",
-					"$(PROJECT_DIR)/Carthage/Build/iOS",
-				);
+				FRAMEWORK_SEARCH_PATHS = "$(inherited)";
 				INFOPLIST_FILE = "Skill Shot/Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 10.3;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				MARKETING_VERSION = 1.2.0;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.skillshot.Skill-Shot";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_SWIFT3_OBJC_INFERENCE = Default;
@@ -438,6 +430,25 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		6AC6E3D126A6178700F4C32C /* XCRemoteSwiftPackageReference "Alamofire" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/Alamofire/Alamofire.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 5.4.0;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		6AC6E3D226A6178700F4C32C /* Alamofire */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 6AC6E3D126A6178700F4C32C /* XCRemoteSwiftPackageReference "Alamofire" */;
+			productName = Alamofire;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = 8A1787FE1C28E8BD00C93E9B /* Project object */;
 }
