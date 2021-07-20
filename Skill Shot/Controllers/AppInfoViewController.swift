@@ -57,11 +57,11 @@ class AppInfoViewController: UITableViewController {
     }
     
     @IBAction func williamKeyButtonTapped(_ sender: AnyObject) {
-        if let willClarkeURL = URL(string: "fb://profile/100046690088720") {
-            if UIApplication.shared.canOpenURL(willClarkeURL) {
-                UIApplication.shared.open(willClarkeURL, options: convertToUIApplicationOpenExternalURLOptionsKeyDictionary([String : Any]()), completionHandler: nil)
-            } else if let willClarkeWebURL = URL(string: "https://www.facebook.com/williamkey123") {
-                UIApplication.shared.open(willClarkeWebURL, options: convertToUIApplicationOpenExternalURLOptionsKeyDictionary([String : Any]()), completionHandler: nil)
+        if let williamKeyURL = URL(string: "fb://profile/100046690088720") {
+            if UIApplication.shared.canOpenURL(williamKeyURL) {
+                UIApplication.shared.open(williamKeyURL, options: convertToUIApplicationOpenExternalURLOptionsKeyDictionary([String : Any]()), completionHandler: nil)
+            } else if let williamKeyURL = URL(string: "https://www.facebook.com/williamkey123") {
+                UIApplication.shared.open(williamKeyURL, options: convertToUIApplicationOpenExternalURLOptionsKeyDictionary([String : Any]()), completionHandler: nil)
             }
         }
     }
