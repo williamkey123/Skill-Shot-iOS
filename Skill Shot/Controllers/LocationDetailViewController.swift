@@ -9,9 +9,9 @@
 import UIKit
 import MapKit
 import Contacts
-// FIXME: comparison operators with optionals were removed from the Swift Standard Libary.
-// Consider refactoring the code to use the non-optional operators.
-fileprivate func < <T : Comparable>(lhs: T?, rhs: T?) -> Bool {
+
+infix operator <? : ComparisonPrecedence
+fileprivate func <? <T : Comparable>(lhs: T?, rhs: T?) -> Bool {
   switch (lhs, rhs) {
   case let (l?, r?):
     return l < r
@@ -170,7 +170,7 @@ class LocationDetailViewController: UIViewController, UITableViewDelegate, UITab
         }
         let cell = tableView.dequeueReusableCell(withIdentifier: validIdentifier, for: indexPath)
         if validIdentifier == "GameCell" {
-            if indexPath.row < validLocation.machines?.count {
+            if indexPath.row <? validLocation.machines?.count {
                 cell.textLabel!.text = validLocation.machines![indexPath.row].title.name
                 cell.detailTextLabel!.text = ""
             }

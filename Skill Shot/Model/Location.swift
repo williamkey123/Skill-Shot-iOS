@@ -9,9 +9,9 @@
 import Foundation
 import Alamofire
 import MapKit
-// FIXME: comparison operators with optionals were removed from the Swift Standard Libary.
-// Consider refactoring the code to use the non-optional operators.
-fileprivate func < <T : Comparable>(lhs: T?, rhs: T?) -> Bool {
+
+infix operator <? : ComparisonPrecedence
+fileprivate func <? <T : Comparable>(lhs: T?, rhs: T?) -> Bool {
   switch (lhs, rhs) {
   case let (l?, r?):
     return l < r
@@ -21,7 +21,6 @@ fileprivate func < <T : Comparable>(lhs: T?, rhs: T?) -> Bool {
     return false
   }
 }
-
 
 class Location: NSObject, MKAnnotation {
     var identifier: String
@@ -255,7 +254,7 @@ class LocationList: NSObject {
             }
         case .Distance:
             self.locations.sort { (location1: Location, location2: Location) -> Bool in
-                location1.distanceAwayInMiles < location2.distanceAwayInMiles
+                location1.distanceAwayInMiles <? location2.distanceAwayInMiles
             }
         case .NumOfGames:
             self.locations.sort { (location1: Location, location2: Location) -> Bool in
