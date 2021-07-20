@@ -123,7 +123,7 @@ class Location: NSObject, MKAnnotation {
                     }
                 }
                 NotificationCenter.default.post(name: Notification.Name("LocationDetailsLoaded"), object: self)
-            case .failure(let error):
+            case .failure(_):
                 return
             }
         }
@@ -185,7 +185,7 @@ class LocationList: NSObject {
                 }
                 self.loadedData = true
                 NotificationCenter.default.post(name: Notification.Name("LocationListLoaded"), object: self)
-            case .failure(let error):
+            case .failure(_):
                 //TODO: log error somewhere
                 return
             }
