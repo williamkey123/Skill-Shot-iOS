@@ -130,11 +130,16 @@ class Location: NSObject, MKAnnotation {
     
     func matchesSearchString(_ searchString: String) -> Bool {
         let lowercaseSearch = searchString.lowercased()
+
         if self.name.lowercased().range(of: lowercaseSearch) != nil {
             return true
+        } else if self.machines?.contains(where: { machine in
+                machine.title.name.lowercased().range(of: lowercaseSearch) != nil
+        }) == true {
+            return true
+        } else {
+            return false
         }
-        
-        return false
     }
 }
 

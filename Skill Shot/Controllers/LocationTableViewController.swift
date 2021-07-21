@@ -71,40 +71,15 @@ class LocationTableViewController: UITableViewController, UISearchBarDelegate {
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
     }
-    
-    
-    // MARK: - Table view data source
 
-    override func numberOfSections(in tableView: UITableView) -> Int {
-        return 1
-    }
+    // MARK: - Table cell generation methods
 
-    override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        if self.hasSearchTerm {
-            return filteredList.count
-        }
-        if let validLocationList = listData {
-            if validLocationList.loadedData {
-                return validLocationList.locations.count
-            } else {
-                return 1
-            }
-        }
-        return 0
-    }
-
-    override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+    func getLocationTableViewCell(for indexPath: IndexPath, inTable tableView: UITableView) -> UITableViewCell {
         guard let validLocationList = listData else {
-            return UITableViewCell()
+            return self.getLoadingCell(for: indexPath, inTable: tableView)
         }
-        
-        var defaultIdentifier = "LoadingCell"
-        if validLocationList.loadedData {
-            defaultIdentifier = "LocationCell"
-        }
-        
-        let cell = tableView.dequeueReusableCell(withIdentifier: defaultIdentifier, for: indexPath)
 
+        let cell = tableView.dequeueReusableCell(withIdentifier: "LocationCell", for: indexPath)
         if let validLocationCell = cell as? LocationTableViewCell {
             var validLocation = validLocationList.locations[indexPath.row]
             if self.hasSearchTerm {
@@ -119,7 +94,7 @@ class LocationTableViewController: UITableViewController, UISearchBarDelegate {
             } else {
                 validLocationCell.distanceLabel.text = ""
             }
-            
+
             if let validMachines = validLocation.machines {
                 if validMachines.count == 1 {
                     validLocationCell.gameCountLabel.text = "\(validMachines[0].title.name)"
@@ -134,9 +109,55 @@ class LocationTableViewController: UITableViewController, UISearchBarDelegate {
             } else {
                 validLocationCell.gameCountLabel.text = "No games"
             }
+            return validLocationCell
+        } else {
+            return self.getLoadingCell(for: indexPath, inTable: tableView)
         }
+    }
 
-        return cell
+    func getLoadingCell(for indexPath: IndexPath, inTable tableView: UITableView) -> UITableViewCell {
+        return tableView.dequeueReusableCell(withIdentifier: "LoadingCell", for: indexPath)
+    }
+
+    func getNoResultsCell(for indexPath: IndexPath, inTable tableView: UITableView) -> UITableViewCell {
+        let noResultsCell = tableView.dequeueReusableCell(withIdentifier: "NoResultsCell", for: indexPath)
+        if let searchTerm = self.searchTerm {
+            noResultsCell.textLabel?.text = "No results found for \"\(searchTerm)\""
+        } else {
+            noResultsCell.textLabel?.text = "No results found"
+        }
+        return noResultsCell
+    }
+
+    
+    // MARK: - Table view data source
+
+    override func numberOfSections(in tableView: UITableView) -> Int {
+        return 1
+    }
+
+    override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        if self.hasSearchTerm {
+            return max(filteredList.count, 1)
+        }
+        if let validLocationList = listData {
+            if validLocationList.loadedData {
+                return validLocationList.locations.count
+            } else {
+                return 1
+            }
+        }
+        return 0
+    }
+
+    override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        if self.hasSearchTerm && self.filteredList.count == 0 {
+            return self.getNoResultsCell(for: indexPath, inTable: tableView)
+        } else if listData != nil && listData!.loadedData {
+            return self.getLocationTableViewCell(for: indexPath, inTable: tableView)
+        } else {
+            return self.getLoadingCell(for: indexPath, inTable: tableView)
+        }
     }
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
@@ -220,6 +241,7 @@ class LocationTableViewController: UITableViewController, UISearchBarDelegate {
             return
         }
         self.filteredList = [Location]()
+
         if let searchedText = self.searchTerm {
             if searchedText != "" {
                 for location in validListData.locations {
@@ -239,14 +261,18 @@ class LocationTableViewController: UITableViewController, UISearchBarDelegate {
     func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
         self.updateSearchResults()
     }
-    
+
     func searchBarTextDidBeginEditing(_ searchBar: UISearchBar) {
-        searchBar.showsCancelButton = true
+        searchBar.setShowsCancelButton(true, animated: true)
+        searchBar.setShowsScope(true, animated: true)
+        tableView.reloadData()
     }
     
     func searchBarTextDidEndEditing(_ searchBar: UISearchBar) {
         searchBar.resignFirstResponder()
-        searchBar.showsCancelButton = false
+        searchBar.setShowsCancelButton(false, animated: true)
+        searchBar.setShowsScope(false, animated: true)
+        tableView.reloadData()
         self.updateSearchResults()
     }
     
