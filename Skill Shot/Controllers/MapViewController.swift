@@ -82,7 +82,7 @@ class MapViewController: UIViewController, MKMapViewDelegate {
             let annotationView = MKPinAnnotationView(annotation: annotation, reuseIdentifier: "LocationIdetifier")
             annotationView.canShowCallout = true
             annotationView.rightCalloutAccessoryView = UIButton(type: UIButton.ButtonType.detailDisclosure)
-            annotationView.pinTintColor = UIColor(red: 247/255.0, green: 174/255.0, blue: 0.0, alpha: 1.0)
+            annotationView.pinTintColor = AppDelegate.globalTintColor
             return annotationView
         }
     }

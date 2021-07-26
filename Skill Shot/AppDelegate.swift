@@ -12,6 +12,8 @@ let baseAPI = "http://list.skill-shot.com/"
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
+    static let globalTintColor = UIColor(red: 247/255.0, green: 174/255.0, blue: 0.0, alpha: 1.0)
+
     var window: UIWindow?
     
     var launchedShortcutItem: UIApplicationShortcutItem?

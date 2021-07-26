@@ -15,9 +15,19 @@ class Machine {
         self.identifier = identifier
         self.title = title
     }
-    
+
     convenience init(identifier: Int, titleIdentifier: Int, titleName: String) {
         self.init(identifier: identifier, title: Title(identifier: titleIdentifier, name: titleName))
+    }
+
+    func containsString(_ searchText: String) -> Bool {
+        let lowercaseSearch = searchText.lowercased()
+
+        if self.title.name.lowercased().range(of: lowercaseSearch) != nil {
+            return true
+        } else {
+            return false
+        }
     }
 }
 

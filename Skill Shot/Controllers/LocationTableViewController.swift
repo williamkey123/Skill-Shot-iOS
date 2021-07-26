@@ -87,7 +87,7 @@ class LocationTableViewController: UITableViewController, UISearchBarDelegate {
                     validLocation = filteredList[indexPath.row]
                 }
             }
-            validLocationCell.locationNameLabel.text = validLocation.name
+            validLocationCell.setName(validLocation.name, withSearchText: self.searchTerm)
             if let validDistance = validLocation.distanceAwayInMiles {
                 let distanceStr = NSString(format: "%.2f", validDistance)
                 validLocationCell.distanceLabel.text = "\(distanceStr) mi"
@@ -95,20 +95,7 @@ class LocationTableViewController: UITableViewController, UISearchBarDelegate {
                 validLocationCell.distanceLabel.text = ""
             }
 
-            if let validMachines = validLocation.machines {
-                if validMachines.count == 1 {
-                    validLocationCell.gameCountLabel.text = "\(validMachines[0].title.name)"
-                } else if validMachines.count == 2 {
-                    validLocationCell.gameCountLabel.text = "\(validMachines[0].title.name) and \(validMachines[1].title.name)"
-                } else if validMachines.count > 2 {
-                    let extraCount = validMachines.count - 2
-                    validLocationCell.gameCountLabel.text = "\(validMachines[0].title.name), \(validMachines[1].title.name), and \(extraCount) more"
-                } else {
-                    validLocationCell.gameCountLabel.text = "No games"
-                }
-            } else {
-                validLocationCell.gameCountLabel.text = "No games"
-            }
+            validLocationCell.setGameLabel(forMachines: validLocation.machines, withSearchText: self.searchTerm)
             return validLocationCell
         } else {
             return self.getLoadingCell(for: indexPath, inTable: tableView)
