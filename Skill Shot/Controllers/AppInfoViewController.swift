@@ -65,6 +65,12 @@ class AppInfoViewController: UITableViewController {
             }
         }
     }
+
+    @IBAction func andrewColeButtonTapped(_ sender: Any) {
+        if let webURL = URL(string: "https://aocole.net") {
+            UIApplication.shared.open(webURL, options: convertToUIApplicationOpenExternalURLOptionsKeyDictionary([String : Any]()), completionHandler: nil)
+        }
+    }
 }
 
 // Helper function inserted by Swift 4.2 migrator.

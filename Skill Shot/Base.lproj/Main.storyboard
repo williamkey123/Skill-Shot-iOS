@@ -181,7 +181,8 @@
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="wLC-eY-fpg">
-                                                    <rect key="frame" x="161" y="5" width="79" height="30"/>
+                                                    <rect key="frame" x="161" y="9" width="87" height="33"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                     <state key="normal" title="William Key"/>
                                                     <connections>
                                                         <action selector="williamKeyButtonTapped:" destination="5VO-mO-Fbi" eventType="touchUpInside" id="1ig-fR-zNT"/>
@@ -190,7 +191,7 @@
                                             </subviews>
                                             <constraints>
                                                 <constraint firstAttribute="bottomMargin" secondItem="ik0-NG-y3e" secondAttribute="bottom" constant="3" id="Kxs-bS-KjV"/>
-                                                <constraint firstItem="wLC-eY-fpg" firstAttribute="baseline" secondItem="ik0-NG-y3e" secondAttribute="baseline" id="SO2-pH-so1"/>
+                                                <constraint firstItem="wLC-eY-fpg" firstAttribute="firstBaseline" secondItem="ik0-NG-y3e" secondAttribute="firstBaseline" id="SO2-pH-so1"/>
                                                 <constraint firstAttribute="trailingMargin" relation="greaterThanOrEqual" secondItem="wLC-eY-fpg" secondAttribute="trailing" id="Wvd-D1-C2A"/>
                                                 <constraint firstItem="ik0-NG-y3e" firstAttribute="top" secondItem="h3D-aS-9c8" secondAttribute="topMargin" constant="4" id="iVY-iN-FUL"/>
                                                 <constraint firstItem="ik0-NG-y3e" firstAttribute="leading" secondItem="h3D-aS-9c8" secondAttribute="leadingMargin" id="jqM-ln-acE"/>
@@ -205,16 +206,26 @@
                                             <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Backend Development: Andrew Cole" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="SRC-hD-AXi">
-                                                    <rect key="frame" x="16" y="15" width="288" height="15"/>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Backend Development:" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="SRC-hD-AXi">
+                                                    <rect key="frame" x="16" y="15" width="176" height="15"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
+                                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="zLG-Tz-JSb">
+                                                    <rect key="frame" x="200" y="9" width="98" height="33"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                    <state key="normal" title="Andrew Cole"/>
+                                                    <connections>
+                                                        <action selector="andrewColeButtonTapped:" destination="5VO-mO-Fbi" eventType="touchUpInside" id="VKR-FT-fel"/>
+                                                    </connections>
+                                                </button>
                                             </subviews>
                                             <constraints>
+                                                <constraint firstItem="zLG-Tz-JSb" firstAttribute="leading" secondItem="SRC-hD-AXi" secondAttribute="trailing" constant="8" symbolic="YES" id="47h-hW-dua"/>
+                                                <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="zLG-Tz-JSb" secondAttribute="trailing" constant="20" symbolic="YES" id="Bsl-Kr-Lse"/>
                                                 <constraint firstAttribute="bottomMargin" secondItem="SRC-hD-AXi" secondAttribute="bottom" constant="3" id="RSf-Om-Kpw"/>
                                                 <constraint firstItem="SRC-hD-AXi" firstAttribute="top" secondItem="CpQ-cJ-MAL" secondAttribute="topMargin" constant="4" id="SIv-Az-9mz"/>
-                                                <constraint firstItem="SRC-hD-AXi" firstAttribute="trailing" secondItem="CpQ-cJ-MAL" secondAttribute="trailingMargin" id="WGT-Or-S7x"/>
+                                                <constraint firstItem="zLG-Tz-JSb" firstAttribute="firstBaseline" secondItem="SRC-hD-AXi" secondAttribute="firstBaseline" id="c0N-si-X3D"/>
                                                 <constraint firstItem="SRC-hD-AXi" firstAttribute="leading" secondItem="CpQ-cJ-MAL" secondAttribute="leadingMargin" id="o9m-6C-daM"/>
                                             </constraints>
                                         </tableViewCellContentView>
@@ -227,7 +238,8 @@
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="wkO-Fo-4FZ">
-                                                    <rect key="frame" x="70" y="4" width="47" height="30"/>
+                                                    <rect key="frame" x="70" y="8" width="52" height="33"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                     <state key="normal" title="Icons8"/>
                                                     <connections>
                                                         <action selector="iconsButtonTapped:" destination="5VO-mO-Fbi" eventType="touchUpInside" id="T1Q-Z7-hnp"/>
@@ -244,7 +256,7 @@
                                                 <constraint firstItem="T8I-b0-ZzU" firstAttribute="leading" secondItem="oO6-0P-hFK" secondAttribute="leadingMargin" id="Pex-nN-X1g"/>
                                                 <constraint firstAttribute="trailingMargin" relation="greaterThanOrEqual" secondItem="wkO-Fo-4FZ" secondAttribute="trailing" id="Sem-Hq-bjc"/>
                                                 <constraint firstItem="wkO-Fo-4FZ" firstAttribute="leading" secondItem="T8I-b0-ZzU" secondAttribute="trailing" constant="8" id="YZs-id-fVT"/>
-                                                <constraint firstItem="wkO-Fo-4FZ" firstAttribute="baseline" secondItem="T8I-b0-ZzU" secondAttribute="baseline" id="oom-LZ-7cU"/>
+                                                <constraint firstItem="wkO-Fo-4FZ" firstAttribute="firstBaseline" secondItem="T8I-b0-ZzU" secondAttribute="firstBaseline" id="oom-LZ-7cU"/>
                                                 <constraint firstAttribute="bottomMargin" secondItem="T8I-b0-ZzU" secondAttribute="bottom" constant="4" id="zoD-jf-upv"/>
                                             </constraints>
                                         </tableViewCellContentView>
@@ -257,7 +269,8 @@
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="lu1-ub-9Vh">
-                                                    <rect key="frame" x="174" y="4" width="66" height="30"/>
+                                                    <rect key="frame" x="174" y="8" width="73" height="33"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                     <state key="normal" title="Alamofire"/>
                                                     <connections>
                                                         <action selector="alamofireButtonTapped:" destination="5VO-mO-Fbi" eventType="touchUpInside" id="ANO-V8-SJD"/>
@@ -271,7 +284,7 @@
                                             </subviews>
                                             <constraints>
                                                 <constraint firstAttribute="bottomMargin" secondItem="x3d-kQ-yDf" secondAttribute="bottom" constant="4" id="1Ol-YU-pDF"/>
-                                                <constraint firstItem="lu1-ub-9Vh" firstAttribute="baseline" secondItem="x3d-kQ-yDf" secondAttribute="baseline" id="B6U-pO-pbP"/>
+                                                <constraint firstItem="lu1-ub-9Vh" firstAttribute="firstBaseline" secondItem="x3d-kQ-yDf" secondAttribute="firstBaseline" id="B6U-pO-pbP"/>
                                                 <constraint firstAttribute="trailingMargin" relation="greaterThanOrEqual" secondItem="lu1-ub-9Vh" secondAttribute="trailing" id="bH4-jX-bdS"/>
                                                 <constraint firstItem="x3d-kQ-yDf" firstAttribute="top" secondItem="iGt-2X-DZL" secondAttribute="topMargin" constant="3" id="eo7-zx-Fcd"/>
                                                 <constraint firstItem="x3d-kQ-yDf" firstAttribute="leading" secondItem="iGt-2X-DZL" secondAttribute="leadingMargin" id="lit-13-yPe"/>
