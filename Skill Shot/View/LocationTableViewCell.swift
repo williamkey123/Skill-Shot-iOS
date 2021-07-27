@@ -15,10 +15,28 @@ class LocationTableViewCell: UITableViewCell {
 
     override func awakeFromNib() {
         super.awakeFromNib()
+        setCustomDarkModeColors()
     }
 
     override func setSelected(_ selected: Bool, animated: Bool) {
         super.setSelected(selected, animated: animated)
+    }
+
+    override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
+        if self.traitCollection.hasDifferentColorAppearance(comparedTo: previousTraitCollection) {
+            setCustomDarkModeColors()
+        }
+    }
+
+    func setCustomDarkModeColors() {
+        switch self.traitCollection.userInterfaceStyle {
+        case .dark:
+            self.locationNameLabel.textColor = UIColor.white
+            self.gameCountLabel.textColor = UIColor.white
+        default:
+            self.locationNameLabel.textColor = UIColor.black
+            self.gameCountLabel.textColor = UIColor(white: 0.6, alpha: 1.0)
+        }
     }
 
     // MARK: - View Setting Methods
