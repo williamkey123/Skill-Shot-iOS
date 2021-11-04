@@ -7,23 +7,19 @@
 //
 
 import Foundation
-class Machine {
-    var identifier: Int
-    var title: Title
-    
-    required init(identifier: Int, title: Title) {
-        self.identifier = identifier
-        self.title = title
-    }
 
-    convenience init(identifier: Int, titleIdentifier: Int, titleName: String) {
-        self.init(identifier: identifier, title: Title(identifier: titleIdentifier, name: titleName))
+struct Machine: Codable, Identifiable, Equatable {
+    var id: Int
+    var game: Game
+
+    private enum CodingKeys: String, CodingKey {
+        case id, game = "title"
     }
 
     func containsString(_ searchText: String) -> Bool {
         let lowercaseSearch = searchText.lowercased()
 
-        if self.title.name.lowercased().range(of: lowercaseSearch) != nil {
+        if self.game.name.lowercased().range(of: lowercaseSearch) != nil {
             return true
         } else {
             return false
@@ -31,12 +27,11 @@ class Machine {
     }
 }
 
-class Title {
-    var identifier: Int
+struct Game: Codable, Hashable {
+    var id: Int
     var name: String
 
-    required init(identifier: Int, name: String) {
-        self.identifier = identifier
-        self.name = name
+    static func == (lhs: Game, rhs: Game) -> Bool {
+        lhs.id == rhs.id
     }
 }
