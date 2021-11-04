@@ -263,7 +263,7 @@ struct SingleLocationWrapperRowView: View {
     var body: some View {
         VStack {
             HStack(alignment: .center) {
-                SingleLocationRowView(location: location)
+                SingleLocationNavRowView(location: location)
                 Spacer()
                 Image(systemName: "chevron.forward")
                     .foregroundColor(.gray)

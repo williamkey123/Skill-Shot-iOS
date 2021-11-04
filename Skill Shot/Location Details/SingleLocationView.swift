@@ -158,7 +158,7 @@ struct LocationSummaryHeaderView: View {
         VStack(alignment: .leading, spacing: 8) {
             Text(location.name)
                 .font(.largeTitle)
-                .fontWeight(.heavy)
+                .fontWeight(.bold)
                 .padding(.horizontal)
             if let address = location.address {
                 AddressRowView(address: address, location: location)

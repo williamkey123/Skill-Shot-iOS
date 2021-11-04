@@ -15,11 +15,13 @@
 		6A37E74C2728B04B005D4AF3 /* AllGameView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A37E74B2728B04B005D4AF3 /* AllGameView.swift */; };
 		6A37E74E2728BD6F005D4AF3 /* AllLocationListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A37E74D2728BD6F005D4AF3 /* AllLocationListView.swift */; };
 		6A37E7502729C1B7005D4AF3 /* SingleLocationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A37E74F2729C1B7005D4AF3 /* SingleLocationView.swift */; };
+		6A6326752734850A0072C3FE /* PhoneAllLocationListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A6326742734850A0072C3FE /* PhoneAllLocationListView.swift */; };
+		6A632677273485310072C3FE /* PadAllLocationListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A632676273485310072C3FE /* PadAllLocationListView.swift */; };
 		6A69B670272BA6960093BB7E /* DrawerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A69B66F272BA6960093BB7E /* DrawerView.swift */; };
 		6A69B672272BB8720093BB7E /* LocationAnnotationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A69B671272BB8720093BB7E /* LocationAnnotationView.swift */; };
 		6A69B676272BB8EF0093BB7E /* CoreLocationExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A69B675272BB8EF0093BB7E /* CoreLocationExtensions.swift */; };
 		6A69B678272BB9300093BB7E /* ClusteredLocationItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A69B677272BB9300093BB7E /* ClusteredLocationItem.swift */; };
-		6A69B67A272BB9930093BB7E /* SingleLocationRowView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A69B679272BB9930093BB7E /* SingleLocationRowView.swift */; };
+		6A69B67A272BB9930093BB7E /* SingleLocationNavRowView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A69B679272BB9930093BB7E /* SingleLocationNavRowView.swift */; };
 		6A69B67C272BC2740093BB7E /* LocationSortSheetView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A69B67B272BC2740093BB7E /* LocationSortSheetView.swift */; };
 		6A69B67E272C61130093BB7E /* TextExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A69B67D272C61130093BB7E /* TextExtension.swift */; };
 		6AE106D2272CF501006EC804 /* UIDeviceOrientationExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6AE106D1272CF501006EC804 /* UIDeviceOrientationExtension.swift */; };
@@ -34,15 +36,17 @@
 		6A37E7422728903A005D4AF3 /* SkillShotApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SkillShotApp.swift; sourceTree = "<group>"; };
 		6A37E74427289148005D4AF3 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = ContentView.swift; path = View/ContentView.swift; sourceTree = "<group>"; };
 		6A37E74727289217005D4AF3 /* all_locations.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = all_locations.json; sourceTree = "<group>"; };
-		6A37E7492728A73C005D4AF3 /* AllLocationMapView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = AllLocationMapView.swift; path = View/AllLocationMapView.swift; sourceTree = "<group>"; };
-		6A37E74B2728B04B005D4AF3 /* AllGameView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = AllGameView.swift; path = View/AllGameView.swift; sourceTree = "<group>"; };
-		6A37E74D2728BD6F005D4AF3 /* AllLocationListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = AllLocationListView.swift; path = View/AllLocationListView.swift; sourceTree = "<group>"; };
-		6A37E74F2729C1B7005D4AF3 /* SingleLocationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = SingleLocationView.swift; path = View/SingleLocationView.swift; sourceTree = "<group>"; };
-		6A69B66F272BA6960093BB7E /* DrawerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = DrawerView.swift; path = View/DrawerView.swift; sourceTree = "<group>"; };
-		6A69B671272BB8720093BB7E /* LocationAnnotationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = LocationAnnotationView.swift; path = View/LocationAnnotationView.swift; sourceTree = "<group>"; };
+		6A37E7492728A73C005D4AF3 /* AllLocationMapView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AllLocationMapView.swift; sourceTree = "<group>"; };
+		6A37E74B2728B04B005D4AF3 /* AllGameView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AllGameView.swift; sourceTree = "<group>"; };
+		6A37E74D2728BD6F005D4AF3 /* AllLocationListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AllLocationListView.swift; sourceTree = "<group>"; };
+		6A37E74F2729C1B7005D4AF3 /* SingleLocationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SingleLocationView.swift; sourceTree = "<group>"; };
+		6A6326742734850A0072C3FE /* PhoneAllLocationListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhoneAllLocationListView.swift; sourceTree = "<group>"; };
+		6A632676273485310072C3FE /* PadAllLocationListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PadAllLocationListView.swift; sourceTree = "<group>"; };
+		6A69B66F272BA6960093BB7E /* DrawerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DrawerView.swift; sourceTree = "<group>"; };
+		6A69B671272BB8720093BB7E /* LocationAnnotationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationAnnotationView.swift; sourceTree = "<group>"; };
 		6A69B675272BB8EF0093BB7E /* CoreLocationExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreLocationExtensions.swift; sourceTree = "<group>"; };
 		6A69B677272BB9300093BB7E /* ClusteredLocationItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = ClusteredLocationItem.swift; path = Model/ClusteredLocationItem.swift; sourceTree = "<group>"; };
-		6A69B679272BB9930093BB7E /* SingleLocationRowView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = SingleLocationRowView.swift; path = View/SingleLocationRowView.swift; sourceTree = "<group>"; };
+		6A69B679272BB9930093BB7E /* SingleLocationNavRowView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SingleLocationNavRowView.swift; sourceTree = "<group>"; };
 		6A69B67B272BC2740093BB7E /* LocationSortSheetView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationSortSheetView.swift; sourceTree = "<group>"; };
 		6A69B67D272C61130093BB7E /* TextExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextExtension.swift; sourceTree = "<group>"; };
 		6AE106D1272CF501006EC804 /* UIDeviceOrientationExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIDeviceOrientationExtension.swift; sourceTree = "<group>"; };
@@ -72,6 +76,44 @@
 				6A37E74727289217005D4AF3 /* all_locations.json */,
 			);
 			name = Resources;
+			sourceTree = "<group>";
+		};
+		6A63267027347C860072C3FE /* Location List */ = {
+			isa = PBXGroup;
+			children = (
+				6A37E74D2728BD6F005D4AF3 /* AllLocationListView.swift */,
+				6A6326742734850A0072C3FE /* PhoneAllLocationListView.swift */,
+				6A632676273485310072C3FE /* PadAllLocationListView.swift */,
+				6A69B67B272BC2740093BB7E /* LocationSortSheetView.swift */,
+			);
+			path = "Location List";
+			sourceTree = "<group>";
+		};
+		6A63267127347C9D0072C3FE /* Map */ = {
+			isa = PBXGroup;
+			children = (
+				6A37E7492728A73C005D4AF3 /* AllLocationMapView.swift */,
+				6A69B671272BB8720093BB7E /* LocationAnnotationView.swift */,
+				6A69B66F272BA6960093BB7E /* DrawerView.swift */,
+			);
+			path = Map;
+			sourceTree = "<group>";
+		};
+		6A63267227347CA50072C3FE /* Game List */ = {
+			isa = PBXGroup;
+			children = (
+				6A37E74B2728B04B005D4AF3 /* AllGameView.swift */,
+			);
+			path = "Game List";
+			sourceTree = "<group>";
+		};
+		6A63267327347CEA0072C3FE /* Location Details */ = {
+			isa = PBXGroup;
+			children = (
+				6A37E74F2729C1B7005D4AF3 /* SingleLocationView.swift */,
+				6A69B679272BB9930093BB7E /* SingleLocationNavRowView.swift */,
+			);
+			path = "Location Details";
 			sourceTree = "<group>";
 		};
 		6A69B674272BB8BC0093BB7E /* Extensions */ = {
@@ -131,14 +173,10 @@
 		8A17884C1C2935A300C93E9B /* View */ = {
 			isa = PBXGroup;
 			children = (
-				6A37E7492728A73C005D4AF3 /* AllLocationMapView.swift */,
-				6A69B671272BB8720093BB7E /* LocationAnnotationView.swift */,
-				6A69B679272BB9930093BB7E /* SingleLocationRowView.swift */,
-				6A69B66F272BA6960093BB7E /* DrawerView.swift */,
-				6A37E74B2728B04B005D4AF3 /* AllGameView.swift */,
-				6A37E74D2728BD6F005D4AF3 /* AllLocationListView.swift */,
-				6A69B67B272BC2740093BB7E /* LocationSortSheetView.swift */,
-				6A37E74F2729C1B7005D4AF3 /* SingleLocationView.swift */,
+				6A63267127347C9D0072C3FE /* Map */,
+				6A63267027347C860072C3FE /* Location List */,
+				6A63267227347CA50072C3FE /* Game List */,
+				6A63267327347CEA0072C3FE /* Location Details */,
 			);
 			name = View;
 			sourceTree = "<group>";
@@ -226,6 +264,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				6AE106D2272CF501006EC804 /* UIDeviceOrientationExtension.swift in Sources */,
+				6A632677273485310072C3FE /* PadAllLocationListView.swift in Sources */,
 				6A69B67E272C61130093BB7E /* TextExtension.swift in Sources */,
 				8A1788381C28FA8F00C93E9B /* Location.swift in Sources */,
 				6A69B676272BB8EF0093BB7E /* CoreLocationExtensions.swift in Sources */,
@@ -239,8 +278,9 @@
 				6A37E74E2728BD6F005D4AF3 /* AllLocationListView.swift in Sources */,
 				6A37E74C2728B04B005D4AF3 /* AllGameView.swift in Sources */,
 				6A69B67C272BC2740093BB7E /* LocationSortSheetView.swift in Sources */,
+				6A6326752734850A0072C3FE /* PhoneAllLocationListView.swift in Sources */,
 				8A17883A1C28FC3200C93E9B /* Machine.swift in Sources */,
-				6A69B67A272BB9930093BB7E /* SingleLocationRowView.swift in Sources */,
+				6A69B67A272BB9930093BB7E /* SingleLocationNavRowView.swift in Sources */,
 				6A69B672272BB8720093BB7E /* LocationAnnotationView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
