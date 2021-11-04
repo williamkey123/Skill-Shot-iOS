@@ -9,13 +9,13 @@ import SwiftUI
 
 struct ContentView: View {
     @State var selectedTab = 1
-
+    
     init() {
         UITabBar.appearance().backgroundColor = UIColor(named: "TabBarBackgroundColor")
         UITabBar.appearance().barTintColor = UIColor(named: "TabBarBackgroundColor")
         UITabBar.appearance().unselectedItemTintColor = UIColor(named: "TabBarUnselectedItemColor")
     }
-
+    
     var body: some View {
         TabView(selection: $selectedTab) {
             AllLocationMapView()
@@ -45,10 +45,6 @@ struct ContentView: View {
 
 struct ContentView_Previews: PreviewProvider {
     static var previews: some View {
-        if #available(iOS 15.0, *) {
-            ContentView()
-        } else {
-            ContentView()
-        }
+        ContentView()
     }
 }

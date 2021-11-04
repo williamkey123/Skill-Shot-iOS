@@ -23,7 +23,6 @@ struct AllGameView: View {
                 }
             }
         NavigationView {
-            if #available(iOS 15.0, *) {
                 List {
                     ForEach(games, id: \.self) {
                         game in
@@ -36,15 +35,6 @@ struct AllGameView: View {
                     prompt: "Enter game name"
                 )
                 .navigationTitle("All Games")
-            } else {
-                List {
-                    ForEach(games, id: \.self) {
-                        game in
-                        GameRowView(game: game)
-                    }
-                }
-                .navigationTitle("All Games")
-            }
         }
     }
 }

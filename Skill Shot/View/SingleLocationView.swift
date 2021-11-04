@@ -11,7 +11,7 @@ import Contacts
 
 struct SingleLocationView: View {
     var location: Location
-
+    
     var body: some View {
         GeometryReader { geometry in
             if geometry.size.width < geometry.size.height {
@@ -70,14 +70,10 @@ struct SingleLocationView_Previews: PreviewProvider {
 struct AddressRowView: View {
     var address: String
     var location: Location
-
+    
     var body: some View {
         VStack(alignment: .leading, spacing: 2) {
-            if #available(iOS 15.0, *) {
-                Text(address).textSelection(.enabled).font(.body)
-            } else {
-                Text(address).font(.body)
-            }
+            Text(address).textSelection(.enabled).font(.body)
             Button {
                 var addressDictionary = [String : AnyObject]()
                 if let validAddress = location.address {
@@ -107,17 +103,13 @@ struct AddressRowView: View {
 
 struct WebsiteRowView: View {
     var urlString: String
-
+    
     var body: some View {
         if let url = URL(string: urlString),
            UIApplication.shared.canOpenURL(url)
         {
             VStack(alignment: .leading, spacing: 2) {
-                if #available(iOS 15.0, *) {
-                    Text(urlString).textSelection(.enabled).font(.body)
-                } else {
-                    Text(urlString).font(.body)
-                }
+                Text(urlString).textSelection(.enabled).font(.body)
                 Button {
                     UIApplication.shared.open(url)
                 } label: {
@@ -137,20 +129,16 @@ struct WebsiteRowView: View {
 
 struct PhoneNumberRowView: View {
     var phone: String
-
+    
     var body: some View {
         let formattedPhone = phone.components(
             separatedBy: CharacterSet.decimalDigits.inverted
         ).joined(separator: "")
-
+        
         VStack(alignment: .leading, spacing: 2) {
-            if #available(iOS 15.0, *) {
-                Text(phone).textSelection(.enabled).font(.body)
-            } else {
-                Text(phone).font(.body)
-            }
+            Text(phone).textSelection(.enabled).font(.body)
             if let url = URL(string: "tel://\(formattedPhone)"),
-                UIApplication.shared.canOpenURL(url)
+               UIApplication.shared.canOpenURL(url)
             {
                 Button {
                     UIApplication.shared.open(url)
@@ -165,7 +153,7 @@ struct PhoneNumberRowView: View {
 
 struct LocationSummaryHeaderView: View {
     var location: Location
-
+    
     var body: some View {
         VStack(alignment: .leading, spacing: 8) {
             Text(location.name)
@@ -187,7 +175,7 @@ struct LocationSummaryHeaderView: View {
 
 struct LocationGameList: View {
     var machines: [Machine]
-
+    
     var body: some View {
         VStack(alignment: .leading, spacing: 0) {
             HStack {
@@ -202,7 +190,7 @@ struct LocationGameList: View {
             .background(
                 Rectangle().fill(Color.gray.opacity(0.4))
             )
-
+            
             ScrollView {
                 VStack(alignment: .leading, spacing: 0) {
                     ForEach(machines) { machine in

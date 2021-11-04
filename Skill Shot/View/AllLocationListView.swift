@@ -26,34 +26,22 @@ struct AllLocationListView: View {
             return included
         }
         NavigationView {
-            Group {
-                if #available(iOS 15.0, *) {
-                    List {
-                        ForEach(locations, id: \.self) {
-                            location in
-                            SingleLocationRowView(
-                                location: location,
-                                highlightingText: searchText.isEmpty ? nil : searchText
-                            )
-                        }
-                        if locations.isEmpty && !searchText.isEmpty {
-                            Text("No search results for \(searchText)")
-                        }
-                    }
-                    .navigationViewStyle(.stack)
-                    .searchable(text: $searchText)
-                    .listStyle(.plain)
-                } else {
-                    List {
-                        ForEach(locations, id: \.self) {
-                            location in
-                            SingleLocationRowView(location: location)
-                        }
-                    }
-                    .navigationViewStyle(StackNavigationViewStyle())
-                    .listStyle(.plain)
+            List {
+                ForEach(locations, id: \.self) {
+                    location in
+                    SingleLocationRowView(
+                        location: location,
+                        highlightingText: searchText.isEmpty ? nil : searchText
+                    )
+                }
+                if locations.isEmpty && !searchText.isEmpty {
+                    Text("No search results for \(searchText)")
                 }
             }
+            .listStyle(.plain)
+            .navigationTitle("All Venues")
+            .navigationViewStyle(.stack)
+            .searchable(text: $searchText)
             .toolbar {
                 ToolbarItemGroup(placement: .navigationBarTrailing) {
                     Button {
@@ -70,8 +58,6 @@ struct AllLocationListView: View {
                     }
                 }
             }
-            .navigationTitle("All Venues")
-//            .navigationViewStyle(DoubleColumnNavigationViewStyle())
         }
     }
 }
