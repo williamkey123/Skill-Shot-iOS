@@ -8,34 +8,45 @@
 import SwiftUI
 
 struct AllGameView: View {
-    @ObservedObject var locationDB = LocationDatabase.shared
+    @Environment(\.horizontalSizeClass) var horizontalSizeClass
     @State var searchText = ""
+    @State var selectedGame: Game? = nil
+    @State var isLandscape = UIDevice.current.orientation.isLandscape
+
+    var usesStackView: Bool {
+        if UIDevice.current.userInterfaceIdiom == .pad {
+            return true
+        } else if horizontalSizeClass == .regular {
+            return true
+        } else {
+            return false
+        }
+    }
 
     var body: some View {
-        let games = Array(locationDB.games).sorted { lhs, rhs in
-            lhs.name < rhs.name
-        }
-            .filter { game in
-                if searchText.isEmpty {
-                    return true
-                } else {
-                    return game.name.contains(searchText)
-                }
-            }
-        NavigationView {
-                List {
-                    ForEach(games, id: \.self) {
-                        game in
-                        GameRowView(game: game)
-                    }
-                }
-                .searchable(
-                    text: $searchText,
-                    placement: .toolbar,
-                    prompt: "Enter game name"
+        ZStack {
+            if self.usesStackView {
+                DoubleColumnGameListView(
+                    searchText: $searchText,
+                    selectedGame: $selectedGame
                 )
-                .navigationTitle("All Games")
+                    .edgesIgnoringSafeArea(.horizontal)
+            } else {
+                SingleColumnGameListView(
+                    searchText: $searchText,
+                    selectedGame: $selectedGame
+                )
+            }
         }
+        .onReceive(
+            NotificationCenter.Publisher(
+                center: .default,
+                name: UIDevice.orientationDidChangeNotification
+            ),
+            perform: { _ in
+                self.isLandscape = UIDevice.current.orientation.isLandscape
+            }
+        )
     }
 }
 
@@ -71,5 +82,6 @@ struct GameRowView: View {
                         .fill(Color.gray)
                 )
         }
+        .contentShape(ContainerRelativeShape())
     }
 }

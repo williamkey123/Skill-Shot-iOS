@@ -21,9 +21,13 @@ struct SingleLocationView: View {
                     LocationGameList(machines: location.machines)
                 }
             } else {
-                HStack(alignment: .top, spacing: 16) {
+                let spacing: CGFloat = 16
+                let width = geometry.size.width
+                HStack(alignment: .top, spacing: spacing) {
                     LocationSummaryHeaderView(location: location)
+                        .frame(width: (width - spacing) / 2)
                     LocationGameList(machines: location.machines)
+                        .frame(width: (width - spacing) / 2)
                 }
             }
         }
@@ -64,6 +68,8 @@ struct SingleLocationView_Previews: PreviewProvider {
                 )
             )
         }
+        .navigationViewStyle(.stack)
+.previewInterfaceOrientation(.landscapeLeft)
     }
 }
 
@@ -155,20 +161,23 @@ struct LocationSummaryHeaderView: View {
     var location: Location
     
     var body: some View {
-        VStack(alignment: .leading, spacing: 8) {
-            Text(location.name)
-                .font(.largeTitle)
-                .fontWeight(.bold)
-                .padding(.horizontal)
-            if let address = location.address {
-                AddressRowView(address: address, location: location)
+        HStack(alignment: .top, spacing: 0) {
+            VStack(alignment: .leading, spacing: 8) {
+                Text(location.name)
+                    .font(.largeTitle)
+                    .fontWeight(.bold)
+                    .padding(.horizontal)
+                if let address = location.address {
+                    AddressRowView(address: address, location: location)
+                }
+                if let phone = location.phone {
+                    PhoneNumberRowView(phone: phone)
+                }
+                if let urlString = location.urlString {
+                    WebsiteRowView(urlString: urlString)
+                }
             }
-            if let phone = location.phone {
-                PhoneNumberRowView(phone: phone)
-            }
-            if let urlString = location.urlString {
-                WebsiteRowView(urlString: urlString)
-            }
+            Spacer(minLength: 0)
         }
     }
 }

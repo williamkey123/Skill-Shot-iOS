@@ -18,7 +18,7 @@ struct ContentView: View {
     
     var body: some View {
         TabView(selection: $selectedTab) {
-            AllLocationMapView()
+            LocationMapView()
                 .tabItem {
                     Label("Map",
                           systemImage: "map"
@@ -46,5 +46,7 @@ struct ContentView: View {
 struct ContentView_Previews: PreviewProvider {
     static var previews: some View {
         ContentView()
+            .preferredColorScheme(.dark)
+.previewInterfaceOrientation(.landscapeLeft)
     }
 }

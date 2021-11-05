@@ -1,5 +1,5 @@
 //
-//  AllLocationMapView.swift
+//  LocationMapView.swift
 //  Skill Shot
 //
 //  Created by William Key on 10/26/21.
@@ -20,7 +20,7 @@ let initialRegion = MKCoordinateRegion(
     )
 )
 
-struct AllLocationMapView: View {
+struct LocationMapView: View {
     @ObservedObject var locationDB = LocationDatabase.shared
     let allItems = LocationDatabase.shared.locations.map {
         ClusteredLocationItem(
@@ -37,6 +37,7 @@ struct AllLocationMapView: View {
         }
     }
     @State var annotationItems = [ClusteredLocationItem]()
+    var filter: ((Location) -> Bool)? = nil
 
     var approximateWidth: Double {
         let formatter = NumberFormatter()
@@ -84,7 +85,13 @@ struct AllLocationMapView: View {
             UIScreen.main.bounds.height
         )
         let minDistance = region.width / (minDimension / 40)
-        var annotationItems = locationDB.locations.map {
+        var locations = locationDB.locations
+        if let validFilter = self.filter {
+            locations = locations.filter(validFilter)
+        }
+        var annotationItems = locationDB.locations
+            .filter(self.filter ?? { _ in true })
+            .map {
             ClusteredLocationItem(
                 coordinate: $0.coordinate,
                 locations: [$0]
@@ -151,6 +158,6 @@ struct AllLocationMapView: View {
 
 struct AllLocationMapView_Previews: PreviewProvider {
     static var previews: some View {
-        AllLocationMapView()
+        LocationMapView()
     }
 }

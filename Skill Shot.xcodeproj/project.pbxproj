@@ -7,16 +7,24 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		6A1C66402735A18300257D3F /* GameLocationMapView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A1C663F2735A18300257D3F /* GameLocationMapView.swift */; };
+		6A1C66422735A1DE00257D3F /* GameLocationsHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A1C66412735A1DE00257D3F /* GameLocationsHeaderView.swift */; };
+		6A1C66442735A1F700257D3F /* GameLocationScrollView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A1C66432735A1F700257D3F /* GameLocationScrollView.swift */; };
+		6A1C66462735A22D00257D3F /* LocationCardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A1C66452735A22D00257D3F /* LocationCardView.swift */; };
+		6A1EB1982735086D008C1167 /* MultiGameDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A1EB1972735086D008C1167 /* MultiGameDetailView.swift */; };
 		6A37E74127287AF2005D4AF3 /* LocationDatabase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A37E74027287AF2005D4AF3 /* LocationDatabase.swift */; };
 		6A37E7432728903A005D4AF3 /* SkillShotApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A37E7422728903A005D4AF3 /* SkillShotApp.swift */; };
 		6A37E74527289148005D4AF3 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A37E74427289148005D4AF3 /* ContentView.swift */; };
 		6A37E74827289217005D4AF3 /* all_locations.json in Resources */ = {isa = PBXBuildFile; fileRef = 6A37E74727289217005D4AF3 /* all_locations.json */; };
-		6A37E74A2728A73C005D4AF3 /* AllLocationMapView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A37E7492728A73C005D4AF3 /* AllLocationMapView.swift */; };
+		6A37E74A2728A73C005D4AF3 /* LocationMapView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A37E7492728A73C005D4AF3 /* LocationMapView.swift */; };
 		6A37E74C2728B04B005D4AF3 /* AllGameView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A37E74B2728B04B005D4AF3 /* AllGameView.swift */; };
 		6A37E74E2728BD6F005D4AF3 /* AllLocationListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A37E74D2728BD6F005D4AF3 /* AllLocationListView.swift */; };
 		6A37E7502729C1B7005D4AF3 /* SingleLocationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A37E74F2729C1B7005D4AF3 /* SingleLocationView.swift */; };
+		6A4808F42734F8FC009682E3 /* SingleGameDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A4808F32734F8FC009682E3 /* SingleGameDetailView.swift */; };
 		6A6326752734850A0072C3FE /* PhoneAllLocationListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A6326742734850A0072C3FE /* PhoneAllLocationListView.swift */; };
 		6A632677273485310072C3FE /* PadAllLocationListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A632676273485310072C3FE /* PadAllLocationListView.swift */; };
+		6A6326792734F3C20072C3FE /* SingleColumnGameListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A6326782734F3C20072C3FE /* SingleColumnGameListView.swift */; };
+		6A63267B2734F3E10072C3FE /* DoubleColumnGameListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A63267A2734F3E10072C3FE /* DoubleColumnGameListView.swift */; };
 		6A69B670272BA6960093BB7E /* DrawerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A69B66F272BA6960093BB7E /* DrawerView.swift */; };
 		6A69B672272BB8720093BB7E /* LocationAnnotationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A69B671272BB8720093BB7E /* LocationAnnotationView.swift */; };
 		6A69B676272BB8EF0093BB7E /* CoreLocationExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A69B675272BB8EF0093BB7E /* CoreLocationExtensions.swift */; };
@@ -32,16 +40,24 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		6A1C663F2735A18300257D3F /* GameLocationMapView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameLocationMapView.swift; sourceTree = "<group>"; };
+		6A1C66412735A1DE00257D3F /* GameLocationsHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameLocationsHeaderView.swift; sourceTree = "<group>"; };
+		6A1C66432735A1F700257D3F /* GameLocationScrollView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameLocationScrollView.swift; sourceTree = "<group>"; };
+		6A1C66452735A22D00257D3F /* LocationCardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationCardView.swift; sourceTree = "<group>"; };
+		6A1EB1972735086D008C1167 /* MultiGameDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MultiGameDetailView.swift; sourceTree = "<group>"; };
 		6A37E74027287AF2005D4AF3 /* LocationDatabase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = LocationDatabase.swift; path = Model/LocationDatabase.swift; sourceTree = "<group>"; };
 		6A37E7422728903A005D4AF3 /* SkillShotApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SkillShotApp.swift; sourceTree = "<group>"; };
 		6A37E74427289148005D4AF3 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = ContentView.swift; path = View/ContentView.swift; sourceTree = "<group>"; };
 		6A37E74727289217005D4AF3 /* all_locations.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = all_locations.json; sourceTree = "<group>"; };
-		6A37E7492728A73C005D4AF3 /* AllLocationMapView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AllLocationMapView.swift; sourceTree = "<group>"; };
+		6A37E7492728A73C005D4AF3 /* LocationMapView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationMapView.swift; sourceTree = "<group>"; };
 		6A37E74B2728B04B005D4AF3 /* AllGameView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AllGameView.swift; sourceTree = "<group>"; };
 		6A37E74D2728BD6F005D4AF3 /* AllLocationListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AllLocationListView.swift; sourceTree = "<group>"; };
 		6A37E74F2729C1B7005D4AF3 /* SingleLocationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SingleLocationView.swift; sourceTree = "<group>"; };
+		6A4808F32734F8FC009682E3 /* SingleGameDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SingleGameDetailView.swift; sourceTree = "<group>"; };
 		6A6326742734850A0072C3FE /* PhoneAllLocationListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhoneAllLocationListView.swift; sourceTree = "<group>"; };
 		6A632676273485310072C3FE /* PadAllLocationListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PadAllLocationListView.swift; sourceTree = "<group>"; };
+		6A6326782734F3C20072C3FE /* SingleColumnGameListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SingleColumnGameListView.swift; sourceTree = "<group>"; };
+		6A63267A2734F3E10072C3FE /* DoubleColumnGameListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DoubleColumnGameListView.swift; sourceTree = "<group>"; };
 		6A69B66F272BA6960093BB7E /* DrawerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DrawerView.swift; sourceTree = "<group>"; };
 		6A69B671272BB8720093BB7E /* LocationAnnotationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationAnnotationView.swift; sourceTree = "<group>"; };
 		6A69B675272BB8EF0093BB7E /* CoreLocationExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreLocationExtensions.swift; sourceTree = "<group>"; };
@@ -92,7 +108,7 @@
 		6A63267127347C9D0072C3FE /* Map */ = {
 			isa = PBXGroup;
 			children = (
-				6A37E7492728A73C005D4AF3 /* AllLocationMapView.swift */,
+				6A37E7492728A73C005D4AF3 /* LocationMapView.swift */,
 				6A69B671272BB8720093BB7E /* LocationAnnotationView.swift */,
 				6A69B66F272BA6960093BB7E /* DrawerView.swift */,
 			);
@@ -103,6 +119,14 @@
 			isa = PBXGroup;
 			children = (
 				6A37E74B2728B04B005D4AF3 /* AllGameView.swift */,
+				6A63267A2734F3E10072C3FE /* DoubleColumnGameListView.swift */,
+				6A6326782734F3C20072C3FE /* SingleColumnGameListView.swift */,
+				6A4808F32734F8FC009682E3 /* SingleGameDetailView.swift */,
+				6A1C663F2735A18300257D3F /* GameLocationMapView.swift */,
+				6A1C66412735A1DE00257D3F /* GameLocationsHeaderView.swift */,
+				6A1C66432735A1F700257D3F /* GameLocationScrollView.swift */,
+				6A1C66452735A22D00257D3F /* LocationCardView.swift */,
+				6A1EB1972735086D008C1167 /* MultiGameDetailView.swift */,
 			);
 			path = "Game List";
 			sourceTree = "<group>";
@@ -265,20 +289,28 @@
 			files = (
 				6AE106D2272CF501006EC804 /* UIDeviceOrientationExtension.swift in Sources */,
 				6A632677273485310072C3FE /* PadAllLocationListView.swift in Sources */,
+				6A6326792734F3C20072C3FE /* SingleColumnGameListView.swift in Sources */,
 				6A69B67E272C61130093BB7E /* TextExtension.swift in Sources */,
 				8A1788381C28FA8F00C93E9B /* Location.swift in Sources */,
+				6A63267B2734F3E10072C3FE /* DoubleColumnGameListView.swift in Sources */,
+				6A1C66442735A1F700257D3F /* GameLocationScrollView.swift in Sources */,
 				6A69B676272BB8EF0093BB7E /* CoreLocationExtensions.swift in Sources */,
 				6A37E74527289148005D4AF3 /* ContentView.swift in Sources */,
-				6A37E74A2728A73C005D4AF3 /* AllLocationMapView.swift in Sources */,
+				6A37E74A2728A73C005D4AF3 /* LocationMapView.swift in Sources */,
+				6A4808F42734F8FC009682E3 /* SingleGameDetailView.swift in Sources */,
 				6A69B670272BA6960093BB7E /* DrawerView.swift in Sources */,
 				6A69B678272BB9300093BB7E /* ClusteredLocationItem.swift in Sources */,
 				6A37E7432728903A005D4AF3 /* SkillShotApp.swift in Sources */,
 				6A37E7502729C1B7005D4AF3 /* SingleLocationView.swift in Sources */,
 				6A37E74127287AF2005D4AF3 /* LocationDatabase.swift in Sources */,
 				6A37E74E2728BD6F005D4AF3 /* AllLocationListView.swift in Sources */,
+				6A1C66402735A18300257D3F /* GameLocationMapView.swift in Sources */,
 				6A37E74C2728B04B005D4AF3 /* AllGameView.swift in Sources */,
+				6A1C66462735A22D00257D3F /* LocationCardView.swift in Sources */,
 				6A69B67C272BC2740093BB7E /* LocationSortSheetView.swift in Sources */,
+				6A1EB1982735086D008C1167 /* MultiGameDetailView.swift in Sources */,
 				6A6326752734850A0072C3FE /* PhoneAllLocationListView.swift in Sources */,
+				6A1C66422735A1DE00257D3F /* GameLocationsHeaderView.swift in Sources */,
 				8A17883A1C28FC3200C93E9B /* Machine.swift in Sources */,
 				6A69B67A272BB9930093BB7E /* SingleLocationNavRowView.swift in Sources */,
 				6A69B672272BB8720093BB7E /* LocationAnnotationView.swift in Sources */,
