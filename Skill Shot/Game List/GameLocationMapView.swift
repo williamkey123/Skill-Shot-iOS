@@ -59,12 +59,16 @@ struct GameLocationMapView: View {
                             }
                         }
                     } label: {
-                        Image(systemName: "dot.arrowtriangles.up.right.down.left.circle")
-                            .font(.system(size: 32))
+                        Label(
+                            "All",
+                            systemImage: "dot.arrowtriangles.up.right.down.left.circle"
+                        )
+                            .padding(.trailing, 4)
+                            .font(.system(size: 18))
                     }
                     .padding(4)
                     .background(
-                        Circle().fill(Color.white)
+                        RoundedRectangle(cornerRadius: 32).fill(Color("MapOverlayButton"))
                     )
                     .padding()
                     Spacer()

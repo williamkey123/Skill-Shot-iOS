@@ -51,11 +51,11 @@ struct RegularLocationCardView: View {
             ZStack {
                 if selected {
                     RoundedRectangle(cornerRadius: 9)
-                        .fill(Color("SkillShotTintColor"))
+                        .stroke(Color("SkillShotTintColor"), lineWidth: 4)
                 }
                 RoundedRectangle(cornerRadius: 9)
-                    .fill(Color.white)
-                    .scaleEffect(0.98)
+                    .fill(selected ? Color("LocationCardBackgroundSelected") : Color("LocationCardBackground"))
+//                    .scaleEffect(0.98)
             }
         )
         .compositingGroup()
@@ -108,16 +108,15 @@ struct CompactLocationCardView: View {
             ZStack {
                 if selected {
                     RoundedRectangle(cornerRadius: 9)
-                        .fill(Color("SkillShotTintColor"))
+                        .stroke(Color("SkillShotTintColor"), lineWidth: 4)
                 }
                 RoundedRectangle(cornerRadius: 9)
-                    .fill(Color.white)
-                    .scaleEffect(0.98)
+                    .fill(selected ? Color("LocationCardBackgroundSelected") : Color("LocationCardBackground"))
             }
         )
         .compositingGroup()
-        .shadow(radius: 4)
-        .padding(.vertical, 4)
+        .shadow(color: Color("CardShadow"), radius: 3, x: 1, y: 1)
+        .padding(.vertical, 6)
         .padding(.horizontal, 8)
     }
 }

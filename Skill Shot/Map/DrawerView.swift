@@ -149,7 +149,7 @@ struct SingleLocationDrawerView: View {
                     Image(systemName: "xmark.circle.fill")
                         .font(.system(size: 28))
                 }
-                .accentColor(Color.gray)
+                .accentColor(Color("CloseButton"))
             }
             .padding(EdgeInsets(top: defaultPadding, leading: defaultPadding, bottom: 6, trailing: defaultPadding))
             VStack(alignment: .leading, spacing: 6) {
@@ -221,7 +221,7 @@ struct MultiLocationDrawerView: View {
                     Image(systemName: "xmark.circle.fill")
                         .font(.system(size: 28))
                 }
-                .accentColor(Color.gray)
+                .accentColor(Color("CloseButton"))
             }
             .padding(EdgeInsets(top: defaultPadding, leading: defaultPadding, bottom: 6, trailing: defaultPadding))
             if locations.count == 2 {
