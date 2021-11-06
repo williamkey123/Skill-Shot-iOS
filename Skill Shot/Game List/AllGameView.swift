@@ -11,7 +11,6 @@ struct AllGameView: View {
     @Environment(\.horizontalSizeClass) var horizontalSizeClass
     @State var searchText = ""
     @State var selectedGame: Game? = nil
-    @State var isLandscape = UIDevice.current.orientation.isLandscape
 
     var usesStackView: Bool {
         if UIDevice.current.userInterfaceIdiom == .pad {
@@ -38,15 +37,6 @@ struct AllGameView: View {
                 )
             }
         }
-        .onReceive(
-            NotificationCenter.Publisher(
-                center: .default,
-                name: UIDevice.orientationDidChangeNotification
-            ),
-            perform: { _ in
-                self.isLandscape = UIDevice.current.orientation.isLandscape
-            }
-        )
     }
 }
 
