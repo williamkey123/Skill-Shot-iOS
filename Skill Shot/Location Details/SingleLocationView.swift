@@ -80,6 +80,7 @@ struct AddressRowView: View {
     var body: some View {
         VStack(alignment: .leading, spacing: 2) {
             Text(address).textSelection(.enabled).font(.body)
+                .lineLimit(1).minimumScaleFactor(0.8)
             Button {
                 var addressDictionary = [String : AnyObject]()
                 if let validAddress = location.address {
@@ -116,6 +117,7 @@ struct WebsiteRowView: View {
         {
             VStack(alignment: .leading, spacing: 2) {
                 Text(urlString).textSelection(.enabled).font(.body)
+                    .lineLimit(2).minimumScaleFactor(0.7)
                 Button {
                     UIApplication.shared.open(url)
                 } label: {
@@ -167,6 +169,8 @@ struct LocationSummaryHeaderView: View {
                     .font(.largeTitle)
                     .fontWeight(.bold)
                     .padding(.horizontal)
+                    .lineLimit(2)
+                    .minimumScaleFactor(0.5)
                 if let address = location.address {
                     AddressRowView(address: address, location: location)
                 }
