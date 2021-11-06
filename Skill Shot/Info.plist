@@ -28,10 +28,10 @@
 	</array>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
-	<key>UILaunchScreen</key>
-	<dict/>
 	<key>NSLocationWhenInUseUsageDescription</key>
 	<string>Skill Shot will use your location to show you pinball machines near you. Your location data never leaves your device.</string>
+	<key>UILaunchScreen</key>
+	<dict/>
 	<key>UIRequiredDeviceCapabilities</key>
 	<array>
 		<string>armv7</string>
