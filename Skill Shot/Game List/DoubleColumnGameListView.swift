@@ -82,8 +82,8 @@ struct GameListColumn2View: View {
     @Binding var selectedGame: Game?
 
     var body: some View {
-        if let selectedGame = selectedGame {
-            SingleGameDetailView(game: selectedGame)
+        if selectedGame != nil {
+            SingleGameDetailView(game: $selectedGame)
         } else {
             VStack {
                 Spacer()

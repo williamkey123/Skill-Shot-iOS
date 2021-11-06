@@ -49,4 +49,31 @@ extension MKCoordinateRegion {
         && point.longitude >= nwCorner.longitude
         && point.longitude <= seCorner.longitude
     }
+
+    init(from coordinates: [CLLocationCoordinate2D]) {
+        let coordCount = Double(coordinates.count)
+        if coordinates.isEmpty {
+            self = initialRegion
+        } else if coordCount == 1 {
+            self.init(
+                center: coordinates.first!,
+                span: initialRegion.span
+            )
+        } else {
+            let coordCount = Double(coordinates.count)
+            let lats = coordinates.map { $0.latitude }
+            let lons = coordinates.map { $0.longitude }
+            let latSum = lats.reduce(0, {$0 + $1})
+            let lonSum = lons.reduce(0) { $0 + $1 }
+            let avgLat = latSum / coordCount
+            let avgLon = lonSum / coordCount
+            self.init(
+                center: CLLocationCoordinate2D(latitude: avgLat, longitude: avgLon),
+                span: MKCoordinateSpan(
+                    latitudeDelta: (lats.max()! - lats.min()!) * 1.5,
+                    longitudeDelta: (lons.max()! - lons.min()!) * 1.5
+                )
+            )
+        }
+    }
 }

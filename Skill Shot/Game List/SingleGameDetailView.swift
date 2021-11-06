@@ -10,21 +10,45 @@ import MapKit
 
 struct SingleGameDetailView: View {
     @Environment(\.verticalSizeClass) var verticalSizeClass
-    var game: Game
+    @ObservedObject var locationDB = LocationDatabase.shared
+    @Binding var game: Game?
     @State var region = initialRegion
     @State var selectedLocation: Location? = nil
-    @State var locations = [Location]() {
-        didSet {
-            // TODO: update region
-        }
+
+    func fullRegion(for locations: [Location]) -> MKCoordinateRegion {
+        let coords = locations.map { $0.coordinate }
+        return MKCoordinateRegion(from: coords)
     }
 
     var body: some View {
-        ZStack {
-            if verticalSizeClass == .compact {
-                VStack(alignment: .leading, spacing: 0) {
-                    GameLocationsHeaderView(name: game.name)
-                    HStack(alignment: .top, spacing: 0) {
+        if let game = game {
+            let locations = locationDB.locations.filter { location in
+                location.machines.contains { machine in
+                    machine.game == self.game
+                }
+            }
+            ZStack {
+                if verticalSizeClass == .compact {
+                    VStack(alignment: .leading, spacing: 0) {
+                        GameLocationsHeaderView(name: game.name)
+                        HStack(alignment: .top, spacing: 0) {
+                            GameLocationScrollView(
+                                selectedLocation: $selectedLocation,
+                                locations: locations
+                            )
+                            GameLocationMapView(
+                                region: $region,
+                                selectedLocation: $selectedLocation,
+                                locations: locations
+                            )
+                        }
+                    }
+                    .ignoresSafeArea(.container, edges: [.trailing])
+                    .navigationTitle("Details")
+                    .navigationBarTitleDisplayMode(.inline)
+                } else {
+                    VStack(alignment: .leading, spacing: 0) {
+                        GameLocationsHeaderView(name: game.name)
                         GameLocationScrollView(
                             selectedLocation: $selectedLocation,
                             locations: locations
@@ -35,39 +59,35 @@ struct SingleGameDetailView: View {
                             locations: locations
                         )
                     }
-                }
-                .ignoresSafeArea(.container, edges: [.trailing])
-                .navigationTitle("Details")
-                .navigationBarTitleDisplayMode(.inline)
-            } else {
-                VStack(alignment: .leading, spacing: 0) {
-                    GameLocationsHeaderView(name: game.name)
-                    GameLocationScrollView(
-                        selectedLocation: $selectedLocation,
-                        locations: locations
-                    )
-                    GameLocationMapView(
-                        region: $region,
-                        selectedLocation: $selectedLocation,
-                        locations: locations
-                    )
-                }
-                .navigationTitle("Details")
-                .navigationBarTitleDisplayMode(.inline)
-            }
-        }
-        .onAppear {
-            self.locations = LocationDatabase.shared.locations.filter { location in
-                location.machines.contains { machine in
-                    machine.game == self.game
+                    .navigationTitle("Details")
+                    .navigationBarTitleDisplayMode(.inline)
                 }
             }
+            .id("SingleGameViewForGame\(game.id)")
+            .onAppear {
+                self.region = self.fullRegion(for: locations)
+            }
+            .onChange(of: game) { newValue in
+                let newLocations = locationDB.locations.filter { location in
+                    location.machines.contains { machine in
+                        machine.game == newValue
+                    }
+                }
+                let newRegion = self.fullRegion(for: newLocations)
+                withAnimation(.default) {
+                    self.region = newRegion
+                }
+            }
+        } else {
+            EmptyView()
         }
     }
 }
 
 struct SingleGameDetailView_Previews: PreviewProvider {
     static var previews: some View {
-        SingleGameDetailView(game: Game(id: 34352, name: "Ding donger"))
+        SingleGameDetailView(
+            game: .constant(Game(id: 34352, name: "Ding donger"))
+        )
     }
 }

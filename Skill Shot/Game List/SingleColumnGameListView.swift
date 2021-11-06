@@ -50,7 +50,7 @@ struct GameRowNavView: View {
 
     var body: some View {
         NavigationLink(isActive: $isActive) {
-            SingleGameDetailView(game: game)
+            SingleGameDetailView(game: .constant(game))
         } label: {
             GameRowView(game: game)
         }

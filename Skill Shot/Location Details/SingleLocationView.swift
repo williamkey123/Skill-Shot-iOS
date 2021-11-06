@@ -25,9 +25,9 @@ struct SingleLocationView: View {
                 let width = geometry.size.width
                 HStack(alignment: .top, spacing: spacing) {
                     LocationSummaryHeaderView(location: location)
-                        .frame(width: (width - spacing) / 2)
+                        .frame(width: max(width - spacing, 0.5) / 2)
                     LocationGameList(machines: location.machines)
-                        .frame(width: (width - spacing) / 2)
+                        .frame(width: max(width - spacing, 0.5) / 2)
                 }
             }
         }
