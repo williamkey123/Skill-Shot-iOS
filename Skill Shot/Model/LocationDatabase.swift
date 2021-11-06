@@ -48,12 +48,46 @@ class LocationDatabase: ObservableObject {
             if let path = Bundle.main.path(forResource: fileName, ofType: "json") {
                 let url = URL(fileURLWithPath: path)
                 if let data = try? Data(contentsOf: url, options: .mappedIfSafe) {
-                    let locations = try! jsonDecoder.decode([Location].self, from: data)
+                    if let locations = try? jsonDecoder.decode([Location].self, from: data) {
                         self.locations = locations
+                    }
                 }
             }
         }
 
         // 3. Kick off background task to load from server
+        DispatchQueue.main.async {
+            self.loadLocationsFromServer()
+        }
+    }
+
+    private func loadLocationsFromServer() {
+        guard let url = URL(string: Self.locationAPI) else {
+            return
+        }
+        let task = URLSession.shared.dataTask(with: url) { data, response, error in
+            guard error == nil else {
+                return
+            }
+            guard let data = data else {
+                return
+            }
+            let locations = try? self.jsonDecoder.decode([Location].self, from: data)
+            if let locations = locations {
+                DispatchQueue.main.sync {
+                    self.locations = locations
+                }
+                self.saveLocationsToUserDefaults()
+            }
+        }
+        task.resume()
+    }
+
+    private func saveLocationsToUserDefaults() {
+        let encoder = JSONEncoder()
+        if let encoded = try? encoder.encode(self.locations) {
+            UserDefaults.standard.set(encoded, forKey: Self.userDefaultsKey)
+            UserDefaults.standard.synchronize()
+        }
     }
 }
