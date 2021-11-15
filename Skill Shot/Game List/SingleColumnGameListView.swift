@@ -40,7 +40,7 @@ struct SingleColumnGameListView: View {
             .listStyle(.plain)
             .conditionallySearchable(
                 text: $searchText,
-                prompt: "Enter game name"
+                prompt: "Search Games"
             )
             .navigationTitle("All Games")
         }
