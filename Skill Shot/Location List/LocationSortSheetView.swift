@@ -8,15 +8,12 @@
 import SwiftUI
 import CoreLocation
 
-enum LocationSortOption {
+enum LocationSortOption: Equatable {
     case byName
-    case byDistance(from: CLLocationCoordinate2D)
     case byNumGames
 
     var description: String {
         switch self {
-        case .byDistance:
-            return "By Distance"
         case .byName:
             return "By Name"
         case .byNumGames:
@@ -30,9 +27,34 @@ enum LocationSortOption {
             return locations.sorted { $0.name < $1.name }
         case .byNumGames:
             return locations.sorted { $0.numGames > $1.numGames }
-        case .byDistance(let origin):
-            return locations.sorted {
-                $0.coordinate.distance(to: origin) < $1.coordinate.distance(to: origin)
+        }
+    }
+}
+
+struct LocationSortItem: View {
+    var item: LocationSortOption
+    @Binding var selection: LocationSortOption
+    @State var highlighted = false
+
+    var body: some View {
+        HStack(alignment: .center, spacing: 4) {
+            if item == selection {
+                Image(systemName: "checkmark")
+                    .frame(width: 34)
+                    .foregroundColor(Color("SkillShotTintColor"))
+            } else {
+                Spacer().frame(width: 34)
+            }
+            Text(item.description)
+            Spacer()
+        }
+        .listRowBackground(active: highlighted, color: Color.gray.opacity(0.1))
+        .contentShape(ContainerRelativeShape())
+        .onTapGesture {
+            selection = item
+            highlighted = true
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
+                highlighted = false
             }
         }
     }
@@ -48,9 +70,8 @@ struct LocationSortSheetView: View {
             Form {
                 Section {
                     List {
-                        Text(LocationSortOption.byName.description)
-//                        Text(LocationSortOption.byDistance.description)
-                        Text(LocationSortOption.byNumGames.description)
+                        LocationSortItem(item: .byName, selection: $sort)
+                        LocationSortItem(item: .byNumGames, selection: $sort)
                     }
                 } header: {
                     Text("Sort")

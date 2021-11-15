@@ -56,6 +56,14 @@ struct PadAllLocationColumn1View: View {
             }
             return included
         }
+            .sorted { lhs, rhs in
+                switch sort {
+                case .byName:
+                    return lhs.name.trimmingWhitespace < rhs.name.trimmingWhitespace
+                case .byNumGames:
+                    return lhs.numGames > rhs.numGames
+                }
+            }
 
         NavigationView {
             List {

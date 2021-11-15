@@ -20,6 +20,23 @@ extension View {
             )
         )
     }
+
+    func listRowBackground(active: Bool, color: Color = Color.gray.opacity(0.4)) -> some View {
+        self.modifier(ConditionalListRowBackground(active: active, color: color))
+    }
+}
+
+struct ConditionalListRowBackground: ViewModifier {
+    var active: Bool
+    var color: Color
+
+    func body(content: Content) -> some View {
+        if active {
+            content.listRowBackground(color)
+        } else {
+            content
+        }
+    }
 }
 
 struct ConditionallySearchable: ViewModifier {
