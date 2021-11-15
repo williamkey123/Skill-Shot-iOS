@@ -10,7 +10,7 @@ import SwiftUI
 struct RegularLocationCardView: View {
     var location: Location
     var selected: Bool
-    @State var showingDetail: Bool = false
+    @Binding var tappedLocation: Location?
 
     var body: some View {
         HStack(alignment: .top, spacing: 0) {
@@ -24,23 +24,9 @@ struct RegularLocationCardView: View {
                     .lineLimit(1)
                 Spacer(minLength: 0)
                 Button {
-                    showingDetail = true
+                    tappedLocation = location
                 } label: {
                     Text("Show Details")
-                }
-                .sheet(isPresented: $showingDetail) {
-                    NavigationView {
-                        SingleLocationView(location: location)
-                            .toolbar {
-                                ToolbarItemGroup(placement: .navigationBarTrailing) {
-                                    Button {
-                                        showingDetail = false
-                                    } label: {
-                                        Text("Done").bold()
-                                    }
-                                }
-                            }
-                    }
                 }
             }
             Spacer(minLength: 0)
@@ -55,7 +41,6 @@ struct RegularLocationCardView: View {
                 }
                 RoundedRectangle(cornerRadius: 9)
                     .fill(selected ? Color("LocationCardBackgroundSelected") : Color("LocationCardBackground"))
-//                    .scaleEffect(0.98)
             }
         )
         .compositingGroup()
@@ -68,7 +53,7 @@ struct RegularLocationCardView: View {
 struct CompactLocationCardView: View {
     var location: Location
     var selected: Bool
-    @State var showingDetail: Bool = false
+    @Binding var tappedLocation: Location?
 
     var body: some View {
         HStack(alignment: .top, spacing: 0) {
@@ -81,23 +66,9 @@ struct CompactLocationCardView: View {
                     .foregroundColor(.gray)
                     .lineLimit(1)
                 Button {
-                    showingDetail = true
+                    tappedLocation = location
                 } label: {
                     Text("Show Details")
-                }
-                .sheet(isPresented: $showingDetail) {
-                    NavigationView {
-                        SingleLocationView(location: location)
-                            .toolbar {
-                                ToolbarItemGroup(placement: .navigationBarTrailing) {
-                                    Button {
-                                        showingDetail = false
-                                    } label: {
-                                        Text("Done").bold()
-                                    }
-                                }
-                            }
-                    }
                 }
             }
             Spacer(minLength: 0)

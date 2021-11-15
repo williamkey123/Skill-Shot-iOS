@@ -69,7 +69,23 @@ struct SingleLocationView_Previews: PreviewProvider {
             )
         }
         .navigationViewStyle(.stack)
-.previewInterfaceOrientation(.landscapeLeft)
+    }
+}
+
+struct LocationInfoText: ViewModifier {
+    var lineLimit: Int = 1
+
+    func body(content: Content) -> some View {
+        if #available(iOS 15.0, *) {
+            content.textSelection(.enabled)
+                .font(.body)
+                .lineLimit(lineLimit)
+                .minimumScaleFactor(0.8)
+        } else {
+            content.font(.body)
+                .lineLimit(lineLimit)
+                .minimumScaleFactor(0.8)
+        }
     }
 }
 
@@ -79,8 +95,8 @@ struct AddressRowView: View {
     
     var body: some View {
         VStack(alignment: .leading, spacing: 2) {
-            Text(address).textSelection(.enabled).font(.body)
-                .lineLimit(1).minimumScaleFactor(0.8)
+            Text(address)
+                .modifier(LocationInfoText())
             Button {
                 var addressDictionary = [String : AnyObject]()
                 if let validAddress = location.address {
@@ -116,8 +132,8 @@ struct WebsiteRowView: View {
            UIApplication.shared.canOpenURL(url)
         {
             VStack(alignment: .leading, spacing: 2) {
-                Text(urlString).textSelection(.enabled).font(.body)
-                    .lineLimit(2).minimumScaleFactor(0.7)
+                Text(urlString)
+                    .modifier(LocationInfoText(lineLimit: 2))
                 Button {
                     UIApplication.shared.open(url)
                 } label: {
@@ -144,7 +160,7 @@ struct PhoneNumberRowView: View {
         ).joined(separator: "")
         
         VStack(alignment: .leading, spacing: 2) {
-            Text(phone).textSelection(.enabled).font(.body)
+            Text(phone).modifier(LocationInfoText())
             if let url = URL(string: "tel://\(formattedPhone)"),
                UIApplication.shared.canOpenURL(url)
             {

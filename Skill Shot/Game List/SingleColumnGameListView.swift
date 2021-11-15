@@ -24,21 +24,20 @@ struct SingleColumnGameListView: View {
                 }
             }
         NavigationView {
-        List {
-            ForEach(games, id: \.self) {
-                game in
-                GameRowNavView(game: game, isActive: game == self.selectedGame) {
-                    self.selectedGame = game
+            List {
+                ForEach(games, id: \.self) {
+                    game in
+                    GameRowNavView(game: game, isActive: game == self.selectedGame) {
+                        self.selectedGame = game
+                    }
                 }
             }
-        }
-        .listStyle(.plain)
-        .searchable(
-            text: $searchText,
-            placement: .navigationBarDrawer(displayMode: .always),
-            prompt: "Enter game name"
-        )
-        .navigationTitle("All Games")
+            .listStyle(.plain)
+            .conditionallySearchable(
+                text: $searchText,
+                prompt: "Enter game name"
+            )
+            .navigationTitle("All Games")
         }
     }
 }

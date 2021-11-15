@@ -45,7 +45,7 @@ struct PhoneAllLocationListView: View {
             }
             .listStyle(.plain)
             .navigationTitle("All Venues")
-            .searchable(text: $searchText)
+            .conditionallySearchable(text: $searchText)
             .toolbar {
                 ToolbarItemGroup(placement: .navigationBarTrailing) {
                     Button {

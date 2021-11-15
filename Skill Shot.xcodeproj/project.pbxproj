@@ -32,6 +32,7 @@
 		6A69B67A272BB9930093BB7E /* SingleLocationNavRowView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A69B679272BB9930093BB7E /* SingleLocationNavRowView.swift */; };
 		6A69B67C272BC2740093BB7E /* LocationSortSheetView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A69B67B272BC2740093BB7E /* LocationSortSheetView.swift */; };
 		6A69B67E272C61130093BB7E /* TextExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A69B67D272C61130093BB7E /* TextExtension.swift */; };
+		6A73740C27422A320034FBED /* OSConditionalViewExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A73740B27422A320034FBED /* OSConditionalViewExtensions.swift */; };
 		6AE106D2272CF501006EC804 /* UIDeviceOrientationExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6AE106D1272CF501006EC804 /* UIDeviceOrientationExtension.swift */; };
 		8A1788111C28E8BD00C93E9B /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 8A1788101C28E8BD00C93E9B /* Assets.xcassets */; };
 		8A1788381C28FA8F00C93E9B /* Location.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A1788371C28FA8F00C93E9B /* Location.swift */; };
@@ -65,6 +66,7 @@
 		6A69B679272BB9930093BB7E /* SingleLocationNavRowView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SingleLocationNavRowView.swift; sourceTree = "<group>"; };
 		6A69B67B272BC2740093BB7E /* LocationSortSheetView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationSortSheetView.swift; sourceTree = "<group>"; };
 		6A69B67D272C61130093BB7E /* TextExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextExtension.swift; sourceTree = "<group>"; };
+		6A73740B27422A320034FBED /* OSConditionalViewExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OSConditionalViewExtensions.swift; sourceTree = "<group>"; };
 		6AE106D1272CF501006EC804 /* UIDeviceOrientationExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIDeviceOrientationExtension.swift; sourceTree = "<group>"; };
 		8A1788061C28E8BD00C93E9B /* Skill Shot.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Skill Shot.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		8A1788101C28E8BD00C93E9B /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -146,6 +148,7 @@
 				6A69B675272BB8EF0093BB7E /* CoreLocationExtensions.swift */,
 				6AE106D1272CF501006EC804 /* UIDeviceOrientationExtension.swift */,
 				6A69B67D272C61130093BB7E /* TextExtension.swift */,
+				6A73740B27422A320034FBED /* OSConditionalViewExtensions.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -306,6 +309,7 @@
 				6A37E74E2728BD6F005D4AF3 /* AllLocationListView.swift in Sources */,
 				6A1C66402735A18300257D3F /* GameLocationMapView.swift in Sources */,
 				6A37E74C2728B04B005D4AF3 /* AllGameView.swift in Sources */,
+				6A73740C27422A320034FBED /* OSConditionalViewExtensions.swift in Sources */,
 				6A1C66462735A22D00257D3F /* LocationCardView.swift in Sources */,
 				6A69B67C272BC2740093BB7E /* LocationSortSheetView.swift in Sources */,
 				6A1EB1982735086D008C1167 /* MultiGameDetailView.swift in Sources */,
@@ -437,7 +441,7 @@
 				DEVELOPMENT_TEAM = TRSP4AA7VA;
 				FRAMEWORK_SEARCH_PATHS = "$(inherited)";
 				INFOPLIST_FILE = "Skill Shot/Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				MARKETING_VERSION = 2.0.0;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.skillshot.Skill-Shot";
@@ -457,7 +461,7 @@
 				DEVELOPMENT_TEAM = TRSP4AA7VA;
 				FRAMEWORK_SEARCH_PATHS = "$(inherited)";
 				INFOPLIST_FILE = "Skill Shot/Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				MARKETING_VERSION = 2.0.0;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.skillshot.Skill-Shot";

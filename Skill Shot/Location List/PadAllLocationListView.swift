@@ -78,7 +78,7 @@ struct PadAllLocationColumn1View: View {
             }
             .listStyle(.plain)
             .navigationTitle("All Venues")
-            .searchable(text: $searchText, placement: .navigationBarDrawer(displayMode: .always))
+            .conditionallySearchable(text: $searchText)
             .toolbar {
                 ToolbarItemGroup(placement: .navigationBarTrailing) {
                     Button {

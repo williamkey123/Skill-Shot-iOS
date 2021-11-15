@@ -69,7 +69,7 @@ struct GameListColumn1View: View {
                 }
             }
             .listStyle(.plain)
-            .searchable(text: $searchText, placement: .navigationBarDrawer(displayMode: .always))
+            .conditionallySearchable(text: $searchText)
             .navigationTitle("All Games")
         }
         .navigationViewStyle(.stack)
