@@ -11,6 +11,8 @@ struct AllGameView: View {
     @Environment(\.horizontalSizeClass) var horizontalSizeClass
     @State var searchText = ""
     @State var selectedGame: Game? = nil
+    @State var selectedLocation: Location? = nil
+    @State var tappedLocation: Location? = nil
 
     var usesStackView: Bool {
         if UIDevice.current.userInterfaceIdiom == .pad {
@@ -27,16 +29,40 @@ struct AllGameView: View {
             if self.usesStackView {
                 DoubleColumnGameListView(
                     searchText: $searchText,
-                    selectedGame: $selectedGame
+                    selectedGame: $selectedGame,
+                    selectedLocation: $selectedLocation,
+                    tappedLocation: $tappedLocation
                 )
                     .edgesIgnoringSafeArea(.horizontal)
             } else {
                 SingleColumnGameListView(
                     searchText: $searchText,
-                    selectedGame: $selectedGame
+                    selectedGame: $selectedGame,
+                    selectedLocation: $selectedLocation,
+                    tappedLocation: $tappedLocation
                 )
             }
         }
+        .onChange(of: selectedGame, perform: { newValue in
+            self.selectedLocation = nil
+            self.tappedLocation = nil
+        })
+        .sheet(item: $tappedLocation, onDismiss: {
+            tappedLocation = nil
+        }, content: { location in
+            NavigationView {
+                SingleLocationView(location: location)
+                    .toolbar {
+                        ToolbarItemGroup(placement: .navigationBarTrailing) {
+                            Button {
+                                tappedLocation = nil
+                            } label: {
+                                Text("Done").bold()
+                            }
+                        }
+                    }
+            }
+        })
     }
 }
 

@@ -11,6 +11,8 @@ struct SingleColumnGameListView: View {
     @ObservedObject var locationDB = LocationDatabase.shared
     @Binding var searchText: String
     @Binding var selectedGame: Game?
+    @Binding var selectedLocation: Location?
+    @Binding var tappedLocation: Location?
 
     var body: some View {
         let games = Array(locationDB.games).sorted { lhs, rhs in
@@ -27,9 +29,12 @@ struct SingleColumnGameListView: View {
             List {
                 ForEach(games, id: \.self) {
                     game in
-                    GameRowNavView(game: game, isActive: game == self.selectedGame) {
-                        self.selectedGame = game
-                    }
+                    GameRowNavView(
+                        game: game,
+                        selectedGame: $selectedGame,
+                        selectedLocation: $selectedLocation,
+                        tappedLocation: $tappedLocation
+                    )
                 }
             }
             .listStyle(.plain)
@@ -44,19 +49,19 @@ struct SingleColumnGameListView: View {
 
 struct GameRowNavView: View {
     var game: Game
-    @State var isActive = false
-    var onSelect: () -> Void
+    @Binding var selectedGame: Game?
+    @Binding var selectedLocation: Location?
+    @Binding var tappedLocation: Location?
 
     var body: some View {
-        NavigationLink(isActive: $isActive) {
-            SingleGameDetailView(game: .constant(game))
+        NavigationLink(tag: game, selection: $selectedGame) {
+            SingleGameDetailView(
+                game: .constant(game),
+                selectedLocation: $selectedLocation,
+                tappedLocation: $tappedLocation
+            )
         } label: {
             GameRowView(game: game)
-        }
-        .onChange(of: isActive) { newValue in
-            if newValue {
-                self.onSelect()
-            }
         }
     }
 }
@@ -65,7 +70,9 @@ struct SingleColumnGameListView_Previews: PreviewProvider {
     static var previews: some View {
         SingleColumnGameListView(
             searchText: .constant(""),
-            selectedGame: .constant(nil)
+            selectedGame: .constant(nil),
+            selectedLocation: .constant(nil),
+            tappedLocation: .constant(nil)
         )
     }
 }

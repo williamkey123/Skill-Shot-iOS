@@ -10,6 +10,7 @@ import SwiftUI
 struct GameLocationScrollView: View {
     @Environment(\.verticalSizeClass) var verticalSizeClass
     @Binding var selectedLocation: Location?
+    @Binding var tappedLocation: Location?
     var locations: [Location]
 
     var body: some View {
@@ -20,7 +21,11 @@ struct GameLocationScrollView: View {
                     VStack(alignment: .leading, spacing: 0) {
                         ForEach(locations) { location in
                             let isSelected = selectedLocation == location
-                            CompactLocationCardView(location: location, selected: isSelected)
+                            CompactLocationCardView(
+                                location: location,
+                                selected: isSelected,
+                                tappedLocation: $tappedLocation
+                            )
                                 .id("CardFor\(location.id)")
                                 .onTapGesture {
                                     selectedLocation = location
@@ -33,7 +38,11 @@ struct GameLocationScrollView: View {
                         Spacer().frame(width: 2)
                         ForEach(locations) { location in
                             let isSelected = selectedLocation == location
-                            RegularLocationCardView(location: location, selected: isSelected)
+                            RegularLocationCardView(
+                                location: location,
+                                selected: isSelected,
+                                tappedLocation: $tappedLocation
+                            )
                                 .id("CardFor\(location.id)")
                                 .onTapGesture {
                                     selectedLocation = location

@@ -11,6 +11,8 @@ struct DoubleColumnGameListView: View {
     @ObservedObject var locationDB = LocationDatabase.shared
     @Binding var searchText: String
     @Binding var selectedGame: Game?
+    @Binding var selectedLocation: Location?
+    @Binding var tappedLocation: Location?
 
     let dividerWidth: CGFloat = 0.5
 
@@ -19,7 +21,9 @@ struct DoubleColumnGameListView: View {
             HStack(alignment: .top, spacing: 0) {
                 GameListColumn1View(
                     searchText: $searchText,
-                    selectedGame: $selectedGame
+                    selectedGame: $selectedGame,
+                    selectedLocation: $selectedLocation,
+                    tappedLocation: $tappedLocation
                 )
                     .frame(width: (geometry.size.width - dividerWidth) / 3)
                 Rectangle()
@@ -27,7 +31,9 @@ struct DoubleColumnGameListView: View {
                     .frame(width: dividerWidth)
                 GameListColumn2View(
                     searchText: $searchText,
-                    selectedGame: $selectedGame
+                    selectedGame: $selectedGame,
+                    selectedLocation: $selectedLocation,
+                    tappedLocation: $tappedLocation
                 )
                     .frame(width: (geometry.size.width - dividerWidth) * 2 / 3)
             }
@@ -40,6 +46,8 @@ struct GameListColumn1View: View {
     @ObservedObject var locationDB = LocationDatabase.shared
     @Binding var searchText: String
     @Binding var selectedGame: Game?
+    @Binding var selectedLocation: Location?
+    @Binding var tappedLocation: Location?
 
     var body: some View {
         let games = Array(locationDB.games).sorted { lhs, rhs in
@@ -69,7 +77,7 @@ struct GameListColumn1View: View {
                 }
             }
             .listStyle(.plain)
-            .conditionallySearchable(text: $searchText)
+            .conditionallySearchable(text: $searchText, prompt: "Search Games")
             .navigationTitle("All Games")
         }
         .navigationViewStyle(.stack)
@@ -80,10 +88,16 @@ struct GameListColumn2View: View {
     @ObservedObject var locationDB = LocationDatabase.shared
     @Binding var searchText: String
     @Binding var selectedGame: Game?
+    @Binding var selectedLocation: Location?
+    @Binding var tappedLocation: Location?
 
     var body: some View {
         if selectedGame != nil {
-            SingleGameDetailView(game: $selectedGame)
+            SingleGameDetailView(
+                game: $selectedGame,
+                selectedLocation: $selectedLocation,
+                tappedLocation: $tappedLocation
+            )
         } else {
             VStack {
                 Spacer()

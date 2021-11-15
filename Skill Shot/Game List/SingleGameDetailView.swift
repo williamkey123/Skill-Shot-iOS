@@ -13,7 +13,8 @@ struct SingleGameDetailView: View {
     @ObservedObject var locationDB = LocationDatabase.shared
     @Binding var game: Game?
     @State var region = initialRegion
-    @State var selectedLocation: Location? = nil
+    @Binding var selectedLocation: Location?
+    @Binding var tappedLocation: Location?
 
     func fullRegion(for locations: [Location]) -> MKCoordinateRegion {
         let coords = locations.map { $0.coordinate }
@@ -34,6 +35,7 @@ struct SingleGameDetailView: View {
                         HStack(alignment: .top, spacing: 0) {
                             GameLocationScrollView(
                                 selectedLocation: $selectedLocation,
+                                tappedLocation: $tappedLocation,
                                 locations: locations
                             )
                             GameLocationMapView(
@@ -51,6 +53,7 @@ struct SingleGameDetailView: View {
                         GameLocationsHeaderView(name: game.name)
                         GameLocationScrollView(
                             selectedLocation: $selectedLocation,
+                            tappedLocation: $tappedLocation,
                             locations: locations
                         )
                         GameLocationMapView(
@@ -87,7 +90,9 @@ struct SingleGameDetailView: View {
 struct SingleGameDetailView_Previews: PreviewProvider {
     static var previews: some View {
         SingleGameDetailView(
-            game: .constant(Game(id: 34352, name: "Ding donger"))
+            game: .constant(Game(id: 34352, name: "Ding donger")),
+            selectedLocation: .constant(nil),
+            tappedLocation: .constant(nil)
         )
     }
 }
